@@ -1,6 +1,7 @@
 import React from 'react'
 import './Calendar.scss'
 import moment from 'moment';
+import Item from './Item';
 
 const CalendarBody=()=> {
 
@@ -27,7 +28,7 @@ const CalendarBody=()=> {
             return val+idx-6;
         })
         const weekLen = Number(endWeek)-Number(startWeek);
-
+        console.log(result);
         console.log(weekLen+1);
 
     
@@ -37,9 +38,11 @@ const CalendarBody=()=> {
             {[...Array(weekLen+1)].map((val,idx)=>{
                 return (
                   <div key={idx} className="row">
-                    <div>1</div>
-                    <div>2</div>
-                    <div>3</div>
+                    {Array(7).fill(-1).map((v,i)=>{
+                        return(
+                            <Item key={i} day={result[idx*7 + i]} />
+                        )
+                    })}
                   </div>
                 );
             })

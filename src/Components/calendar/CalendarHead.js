@@ -19,6 +19,8 @@ const Row = styled.div`
     display : flex;
     height : 20px;
     font-size : 14px;
+    margin-top : 5px;
+    border-bottom : #dadce0 1px solid;
 `;
 
 const CalendarHead = () => {
