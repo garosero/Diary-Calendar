@@ -9,13 +9,15 @@ const Grid = styled.div`
     height : 100%;
 `;
 
-const GridContainer = styled.div`
-    position : absolute;
-    top : 0;
-    bottom : 0;
-    left : 0;
-    right : 0;
-`;
+// const GridContainer = styled.div`
+//     position : relative;
+//     width : 100%;
+//     height : 100%;
+//     /* top : 0;
+//     bottom : 0;
+//     left : 0;
+//     right : 0; */
+// `;
 
 
 const Calendar = () => {
@@ -23,12 +25,12 @@ const Calendar = () => {
 
     return (
       <>
-        <GridContainer>
+       
           <Grid>
             <CalendarHead />
             <CalendarBody />
           </Grid>
-        </GridContainer>
+
       </>
     );
 }

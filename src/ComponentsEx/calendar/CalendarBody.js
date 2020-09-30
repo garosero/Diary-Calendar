@@ -19,13 +19,16 @@ const CalendarBody=()=> {
         
         const startDay = moment().startOf('month').day();
         const LastDay = String(moment().endOf('month')).substring(8,10);
+        console.log("start : "+startDay);
         console.log(LastDay); // 31
         //0-6 : Sun to Sat 이번달의 시작 요일
-        let thisMonthDay = Array(Number(LastDay)+Number(startDay)).fill(0); 
+        let thisMonthDay = Array(Number(LastDay)+Number(startDay)).fill(0);
+        //이번달 array  
         let result;
         result = thisMonthDay.map((val,idx)=>{
             val = idx >= Number(startDay) ? 1 : 0;
-            return val+idx-6;
+            // 0 
+            return val+idx-Number(startDay);
         })
         const weekLen = Number(endWeek)-Number(startWeek);
         console.log(result);

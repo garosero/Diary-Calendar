@@ -1,0 +1,50 @@
+// const Grid = styled.div`
+//     display : flex;
+//     flex-direction : column;
+//     height : 100%;
+// `;
+
+.Header {
+    display : flex;
+    flex-direction: row;
+    flex : 1 0 auto;
+    margin-bottom : 10px;
+    
+}
+
+
+.Calendar {    
+    margin : 0 auto;
+}
+
+// .calendar_Template {
+//     display : flex;
+//     height : 100%;
+//     width : 100%;
+// }
+
+.app-title {
+    height : 4rem;
+    font-size : 1.5rem;
+    display : flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.calendar_row {
+    position : relative;
+    overflow : hidden;
+    display : flex;
+    border-bottom : #dadce0 1px solid;
+    flex: 1 1 0%;
+
+}
+
+.columnheader {
+    border-right : #dadce0 1px solid;
+    flex : 1 1 0%;
+    text-align: center;
+    font-family: Roboto, Arial, sans-serif;
+    text-transform: uppercase;
+}
