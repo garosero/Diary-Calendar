@@ -1,15 +1,17 @@
 import React from 'react';
-import Calendar from './Components/Calendar'
 // import Header from './Components/Header';
-import MovePageButton from './Components/MovePageButton';
+import Header from './Components/Header';
+import CalendarContent from './Components/CalendarContent'
 import { DateProvider } from "./contexts/date";
 
 const App = () => {
     return (
+      <div className="calendar_wrap">
         <DateProvider>
-            <MovePageButton />
-            <Calendar />
+          <Header />
+          <CalendarContent />
         </DateProvider>
+      </div>
     );
 };
 

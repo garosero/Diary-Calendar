@@ -2,9 +2,10 @@ import React, {useContext} from 'react'
 import moment from 'moment';
 import CalendarItem from './CalendarItem';
 import DateContext from '../contexts/date'
+import CalendarList from './CalendarList';
 import './Calendar.scss'
 
-const CalendarGrid = () => {
+const CalendarContent = () => {
 
   const {currentMonth, setCurrentMonth} = useContext(DateContext);
 
@@ -36,26 +37,33 @@ const CalendarGrid = () => {
   const weekDay = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
 
   return (
-    <>
-      <div className="calendar_row">
-        {weekDay.map((day,idx)=>{
-              return (<div className="columnheader" key={idx}>{day}</div>);
+    <div className="calendar_layout">
+      <CalendarList />
+      <div className="calendar_content">
+        <div className="day_title">
+          {weekDay.map((day, idx) => {
+            return (
+              <div className="item" key={idx}>
+                {day}
+              </div>
+            );
           })}
+        </div>
+        <>
+          {[...Array(weekLen)].map((val, idx) => {
+            return (
+              <div key={idx} className="calendar_row">
+                {Array(7)
+                  .fill(-1)
+                  .map((v, i) => {
+                    return <CalendarItem key={i} day={result[idx * 7 + i]} />;
+                  })}
+              </div>
+            );
+          })}
+        </>
       </div>
-      <div>
-        {[...Array(weekLen)].map((val, idx) => {
-          return (
-            <div key={idx} className="calendar_row">
-              {Array(7)
-                .fill(-1)
-                .map((v, i) => {
-                  return <CalendarItem key={i} day={result[idx * 7 + i]} />;
-                })}
-            </div>
-          );
-        })}
-      </div>
-    </>
+    </div>
   );
 }
-export default CalendarGrid;
+export default CalendarContent;

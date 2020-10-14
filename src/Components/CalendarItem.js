@@ -1,31 +1,43 @@
-import React from 'react'
+import React, {useState} from "react";
+import ModalPage from './ModalPage'
 import styled from "styled-components";
 
-const ItemDiv = styled.div`
-  font-size : 14px;
-  line-height : 30px;
-  border-right: #dadce0 1px solid;
-  flex: 1 1 0%;
-  text-align: center;
-  font-family: Roboto, Arial, sans-serif;
-  text-transform: uppercase;
-  &:hover {
-    background-color: #e6e6fa;
-  }
-`;
+// const ItemDiv = styled.div`
+//   font-size: 14px;
+//   line-height: 30px;
+//   border-right: #dadce0 1px solid;
+//   flex: 1 1 0%;
+//   text-align: center;
+//   font-family: Roboto, Arial, sans-serif;
+//   text-transform: uppercase;
+//   &:hover {
+//     background-color: #e6e6fa;
+//   }
+// `;
 
 const CalendarItem = (props) => {
-    const data = "";
+  const [modalVisible, setModalVisible] = useState(false);
 
-    return (
-       
-            <ItemDiv>
-                {props.day > 0 ? props.day  : ''}
-                <br/>
-                {data}
-            </ItemDiv>
-       
-    )
-}
+  const openModal = () => {
+    setModalVisible(true);
+  }
+
+  const data = "";
+
+  return (
+    <div className="item" onClick={openModal}>
+      {
+        modalVisible && <ModalPage
+          visible={modalVisible}
+          >
+            
+        </ModalPage>
+      }
+      {props.day > 0 ? props.day : ""}
+      <br />
+      {data}
+    </div>
+  );
+};
 
 export default CalendarItem;

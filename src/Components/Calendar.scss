@@ -4,24 +4,24 @@
 //     height : 100%;
 // `;
 
-.Header {
+html, body {
+    height : 100vh;
+}
+
+.calendar_wrap {
     display : flex;
-    flex-direction: row;
-    flex : 1 0 auto;
-    margin-bottom : 10px;
+    flex-direction: column;
+    height : 100vh;
+   
+}
+
+.Header {
+     display : flex;
+     flex-direction: row;
+    // margin-bottom : 10px;
+    height : 100px;
     
 }
-
-
-.Calendar {    
-    margin : 0 auto;
-}
-
-// .calendar_Template {
-//     display : flex;
-//     height : 100%;
-//     width : 100%;
-// }
 
 .app-title {
     height : 4rem;
@@ -31,13 +31,31 @@
     justify-content: center;
 }
 
+.calendar_layout {
+    height : 100%;
+    display : flex;
+    flex : 1;
+}
 
+.calendar_content {
+    display : flex;
+    flex : 1;
+    flex-direction: column;
+    overflow : auto;
+}
+
+.day_title {
+    position : relative;
+    display : flex;
+    flex : none;
+    border-bottom : #dadce0 1px solid;
+}
 .calendar_row {
     position : relative;
     overflow : hidden;
     display : flex;
     border-bottom : #dadce0 1px solid;
-    flex: 1 1 0%;
+    flex : 1 0 auto;
 
 }
 
@@ -47,4 +65,29 @@
     text-align: center;
     font-family: Roboto, Arial, sans-serif;
     text-transform: uppercase;
+}
+
+.changeMonth {
+    height : 30px;
+}
+
+.item {
+  font-size: 14px;
+  line-height: 30px;
+  border-right: #dadce0 1px solid;
+  flex: 1 1 0%;
+  text-align: center;
+  font-family: Roboto, Arial, sans-serif;
+  text-transform: uppercase;
+  &:hover {
+    background-color: #e6e6fa;
+  }
+}
+
+.calendar_list {
+    display : flex;
+    flex-direction: column;
+    flex : none;
+    width :300px;
+    background-color: #bfbab078; 
 }

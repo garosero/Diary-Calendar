@@ -1,17 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import './Calendar.scss'
+import React, { useState, useEffect } from "react";
+import MovePageButton from './MovePageButton';
+import "./Calendar.scss";
 
-
-const Header = (props) => {
-    
-
-    return (
-    
-        <div className="Header" >
-            {props.children}
-        </div>
-    
-    )
-}
+const Header = () => {
+  return (
+  <div className="Header">
+      <MovePageButton />
+      <button>
+          Login
+      </button>
+  </div>
+  )
+};
 
 export default Header;
