@@ -1,6 +1,7 @@
 import React, {useState} from "react";
-import ModalPage from './ModalPage'
+import Modal from './Modal'
 import styled from "styled-components";
+import CloseButton from './CloseButton';
 
 // const ItemDiv = styled.div`
 //   font-size: 14px;
@@ -22,16 +23,23 @@ const CalendarItem = (props) => {
     setModalVisible(true);
   }
 
+  const closeModal = () => {
+    setModalVisible(false);
+  }
+
   const data = "";
 
   return (
     <div className="item" onClick={openModal}>
       {
-        modalVisible && <ModalPage
+        modalVisible && <Modal
           visible={modalVisible}
+          closable={true}
+          maskClosable={true}
+          onClose={closeModal}
           >
-            
-        </ModalPage>
+    
+        </Modal>
       }
       {props.day > 0 ? props.day : ""}
       <br />
