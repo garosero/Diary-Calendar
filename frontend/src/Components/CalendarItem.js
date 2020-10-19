@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Modal from './Modal'
 import styled from "styled-components";
 import CloseButton from './CloseButton';
 
@@ -17,30 +16,11 @@ import CloseButton from './CloseButton';
 // `;
 
 const CalendarItem = (props) => {
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const openModal = () => {
-    setModalVisible(true);
-  }
-
-  const closeModal = () => {
-    setModalVisible(false);
-  }
-
+ 
   const data = "";
 
   return (
-    <div className="item" onClick={openModal}>
-      {
-        modalVisible && <Modal
-          visible={modalVisible}
-          closable={true}
-          maskClosable={true}
-          onClose={closeModal}
-          >
-    
-        </Modal>
-      }
+    <div className="item">
       {props.day > 0 ? props.day : ""}
       <br />
       {data}

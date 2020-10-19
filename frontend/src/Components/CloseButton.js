@@ -1,14 +1,13 @@
 import React from 'react'
 import styled from "styled-components";
 
-const StyledButton = styled.div`
-  position : absolute;
+const StyledButton = styled.button`
   top : 5px;
   left : 95%;
   outline: none;
   height: 25px;
-  width: 25px;
-  text-align: center;
+  width: 15px;
+  text-align: justify;
   border-radius: 10px;
   background: #fff;
   border: ${(props) => props.themeColor || "#808080"} 2px solid;
@@ -20,7 +19,7 @@ const StyledButton = styled.div`
     size: 20px;
     weight: bold;
   }
-  line-height: 25px;
+  line-height: 1;
   
   /* line-height는 height의 px과 맞추면 버튼 안의 텍스트 height의 가운데로 정렬 */
   cursor: pointer;
@@ -33,15 +32,19 @@ const StyledButton = styled.div`
     letter-spacing: 2px;
   }
   &:after {
-    content: "X";
+    
   }
+
 `;
 
 const CloseButton = () => {
+
+  
+
     return (
 
         <StyledButton>
-              
+              X
         </StyledButton>
     )
 }

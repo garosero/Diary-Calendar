@@ -1,11 +1,14 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import moment from 'moment';
 import CalendarItem from './CalendarItem';
 import DateContext from '../contexts/date'
 import CalendarList from './CalendarList';
+import Modal from './Modal'
+import useModal from './useModal';
 import './Calendar.scss'
 
 const CalendarContent = () => {
+  const {isShowing, toggle} = useModal();
 
   const {currentMonth, setCurrentMonth} = useContext(DateContext);
 
@@ -39,7 +42,10 @@ const CalendarContent = () => {
   return (
     <div className="calendar_layout">
       <CalendarList />
-      <div className="calendar_content">
+      <div className="calendar_content" onClick={toggle}>
+        <Modal isShowing={isShowing} hide={toggle}>
+          <p>haha</p>
+        </Modal>
         <div className="day_title">
           {weekDay.map((day, idx) => {
             return (
