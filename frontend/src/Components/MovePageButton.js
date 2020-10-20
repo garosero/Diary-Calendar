@@ -1,7 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import { VscChevronLeft, VscChevronRight } from "react-icons/vsc";
 import DateContext from "../contexts/date";
+import styled from 'styled-components';
 
+const StyleButton = styled.button` 
+  margin : 2rem;
+`
+
+const MonthBlock = styled.div`
+  display :flex;
+  flex-direction : row;
+`;
 
 const MovePageButton = () => {
   const { currentMonth, setCurrentMonth } = useContext(DateContext);
@@ -19,15 +28,15 @@ const MovePageButton = () => {
   };
 
   return (
-    <>
-      <h1>{currentMonth}</h1>
-      <button className="changeMonth" onClick={minusMonth}>
+    <MonthBlock className="Header-item">
+      <StyleButton className="changeMonth" onClick={minusMonth}>
         <VscChevronLeft />
-      </button>
-      <button className="changeMonth" onClick={plusMonth}>
+      </StyleButton>
+      <h1>{currentMonth}</h1>
+      <StyleButton className="changeMonth" onClick={plusMonth}>
         <VscChevronRight />
-      </button>
-    </>
+      </StyleButton>
+    </MonthBlock>
   );
 };
 

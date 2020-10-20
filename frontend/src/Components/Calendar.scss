@@ -19,8 +19,20 @@ html, body {
      display : flex;
      flex-direction: row;
     // margin-bottom : 10px;
-    height : 100px;
-    
+    height : 5rem;
+    align-items: center;
+}
+
+.Header-item {
+ 
+  margin-left : auto;
+  /* flex : 0 0 auto*/
+}
+
+.Header-item-login {
+  height : 3em;
+  margin-left : auto;
+  background-color : #fcc2d7;
 }
 
 .app-title {

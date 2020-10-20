@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
   <div className="Header">
-      <MovePageButton />
-      <button>
+      <MovePageButton className="Header-item"/>
+      <button className="Header-item-login">
           <Link to="/Login">Login</Link>
       </button>
   </div>
