@@ -1,18 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import palette from '../lib/styles/palette';
+import palette from '../../lib/styles/palette';
 
 
 /** 로그인 폼 **/
 
 const AuthFormBlock = styled.div`
-    h3 {
-        margin : 0;
-        color : ${palette.gray[8]};
-        margin-bottom : 1rem;
-    }
-
+  h3 {
+    margin: 0;
+    color: ${palette.gray[8]};
+    margin-bottom: 1rem;
+  }
 `;
 
 /** 스타일링된 input **/
@@ -22,14 +21,14 @@ const StyledInput = styled.input`
     border : none;
     border-bottom : 1px solid ${palette.gray[5]};
     outline : none;
-    width : 100%;
+    width : 70%;
+    margin : 0 auto;
     &:focus {
         color : $oc-teal-7;
         border-bottom : 1px solid ${palette.gray[7]};
     }
     &+& {
-        margin-top : 1rem;
-        
+        margin-top : 1rem;  
     }
 
 `;
@@ -51,17 +50,25 @@ const StyledInput = styled.input`
  `;
 
 
-const LoginForm = () => {
+const AuthForm = ({form, onChange, onSubmit}) => {
     return (
         <AuthFormBlock>
             <h3>로그인</h3>
-            <form>
-                <StyledInput autoComplete="username" name="username" placeholder="아이디" />
+            <form onSubmit={onSubmit}>
+                <StyledInput 
+                    autoComplete="username" 
+                    name="username" 
+                    placeholder="아이디"
+                    onChange={onChange}
+                    value={form.username}
+                    />
                 <StyledInput 
                     autoComplete="new-password"
                     name="password"
                     placeholder="비밀번호"
                     type="password"
+                    onChange={onChange}
+                    value={form.password}
                 />
                 <button>로그인</button>
             </form>
@@ -74,4 +81,4 @@ const LoginForm = () => {
 
 //autoComplete : 자동완성
 
-export default LoginForm
+export default AuthForm;
