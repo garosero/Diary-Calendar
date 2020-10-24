@@ -20,7 +20,15 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/env", "@babel/react"],
+            presets: [
+              "@babel/react",
+            ["@babel/preset-env",
+              {
+                targets: {
+                  esmodules: true,
+                }
+              }],
+            ],
             plugins: [
               "@babel/plugin-proposal-class-properties",
               // option - class properties를 사용할 경우에만 추가
@@ -67,10 +75,11 @@ module.exports = {
     open: true, //서버가 실행될 때 브라우저를 자동으로 열어줄 지 결정
     historyApiFallback: true,
     proxy: {
-      '/api' : {
-        target : 'https://localhost:4000', changeOrigin:true, pathRewrite:{'^/api':''}
-      }
+      "/api": {
+        target: "https://localhost:4000",
+        changeOrigin: true,
+        pathRewrite: { "^/api": "" },
+      },
     },
-    
   },
 };

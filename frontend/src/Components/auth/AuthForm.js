@@ -4,6 +4,11 @@ import { Link } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
 
 
+const textMap = {
+    login : '로그인',
+    register : '회원가입',
+}
+
 /** 로그인 폼 **/
 
 const AuthFormBlock = styled.div`
@@ -50,10 +55,12 @@ const StyledInput = styled.input`
  `;
 
 
-const AuthForm = ({form, onChange, onSubmit}) => {
+const AuthForm = ({type, form, onChange, onSubmit}) => {
+    const text = textMap[type];
+
     return (
         <AuthFormBlock>
-            <h3>로그인</h3>
+            <h3>{text}</h3>
             <form onSubmit={onSubmit}>
                 <StyledInput 
                     autoComplete="username" 
@@ -70,10 +77,24 @@ const AuthForm = ({form, onChange, onSubmit}) => {
                     onChange={onChange}
                     value={form.password}
                 />
-                <button>로그인</button>
+                {type === 'register' && (
+                    <StyledInput 
+                        autoComplete='new-password'
+                        name="passwordConfirm"
+                        placehoder="비밀번호 확인"
+                        type="password"
+                    />
+                )}
+
+                <button>{text}</button>
             </form>
             <Footer>
-                <Link to="/">회원가입</Link>
+                {type === 'login' ? (
+                    <Link to='/register'>회원가입</Link>
+                    ) : (
+                        <Link to='login'>로그인</Link>
+                    )
+                }
             </Footer>
         </AuthFormBlock>
     )
