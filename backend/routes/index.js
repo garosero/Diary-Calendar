@@ -1,9 +1,14 @@
-var express = require('express');
-var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+module.exports = (app) => {
 
-module.exports = router;
+  
+ /*
+  회원가입 
+ */
+  const authAPI = require('./auth');
+  app.use('/api/auth',authAPI);
+
+
+  var diaryAPI = require("./diary");
+  app.use("/api/diary", diaryAPI);
+}
