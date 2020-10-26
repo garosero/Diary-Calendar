@@ -12,37 +12,51 @@ const User = require("../models/user");
 router.post('/register', async(req,res)=>{
 
     //request body 검증
-    const schema = {
+    const schema = Joi.object({
         userId : Joi.string()
             .alphanum()
             .min(3)
             .max(20)
             .required(),
-        password : Joi.string().alphanum().required(),
-    };
-    const result = Joi.validate(req.body, schema); //body와 schema 비교하여 조건 맞는지 검증
+        password : Joi.string().required(),
+    });
+    const result = schema.validate({
+        userId : req.body.userId,
+        password : req.body.password
+    }); //body와 schema 비교하여 조건 맞는지 검증
     if(result.error){
-        return res.status(400).send(`Login Error : ${result.error}`);
+        return res.status(400).send(`Register Error : ${result.error}`);
     }
 
     const {userId, password } = req.body;
     try {
-        const exists = await User.findById(userId);
+        const exists = await User.findByUserId(userId);
         if(exists) {
             //id가 이미 존재하면 회원가입 불가 
             return res.status(400).send('id is already registered');
         }
 
-        const newUser = new User(req.body);
+        const newUser = new User({
+            userId,
+        });
         await newUser.setPassword(password); //비밀번호 설정
         await newUser.save((err,userInfo) => {
+            //db에 비밀번호와 함꼐 저장 
             if(err) return res.json({success : false, err});
-            return res.status(200).json({ success : true});
-    }); //db에 저장
+            //return res.status(200).json({ success : true});
+    }); 
     
+        const token = newUser.generateToken();
+        res.cookie('access_token', token, {
+            maxAge : 1000 * 60 * 60 * 24 * 7, //7일
+            httpOnly : true, //자바스크립트 통해서 쿠키 조회 불가 
+        }).status(200).json({
+            success : true
+        })
+
 
     } catch(err){
-        throw(err);
+        console.log(err);
     }
 
 })
@@ -51,6 +65,53 @@ router.post('/register', async(req,res)=>{
 /**
  * 로그인 
  */
+router.post('/login', async(req,res)=>{
+
+    const { userId, password } = req.body;
+
+    //없으면 에러처리
+    if(!userId || !password){
+        res.status(401).json({
+            message : '아이디나 비밀번호가 없습니다.'
+        })
+    };
+
+    try{
+        const user = await User.findByUserId(userId);
+        //계정이 존재하지 않으면 에러
+
+        if(!user){
+            return res.status(401).json({
+                message : '존재하지 않는 계정.'
+            })
+        };
+        const valid = await user.checkPassword(password);
+        //잘못된 비밀번호
+        if(!valid){
+            console.log(password);
+            return res.status(401).json({
+                message : '잘못된 비밀번호입니다.'
+            })
+        }
+        const token = user.generateToken();
+        console.log("token : "+token);
+        res.cookie("access_token", token, {
+            maxAge: 1000 * 60 * 60 * 24 * 7, //7일
+            httpOnly: true, //자바스크립트 통해서 쿠키 조회 불가
+        }).status(200).json({
+            loginSuccess : true
+        })
+
+
+
+        //return res.json({loginSuccess : true});
+        
+    } catch(e){
+        console.log(e);
+    }
+
+
+})
 
 
 

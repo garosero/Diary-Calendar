@@ -8,17 +8,18 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const { PORT, MONGO_URI } = process.env;
 var app = express();
+const jwtMiddleware = require('./lib/jwtMiddleware');
 
 
 app.get('/',(req,res)=>{
     res.send('hello');
 })
 
-// view engine setup
+// setup
+app.use(cookieParser);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(bodyParser.json());
 
 
@@ -29,11 +30,19 @@ app.use(bodyParser.json());
 const dbConnect = require('./connect/dbConnect');
 dbConnect('diary_calendar');
 
+/* JWT 적용  
+   라우터 적용 전에 bodyParser가 적용되어야 함.     
+
+*/
+app.use(jwtMiddleware);
+
 
 /* routing */
 
 const expressRouting = require('./routes/index');
 expressRouting(app);
+
+
 
 
 module.exports = app;
