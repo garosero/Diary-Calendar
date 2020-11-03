@@ -20,3 +20,5 @@ import axios from 'axios';
     //인터셉터 설정
     
  */
+
+ export default client;

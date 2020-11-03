@@ -47,7 +47,9 @@ UserSchema.methods.generateToken = function(){
         },
     );
     return token;
-}
+};
+
+
 
 
 

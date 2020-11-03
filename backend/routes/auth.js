@@ -5,11 +5,17 @@ const Joi = require('joi'); //클래스 반환
 const User = require("../models/user");
 
 
+router.post("/", async(req,res)=>{
+    console.log("BD");
+})
+
+
 /**
  * 회원가입 
  * FIX : Joi validation이 기능을 안함. 그냥 무조건 success : true로 응답... 
  */
 router.post('/register', async(req,res)=>{
+    console.log("AA");
 
     //request body 검증
     const schema = Joi.object({
@@ -63,12 +69,15 @@ router.post('/register', async(req,res)=>{
 
 
 /**
+ * POST  /api/auth/login
  * 로그인 
  */
 router.post('/login', async(req,res)=>{
+    
 
     const { userId, password } = req.body;
 
+    console.log("id : "+userId+" password : "+password);
     //없으면 에러처리
     if(!userId || !password){
         res.status(401).json({
@@ -111,6 +120,33 @@ router.post('/login', async(req,res)=>{
     }
 
 
+})
+
+
+/** 
+ *  로그아웃
+ *  쿠키를 지워준다. 
+ */
+
+router.post('/logout', (req,res)=>{
+    req.cookies.set('access_token');
+    res.status(204).send('No content'); 
+})
+
+/**
+ *  GET /api/auth/check
+*/
+
+router.get('/check', async(req,res)=>{
+
+    const { user } = req.body;
+    if(!user){
+        //로그인중이 아님
+        res.status(401).send('Unauthorized'); // Unauthorized
+        return;
+    }
+
+    req.body = user;
 })
 
 

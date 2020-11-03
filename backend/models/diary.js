@@ -15,7 +15,11 @@ const DiarySchema = new Schema({
     publishedDate : {
         type : Date,
         default : Date.now
-    }
+    },
+    user : {
+        _id : mongoose.Types.ObjectId,
+        userId : String,
+    },
    
 })
 

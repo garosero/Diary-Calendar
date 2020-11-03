@@ -56,6 +56,8 @@ const StyledInput = styled.input`
 
 
 const AuthForm = ({type, form, onChange, onSubmit}) => {
+
+
     const text = textMap[type];
 
     return (
@@ -67,7 +69,7 @@ const AuthForm = ({type, form, onChange, onSubmit}) => {
                     name="username" 
                     placeholder="아이디"
                     onChange={onChange}
-                    value={form.username}
+                    value=""
                     />
                 <StyledInput 
                     autoComplete="new-password"
@@ -75,7 +77,7 @@ const AuthForm = ({type, form, onChange, onSubmit}) => {
                     placeholder="비밀번호"
                     type="password"
                     onChange={onChange}
-                    value={form.password}
+                    value=""
                 />
                 {type === 'register' && (
                     <StyledInput 
