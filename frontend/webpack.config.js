@@ -71,15 +71,16 @@ module.exports = {
 
   devServer: {
     host: "localhost", //개발 서버 url
-    port: port,
+    port: 3000,
     open: true, //서버가 실행될 때 브라우저를 자동으로 열어줄 지 결정
     historyApiFallback: true,
     proxy: {
-      "/api": {
-        target: "https://localhost:4000",
-        changeOrigin: true,
-        pathRewrite: { "^/api": "" },
-      },
+      // "/api/*": {
+      //   target: "https://localhost:4000/",
+      //   changeOrigin: true,
+      //   secure : false,
+      // },
+      '**' : 'http://localhost:4000',
     },
   },
 };

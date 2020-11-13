@@ -17,8 +17,8 @@ app.get('/',(req,res)=>{
 // setup
 app.use(cookieParser());
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use('/api',express.json());
+app.use('/api',express.urlencoded({ extended: false }));
 
 
 

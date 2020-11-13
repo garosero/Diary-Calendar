@@ -1,13 +1,11 @@
-import React, {useCallback, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import {loginAction} from '../../reducers/user';
+import React, {useCallback, useEffect, useState} from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import palette from "../../lib/styles/palette";
+import {useDispatch, useSelector} from 'react-redux';
+import {signupAction} from '../../reducers/user';
 
 import useInput from '../../hooks/useInput';
-import { loginRequestAction } from '../../reducers/user';
 
 /** 로그인 폼 **/
 
@@ -53,21 +51,26 @@ const Footer = styled.div`
   }
 `;
 
-const LoginForm = () => {
-    const history = useHistory();
-
-    const [id, onChangeId] = useInput('');
+//useCallback -> 처음 렌더링될 때만 컴포넌트 생성되도록 
+const SignupForm = () => {
+    const [userId, onChangeUserId] = useInput('');
     const [password, onChangePassword] = useInput('');
-    const { isLoggingIn } = useSelector(state=>state.user);
+    const [confirmPassword, onChangeConfirmPassword] = useInput('');
     const dispatch = useDispatch();
+
 
 
     const onSubmit = useCallback((e)=>{
         e.preventDefault();
-        dispatch(loginRequestAction({id,password}));
-    },[id,password]);
-
-    
+        if(password !== confirmPassword){
+            alert("비밀번호가 다릅니다.")
+        }
+        dispatch(signupAction({
+          userId,
+          password,
+          }
+        ));
+    },[password,confirmPassword]);
 
   return (
     <AuthFormBlock>
@@ -76,19 +79,34 @@ const LoginForm = () => {
           autoComplete="userId"
           name="userId"
           placeholder="아이디"
-          onChange={onChangeId}
+          value={userId}
+          onChange={onChangeUserId}
+          
         />
         <StyledInput
           autoComplete="new-password"
           name="password"
           placeholder="비밀번호"
           type="password"
+          value={password}
           onChange={onChangePassword}
         />
-        <button type="primary">로그인 </button>
+        
+          <StyledInput
+            autoComplete="new-password"
+            name="passwordConfirm"
+            placehoder="비밀번호 확인"
+            type="password"
+            value={confirmPassword}
+            onChange={onChangeConfirmPassword}
+          />
+        
+
+        <button>회원가입</button>
       </form>
       <Footer>
-        <Link to="/register">회원가입</Link>
+          <Link to="login">로그인</Link>
+        
       </Footer>
     </AuthFormBlock>
   );
@@ -96,4 +114,4 @@ const LoginForm = () => {
 
 //autoComplete : 자동완성
 
-export default LoginForm;
+export default SignupForm;

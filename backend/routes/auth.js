@@ -74,7 +74,7 @@ router.post('/register', async(req,res)=>{
  */
 router.post('/login', async(req,res)=>{
     
-
+    console.log(req.body);
     const { userId, password } = req.body;
 
     console.log("id : "+userId+" password : "+password);
@@ -90,9 +90,7 @@ router.post('/login', async(req,res)=>{
         //계정이 존재하지 않으면 에러
 
         if(!user){
-            return res.status(401).json({
-                message : '존재하지 않는 계정.'
-            })
+            return res.status(401).send('존재하지 않는 계정')
         };
         const valid = await user.checkPassword(password);
         //잘못된 비밀번호
