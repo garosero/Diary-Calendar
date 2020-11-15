@@ -25,6 +25,7 @@ function* login(action) {
     yield put({ //put은 dispatch와 동일. 로그인 요청 보내고 성공하면 이 줄 실행됨. 
       type: LOG_IN_SUCCESS,
     });
+    
   } catch (e) {
     console.error(e);
     yield put({

@@ -2,12 +2,13 @@ import React, { useState, useEffect, useCallback } from "react";
 import MovePageButton from './MovePageButton';
 import "./Calendar.scss";
 import { Link } from "react-router-dom";
-import {loginAction, logoutAction} from '../reducers/user';
+import {loginRequestAction, logoutRequestAction} from '../reducers/user';
 import { useDispatch, useSelector } from "react-redux";
-
+import {useHistory} from 'react-router-dom';
 
 
 const Header = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const {isLoggedIn,user} = useSelector(state => state.user); //redux state를 가져다 쓰기 
   const {diaries} = useSelector(state => state.diary); //diaries 아님 
@@ -15,7 +16,7 @@ const Header = () => {
   
 
   const onLogout = useCallback(()=>{
-    dispatch(logoutAction);
+    dispatch(logoutRequestAction);
   })
 
   return (
@@ -26,8 +27,9 @@ const Header = () => {
           Logout
         </button>
       ) : (
-        <button className="Header-item-login">
-          <Link to="/Login">Login</Link>
+        <button className="Header-item-login" onClick={()=>history.push('/Login')}>
+          {/* <Link to="/Login">Login</Link> */}
+          Login
         </button>
       )}
     </div>

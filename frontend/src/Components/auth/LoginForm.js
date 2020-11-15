@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {loginAction} from '../../reducers/user';
@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import palette from "../../lib/styles/palette";
 
 import useInput from '../../hooks/useInput';
-import { loginRequestAction } from '../../reducers/user';
+import { loginRequestAction, isLoggedIn } from '../../reducers/user';
 
 /** 로그인 폼 **/
 
@@ -58,7 +58,7 @@ const LoginForm = () => {
 
     const [id, onChangeId] = useInput('');
     const [password, onChangePassword] = useInput('');
-    const { isLoggingIn } = useSelector(state=>state.user);
+    const { isLoggingIn, isLoggedIn } = useSelector(state=>state.user);
     const dispatch = useDispatch();
 
 
@@ -67,7 +67,12 @@ const LoginForm = () => {
         dispatch(loginRequestAction({id,password}));
     },[id,password]);
 
-    
+
+
+    useEffect(()=>{
+      if(isLoggedIn) history.push('/');
+    },[isLoggedIn])
+
 
   return (
     <AuthFormBlock>

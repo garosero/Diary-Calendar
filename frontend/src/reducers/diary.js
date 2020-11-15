@@ -1,20 +1,22 @@
+import { handleActions } from "redux-actions";
+
 export const initialState = {
   diaries: [
     {
-      User: {
-        id: 1,
-        username: "hoho",
-      },
-      title: "게시글",
-      content : "hihi",
-      img:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcScen28QOL6Jj94wAzIew1LBS1BeZzn0Y5wrA&usqp=CAU",
+      User: null,
+      title: "",
+      content : "",
+      img: ""
     }, //화면에 보일 포스트들
   ],
   addDiaryErrorReason : false, // 포스트 업로드 실패 사유 
   isAddingDiary : false, //포스트 업로드중
 
 };
+
+/**
+ * createAction, handleAction을 이용하여 리듀서 만들기 
+ */
 
 //액션 이름
 export const ADD_DIARY_REQUEST = 'ADD_DIARY_REQUEST';
@@ -32,17 +34,18 @@ export const addDiaryRequestAction = {
     
 };
 
-// const addDummy = {
-//     type : ADD_DUMMY,
-//     data : {
-//         content : 'Hello',
-//         userId : 1,
-//         User : {
-//             username : 'subin',
-//         }
-//     }
+export const addDiaryRequest = createAction(ADD_DIARY_REQUEST); //User, title, content, img
+export const uploadImagesRequest = createAction(UPLOAD_IMAGES_REQUEST); //img url
 
-// };
+export default handleActions({
+  [addDiaryRequest] : (state,action) => {
+    const user = state                                                                                               
+  },
+  [uploadImagesRequest] : (state,action) => state,
+}
+
+
+
 
 const reducer = (state = initialState, action) => {
     switch(action.type){

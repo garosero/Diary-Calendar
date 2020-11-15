@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import palette from "../../lib/styles/palette";
 import {useDispatch, useSelector} from 'react-redux';
-import {signupAction} from '../../reducers/user';
+import {signUpRequestAction} from '../../reducers/user';
 
 import useInput from '../../hooks/useInput';
 
