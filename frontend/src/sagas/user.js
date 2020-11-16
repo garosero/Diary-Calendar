@@ -3,9 +3,10 @@ import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, SIGN_UP_REQUEST, SIGN_U
 import { loginAPI, signUpAPI } from '../lib/api/auth';
 import axios from 'axios';
  
-function* signUp(){
+function* signUp(action){
+  console.log(`signup : ${action.data.userId} ${action.data.password}`)
   try{
-    yield call(signUpAPI);
+    yield call(signUpAPI,action.data);
     yield put({
       type : SIGN_UP_SUCCESS,
     });
@@ -19,7 +20,7 @@ function* signUp(){
 
 
 function* login(action) {
-  console.log(action.data);
+  console.log('saga : '+action.data);
   try {
     yield call(loginAPI,action.data);
     yield put({ //put은 dispatch와 동일. 로그인 요청 보내고 성공하면 이 줄 실행됨. 
@@ -56,6 +57,7 @@ function* watchSignUp(){
 export default function* userSaga() {
   yield all([ //all은 여러 이펙트를 동시에 실행할 수 있도록
    fork(watchLogin),
+   fork(watchSignUp),
   ])
   //yield helloSaga()
 }

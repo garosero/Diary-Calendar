@@ -65,12 +65,12 @@ const SignupForm = () => {
         if(password !== confirmPassword){
             alert("비밀번호가 다릅니다.")
         }
-        dispatch(signupAction({
+        dispatch(signUpRequestAction({
           userId,
           password,
           }
         ));
-    },[password,confirmPassword]);
+    },[userId,password,confirmPassword]);
 
   return (
     <AuthFormBlock>

@@ -35,13 +35,15 @@ router.post('/register', async(req,res)=>{
     }
 
     const {userId, password } = req.body;
+    console.log('auth : '+req.body);
     try {
         const exists = await User.findByUserId(userId);
         if(exists) {
+            
             //id가 이미 존재하면 회원가입 불가 
             return res.status(400).send('id is already registered');
         }
-
+        console.log(exists);
         const newUser = new User({
             userId,
         });
@@ -62,7 +64,7 @@ router.post('/register', async(req,res)=>{
 
 
     } catch(err){
-        console.log(err);
+        console.log('여기에러' +err);
     }
 
 })

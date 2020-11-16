@@ -11,7 +11,7 @@ const Header = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const {isLoggedIn,user} = useSelector(state => state.user); //redux state를 가져다 쓰기 
-  const {diaries} = useSelector(state => state.diary); //diaries 아님 
+  //const {diaries} = useSelector(state => state.diary); //diaries 아님 
   
   
 

@@ -1,14 +1,14 @@
-import { handleActions } from "redux-actions";
+import { produce } from 'immer';
+import { handleActions, createAction } from "redux-actions";
 
 export const initialState = {
-  diaries: [
+  diaries: 
     {
       User: null,
       title: "",
-      content : "",
+      text : "",
       img: ""
     }, //화면에 보일 포스트들
-  ],
   addDiaryErrorReason : false, // 포스트 업로드 실패 사유 
   isAddingDiary : false, //포스트 업로드중
 
@@ -29,39 +29,54 @@ export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE';
 
 export const REMOVE_IMAGE = 'REMOVE_IMAGE'; //비동기가 아니라 동기적으로 없애도 됨. 
 
-export const addDiaryRequestAction = {
-    type : ADD_DIARY_REQUEST,
+// export const addDiaryRequestAction = {
+//     type : ADD_DIARY_REQUEST,
     
-};
+// };
 
-export const addDiaryRequest = createAction(ADD_DIARY_REQUEST); //User, title, content, img
+export const addDiaryRequest = createAction(ADD_DIARY_REQUEST); //User, title, text, img
 export const uploadImagesRequest = createAction(UPLOAD_IMAGES_REQUEST); //img url
 
-export default handleActions({
-  [addDiaryRequest] : (state,action) => {
-    const user = state                                                                                               
-  },
-  [uploadImagesRequest] : (state,action) => state,
-}
-
-
-
-
 const reducer = (state = initialState, action) => {
-    switch(action.type){
-        case ADD_DIARY_REQUEST : {
-            return {
-                ...state,
-            }
-        }
-        
-        default : {
-            return {
-                ...state,
-            }
-        }
-    }
+  switch(action.type) {
+    case 'ADD_DIARY_REQUEST' : 
+      return produce(state, draft => {
+        draft.diaries[User] = action.user;
+        draft.isAddingDiary = true;
+        draft.diaries[title] = action.title;
+        draft.diaries[text] = action.text;
+      });
+    case 'ADD_DIARY_SUCCESS ' :
+      return {
+        ...state,
+        isAddingDiary : false,
+      }
+    case 'ADD_DIARY_FAILURE' :
+      return {
+        ...state,
+
+      }
+  }
 }
 
 
-export default reducer;
+
+
+// const reducer = (state = initialState, action) => {
+//     switch(action.type){
+//         case ADD_DIARY_REQUEST : {
+//             return {
+//                 ...state,
+//             }
+//         }
+        
+//         default : {
+//             return {
+//                 ...state,
+//             }
+//         }
+//     }
+// }
+
+
+//export default reducer;
