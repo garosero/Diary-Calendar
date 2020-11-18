@@ -14,11 +14,13 @@ app.get('/',(req,res)=>{
     res.send('hello');
 })
 
-// setup
+// Middleware setup
 app.use(cookieParser());
 app.use(logger('dev'));
 app.use('/api',express.json());
 app.use('/api',express.urlencoded({ extended: false }));
+app.use(jwtMiddleware);
+
 
 
 
@@ -29,11 +31,6 @@ app.use('/api',express.urlencoded({ extended: false }));
 const dbConnect = require('./connect/dbConnect');
 dbConnect('diary_calendar');
 
-/* JWT 적용  
-   라우터 적용 전에 bodyParser가 적용되어야 함.     
-
-*/
-app.use(jwtMiddleware);
 
 
 /* routing */

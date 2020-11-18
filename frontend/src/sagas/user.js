@@ -1,6 +1,6 @@
 import { all, put, fork,takeLatest, takeEvery, take, call,delay } from 'redux-saga/effects';
-import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE } from "../reducers/user";
-import { loginAPI, signUpAPI } from '../lib/api/auth';
+import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE, LOG_OUT_REQUEST,LOG_OUT_FAILURE,LOG_OUT_SUCCESS } from "../reducers/user";
+import { loginAPI, signUpAPI, logOutAPI } from '../lib/api/auth';
 import axios from 'axios';
  
 function* signUp(action){
@@ -36,6 +36,20 @@ function* login(action) {
   }
 }
 
+function* logOut(action){
+  console.log('logout');
+  try{
+    yield call(logOutAPI);
+    yield put({
+      type : LOG_OUT_SUCCESS,
+    });
+  } catch(e){
+    yield put({
+      type : LOG_OUT_FAILURE,
+    });
+  }
+}
+
 /**
  * saga가 LOG_IN 액션이 들어오는지를 기다림. 
  * 들어왔다면 loginAPI로 요청 
@@ -50,6 +64,10 @@ function* watchLogin() {
  //}
 }
 
+function* watchLogout(){
+  yield takeLatest(LOG_OUT_REQUEST, logOut)
+}
+
 function* watchSignUp(){
   yield takeEvery(SIGN_UP_REQUEST, signUp);
 }
@@ -58,6 +76,7 @@ export default function* userSaga() {
   yield all([ //all은 여러 이펙트를 동시에 실행할 수 있도록
    fork(watchLogin),
    fork(watchSignUp),
+   fork(watchLogout),
   ])
   //yield helloSaga()
 }

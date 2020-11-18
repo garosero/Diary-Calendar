@@ -62,6 +62,10 @@ router.post('/register', async(req,res)=>{
             success : true
         })
 
+        // res.status(200).json({
+        //     success : true
+        // });
+
 
     } catch(err){
         console.log('여기에러' +err);
@@ -129,8 +133,8 @@ router.post('/login', async(req,res)=>{
  */
 
 router.post('/logout', (req,res)=>{
-    req.cookies.set('access_token');
-    res.status(204).send('No content'); 
+    res.clearCookie('access_token'); //access_token을 아예 삭제해야 회원가입 에러가 나지않음.
+    res.status(204).send('remove cookie'); 
 })
 
 /**
