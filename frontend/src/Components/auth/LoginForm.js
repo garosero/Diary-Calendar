@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {loginAction} from '../../reducers/user';
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import palette from "../../lib/styles/palette";
 
 import useInput from '../../hooks/useInput';

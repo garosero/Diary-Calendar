@@ -143,14 +143,18 @@ router.post('/logout', (req,res)=>{
 
 router.get('/check', async(req,res)=>{
 
-    const { user } = req.body;
-    if(!user){
-        //로그인중이 아님
-        res.status(401).send('Unauthorized'); // Unauthorized
-        return;
-    }
+    // const { user } = req.body;
+    // if(!user){
+    //     //로그인중이 아님
+    //     res.status(401).send('Unauthorized'); // Unauthorized
+    //     return;
+    // }
 
-    req.body = user;
+    // req.body = user;
+
+    res.json({
+        success : true,
+    })
 })
 
 
