@@ -1,7 +1,13 @@
 const express = require('express');
+const multer = require('multer');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Diary = require('../models/diary');
+const { User } = require('../models');
+const fs = require('fs');
+
+
+
 
 
 /** 
@@ -52,6 +58,8 @@ router.get('/', async(req,res,next) => {
         next(error);
     }
  });
+
+
 
 
 

@@ -9,7 +9,6 @@ const User = require('../models/user');
 
  //함수 모듈이므로 밖에서 실행되어야 함. 
  module.exports = () => {
-     console.log("local.js");
      passport.use(new LocalStrategy({
          usernameField : 'userId',
          passwordField : 'password',

@@ -31,14 +31,12 @@ router.post('/signup', async(req,res,next) => {
 })
 
 router.post('/login', (req,res,next) => { // /api/user/login
-  console.log("멍미");
   passport.authenticate('local', (err,user, info) => {
-    console.log("aaa");
     //local.js에서 done(1,2,3)의 1,2,3 받아옴
     if(err){
       //next하면 서버 에러가 일어났을 때 알아서 처리해줌
-      next(err);
       console.error(err);
+      next(err);
     };
     if(info){
       return res.status(401).send(info.reason);
