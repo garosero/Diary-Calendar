@@ -5,6 +5,7 @@ import DateContext from '../contexts/date'
 import CalendarList from './CalendarList';
 import Modal from './Modal'
 import useModal from './useModal';
+import ModalPortal from './ModalPortal';
 import './Calendar.scss'
 
 const CalendarContent = () => {
@@ -43,9 +44,11 @@ const CalendarContent = () => {
     <div className="calendar_layout">
       <CalendarList />
       <div className="calendar_content" onClick={toggle}>
-        <Modal isShowing={isShowing} hide={toggle}>
-          <p>haha</p>
-        </Modal>
+        <ModalPortal>
+          <Modal isShowing={isShowing} hide={toggle}>
+            <p>haha</p>
+          </Modal>
+        </ModalPortal>
         <div className="day_title">
           {weekDay.map((day, idx) => {
             return (
