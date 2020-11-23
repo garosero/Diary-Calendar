@@ -1,15 +1,14 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import moment from 'moment';
 import CalendarItem from './CalendarItem';
 import DateContext from '../contexts/date'
 import CalendarList from './CalendarList';
 import Modal from './Modal'
-import useModal from './useModal';
-import ModalPortal from './ModalPortal';
+import useModal from './useModal';  
 import './Calendar.scss'
 
 const CalendarContent = () => {
-  const {isShowing, toggle} = useModal();
+  const {isShowing, setIsShowing} = useModal();
 
   const {currentMonth, setCurrentMonth} = useContext(DateContext);
 
@@ -37,18 +36,18 @@ const CalendarContent = () => {
   });
 
 
+  useEffect(()=>{
+    console.log('reload');
+  },[]);
   
   const weekDay = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
 
   return (
     <div className="calendar_layout">
       <CalendarList />
-      <div className="calendar_content" onClick={toggle}>
-        <ModalPortal>
-          <Modal isShowing={isShowing} hide={toggle}>
-            <p>haha</p>
-          </Modal>
-        </ModalPortal>
+      <div className="calendar_content" onClick={()=>setIsShowing(true)}>
+      {/* isShowing 효과를 넣으니까 속도가 빨라짐 */}
+        <Modal isShowing={isShowing} onClose={()=>{setIsShowing(false)}}/>
         <div className="day_title">
           {weekDay.map((day, idx) => {
             return (
@@ -65,7 +64,7 @@ const CalendarContent = () => {
                 {Array(7)
                   .fill(-1)
                   .map((v, i) => {
-                    return <CalendarItem key={i} day={result[idx * 7 + i]} />;
+                    return <CalendarItem key={i} day={result[idx * 7 + i]}/>;
                   })}
               </div>
             );

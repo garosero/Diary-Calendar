@@ -37,14 +37,14 @@ const StyledButton = styled.button`
 
 `;
 
-const CloseButton = () => {
+const CloseButton = ({value}) => {
 
   
 
     return (
 
         <StyledButton>
-              X
+              {value}
         </StyledButton>
     )
 }

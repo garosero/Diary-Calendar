@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import styled from "styled-components";
 import CloseButton from './CloseButton';
 
+
+
 // const ItemDiv = styled.div`
 //   font-size: 14px;
 //   line-height: 30px;
@@ -16,15 +18,22 @@ import CloseButton from './CloseButton';
 // `;
 
 const CalendarItem = (props) => {
+
+  // const toggle = (e) => {
+  //   e.preventDefault();
+  //   setIsShowing(!isShowing)
+  
  
   const data = "";
 
   return (
+    <> 
     <div className="item">
       {props.day > 0 ? props.day : ""}
       <br />
       {data}
     </div>
+    </>
   );
 };
 

@@ -2,6 +2,8 @@ import React, {useRef, useCallback} from "react";
 import ReactDOM from "react-dom";
 import CloseButton from "./CloseButton"
 import styled from 'styled-components';
+import useModal from "./useModal";
+import ModalPortal from './ModalPortal';
 
 const Overlay = styled.div`
   display: ${(props) => (props.isShowing ? 'block' : 'none')};
@@ -30,9 +32,12 @@ const ModalWrapper = styled.div`
 
 
 
-const Modal = ({ isShowing, hide, children }) => {
+const Modal = ({ isShowing, onClose }) => {
+
+  console.log("modal에서 isShowing"+isShowing);
 
   const onSubmitForm = () => {
+    e.preventDefault();
     
   }
 
@@ -40,7 +45,9 @@ const Modal = ({ isShowing, hide, children }) => {
 
   }
 
-  const onClickImageUpload = ()=>{
+  const onClickImageUpload = (e) =>{
+    e.preventDefault(); // submit과 동시에 refresh 되는 것을 막음 
+    // e.stopPropagation(); //이거 하나만 쓰면 전파는 안되는데 refresh 되어버림. submit (toggle이 아니라 refresh때문에 그런거 )
 
   }
 
@@ -48,8 +55,9 @@ const Modal = ({ isShowing, hide, children }) => {
 
   }
 
+
  return (
-   <>
+   <ModalPortal elementId='modal-portal'>
      <Overlay isShowing={isShowing} />
      <ModalWrapper
        isShowing={isShowing}
@@ -57,6 +65,7 @@ const Modal = ({ isShowing, hide, children }) => {
        aria-hidden
        tabIndex={-1}
        role="dialog"
+      
      >
        <div className="modal">
          <form
@@ -65,19 +74,21 @@ const Modal = ({ isShowing, hide, children }) => {
            onSubmit={onSubmitForm}
          >
            <div className="modal-header">
-             <CloseButton onClick={hide}>
-               <span aria-hidden="true">&times;</span>
-             </CloseButton>
+             <CloseButton onClick={onClose} value="X" />
            </div>
-           {/* <input type="file" multiple hidden ref={imageInput} onChange={onChangeImages}>
-                  {children}
-                  <button onClick={onClickImageUpload}>이미지 업로드</button>
-                </input> */}
-           {children}
+           <input
+             type="file"
+             multiple
+             hidden
+             ref={imageInput}
+             onChange={onChangeImages}
+           ></input>
+       
+           <button type="submit" onClick={onClickImageUpload}>image</button>
          </form>
        </div>
      </ModalWrapper>
-   </>
+   </ModalPortal>
  );
  
 }

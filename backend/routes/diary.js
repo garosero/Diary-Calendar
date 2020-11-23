@@ -3,7 +3,7 @@ const multer = require('multer');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Diary = require('../models/diary');
-const { User } = require('../models');
+const { User } = require('../models/user');
 const fs = require('fs');
 
 
