@@ -1,4 +1,8 @@
+
 export const initialState = {
+    loadMyInfoLoading : false, //유저 정보 가져오기 시도중
+    loadMyInfoDone : false, 
+    loadMyInfoError : null,
     isLoggedIn : false, //로그인 여부
     isLoggingOut : false, //로그아웃 시도중
     isLoggingIn : false, //로그인 시도중
@@ -6,7 +10,7 @@ export const initialState = {
     isSignedUp : false, //회원가입 성공
     isSigningUp : false, //회원가입 시도중
     signUpErrorReason : '', //회원가입 실패 사유
-    user : {
+    me : {
         userId : "",
         password : "",
     }, //내 정보
@@ -18,17 +22,18 @@ export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
 
-export const LOG_IN_REQUEST = 'LOG_IN'; //액션의 이름
+export const LOG_IN_REQUEST = 'LOG_IN_REQUEST'; //액션의 이름
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
 export const LOG_IN_FAILURE = 'LOG_IN_FAILURE'
 export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
 export const LOG_OUT_SUCCESS = "LOG_OUT_SUCCESS";  //리덕스 사가가 필요한 것들
 export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
 
-export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
-export const LOAD_USER_SUCCESS = "LOAD_USER_SUCCESS";
-export const LOAD_USER_FAILURE = "LOAD_USER_FAILURE";
+export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
+export const LOAD_MY_INFO_SUCCESS = "LOAD_MY_INFO_SUCCESS";
+export const LOAD_MY_INFO_FAILURE = "LOAD_MY_INFO_FAILURE";
 
+export const TEMP_SET_USER = "TEMP_SET_USER";
 
 
 //실제 액션 이 함수를 반환 
@@ -55,6 +60,12 @@ export const logoutRequestAction = {
   type: LOG_OUT_REQUEST,
 };
 
+//export const tempSetUser = createAction(TEMP_SET_USER, user=>user);
+export const tempSetUser = (user) => ({
+    type : TEMP_SET_USER,
+    user : user, 
+})
+
 
 export const signUpRequestAction = (data) => ({
     
@@ -66,6 +77,10 @@ export const signUpRequestAction = (data) => ({
     
 });
 //동적 데이터는 함수로 만들어서 해야됨.
+
+export const loadMyInfo = {
+    type : LOAD_MY_INFO_REQUEST,
+}
 
 const dummyUser = {
     username : 'subin',
@@ -79,10 +94,19 @@ const dummyUser = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type){
+        case TEMP_SET_USER : {
+            return {
+                ...state,
+                me : action.user,
+                isLoggedIn : true,
+            }
+        }
+
         case LOG_IN_REQUEST : {
             return {
                 ...state,
                 isLoggingIn : true,
+                me :action.data.userId,
             }
         }
 
@@ -100,7 +124,7 @@ const reducer = (state = initialState, action) => {
                 isLoggingIn : false,
                 isLoggedIn : false,
                 logInErrorReason : action.error,
-                user : null,
+                me : null,
             }
         }
 
@@ -108,7 +132,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoggedIn : false,
-                user : null,
                 isLoading : true,
             }
         }
@@ -137,6 +160,31 @@ const reducer = (state = initialState, action) => {
                 isSigningUp : false,
                 user : action.data,
                 signUpErrorReason : action.error,
+            }
+        }
+
+        case LOAD_MY_INFO_REQUEST : {
+            return {
+                ...state,
+                loadMyInfoLoading : true,
+                loadMyInfoDone : false,
+                loadMyInfoError : null,
+            }
+        }
+
+        case LOAD_MY_INFO_SUCCESS : {
+            return {
+                ...state,
+                loadMyInfoLoading : false,
+                loadMyInfoDone : true,
+            }
+        }
+
+        case LOAD_MY_INFO_FAILURE : {
+            return {
+                ...state,
+                loadMyInfoLoading : false,
+                loadMyInfoDone : true,
             }
         }
 

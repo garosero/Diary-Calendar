@@ -1,6 +1,19 @@
 import { all, put, fork,takeLatest, takeEvery, take, call,delay } from 'redux-saga/effects';
-import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE, LOG_OUT_REQUEST,LOG_OUT_FAILURE,LOG_OUT_SUCCESS } from "../reducers/user";
-import { loginAPI, signUpAPI, logOutAPI } from '../lib/api/auth';
+import {
+  LOG_IN_REQUEST,
+  LOG_IN_SUCCESS,
+  LOG_IN_FAILURE,
+  LOAD_MY_INFO_REQUEST,
+  LOAD_MY_INFO_SUCCESS,
+  LOAD_MY_INFO_FAILURE,
+  SIGN_UP_REQUEST,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAILURE,
+  LOG_OUT_REQUEST,
+  LOG_OUT_FAILURE,
+  LOG_OUT_SUCCESS,
+} from "../reducers/user";
+import { loginAPI, signUpAPI, logOutAPI, loadAPI } from '../lib/api/auth';
 import axios from 'axios';
  
 function* signUp(action){
@@ -36,6 +49,22 @@ function* login(action) {
   }
 }
 
+function* load(action){
+  try{
+    const loadData = yield call(loadAPI);
+    console.log('check');
+    console.log(loadData);
+    yield put({
+      type : LOAD_MY_INFO_SUCCESS,
+    })
+  } catch(e){
+    console.error(e);
+    yield put({
+      type : LOAD_MY_INFO_FAILURE,
+    })
+  }
+}
+
 function* logOut(action){
   console.log('logout');
   try{
@@ -43,6 +72,7 @@ function* logOut(action){
     yield put({
       type : LOG_OUT_SUCCESS,
     });
+    localStorage.removeItem('me');
   } catch(e){
     yield put({
       type : LOG_OUT_FAILURE,
@@ -55,6 +85,7 @@ function* logOut(action){
  * 들어왔다면 loginAPI로 요청 
  */
 function* watchLogin() {
+  console.log('login request');
   yield takeLatest(LOG_IN_REQUEST, login);
   // while(true){
   //   yield take(LOG_IN);
@@ -72,11 +103,16 @@ function* watchSignUp(){
   yield takeEvery(SIGN_UP_REQUEST, signUp);
 }
 
+function* watchLoad(){
+  yield takeLatest(LOAD_MY_INFO_REQUEST, load);
+}
+
 export default function* userSaga() {
   yield all([ //all은 여러 이펙트를 동시에 실행할 수 있도록
    fork(watchLogin),
    fork(watchSignUp),
    fork(watchLogout),
+   fork(watchLoad),
   ])
   //yield helloSaga()
 }

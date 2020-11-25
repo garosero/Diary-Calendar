@@ -8,6 +8,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers';
 import rootSaga from './sagas/index';
+import { tempSetUser, LOAD_MY_INFO_REQUEST } from './reducers/user';
 
 
 const sagaMiddleware = createSagaMiddleware(); //사가 미들웨어 만들기 
@@ -29,7 +30,21 @@ const middlewares = [sagaMiddleware];
  */
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middlewares)));
 
+function loadUser(){
+  try{
+    const user = localStorage.getItem('me');
+    if(!user) return; //로그인 상태가 아니라면 그대로
+    store.dispatch(tempSetUser(user));
+    store.dispatch({
+      type : LOAD_MY_INFO_REQUEST,
+    });
+  }catch(e){
+    console.log('localStorage is not working');
+  }
+}
+
 sagaMiddleware.run(rootSaga);
+loadUser();
 
 ReactDOM.render(
   <Provider store={store}>

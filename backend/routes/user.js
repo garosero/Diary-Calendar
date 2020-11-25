@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const User = require('../models/user');
 
+const User = require('../models/user');
+const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 
 /**  회원가입
@@ -30,7 +31,7 @@ router.post('/signup', async(req,res,next) => {
 
 })
 
-router.post('/login', (req,res,next) => { // /api/user/login
+router.post('/login',isNotLoggedIn, (req,res,next) => { // /api/user/login
   passport.authenticate('local', (err,user, info) => {
     //local.js에서 done(1,2,3)의 1,2,3 받아옴
     if(err){
@@ -46,6 +47,8 @@ router.post('/login', (req,res,next) => { // /api/user/login
       if(loginErr){
         return next(loginErr);
       }
+      console.log('세션 확인 : '+req.session.passport.user);   //일단 로그인에선 저장됐음!! 여기에 
+      console.log("req.user 저장 확인 : "+req.user); //req.user에 저장됨 !!
       const filteredUser = Object.assign({},user);
       delete filteredUser.password; //password를 보내는 건 위험하니까 삭제
       console.log(filteredUser);
@@ -71,11 +74,41 @@ router.post('/login', (req,res,next) => { // /api/user/login
 //요청 보낼때마다 deserializeUser가 실행됨
 //실무에서는 deserializeUser 결과를 캐싱 (db요청 1번 실행 - 한 번 찾은 유저는 다시 찾지 않도록)
 //db작업이 비용이 제일 많이 든다. 
-router.post('/logout', (req,res)=>{
+router.post('/logout',isLoggedIn,(req,res)=>{
   req.logout();
   req.session.destroy();
+  console.log('로그아웃 후  :'+req.user);
   res.send('logout');
 });
+
+
+/**
+ *  /api/user/check
+ *   유저가 로그인 되어있는지 체크
+ */
+
+router.get('/check',isLoggedIn, async(req,res,next)=>{   //req.user가 없음 !!! ㅠㅠㅠ 
+ 
+  try{
+    console.log('req : '+req.user);
+    if(req.user){
+      console.log('있다');
+      const fullUserWithoutPassword = await User.findOne(
+        { userId: req.user.userId },
+        { password: 0 }
+      );
+      res.status(200).json(fullUserWithoutPassword);
+    }else{
+      console.log('없다');
+      res.status(200).json(null);
+    }
+
+  }catch(e){
+    console.log("에러");
+    console.error(e);
+    next(e);
+  }
+})
 
 
 module.exports = router;

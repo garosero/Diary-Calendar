@@ -58,7 +58,7 @@ const LoginForm = () => {
 
     const [id, onChangeId] = useInput('');
     const [password, onChangePassword] = useInput('');
-    const { isLoggingIn, isLoggedIn } = useSelector(state=>state.user);
+    const { isLoggingIn, isLoggedIn,me } = useSelector(state=>state.user);
     const dispatch = useDispatch();
 
 
@@ -71,6 +71,11 @@ const LoginForm = () => {
 
     useEffect(()=>{
       if(isLoggedIn) history.push('/');
+      try{
+        localStorage.setItem('me',JSON.stringify(me));
+      }catch(e){
+        console.log('localStorage is not working');
+      }
     },[isLoggedIn])
 
 

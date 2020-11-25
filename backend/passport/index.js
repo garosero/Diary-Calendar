@@ -10,7 +10,7 @@ const User= require('../models/user');
 
 module.exports = () => {
     //서버쪽에 [{id : 3, cookie : 'asdfgh'}]  프론트에서 asdfgh를 보내면 3번 유저구나 알아차림 이게 serialize 작업
-    passport.serializeUser((user, done) => {   //req.session 객체에 어떤 데이터를 저장할 지 선택 
+    passport.serializeUser((user, done) => {   //req.session 객체에 어떤 데이터를 저장할 지 선택 (req.session.passport.user에)
        console.log('serialize');
        return done(null, user.userId);
     });
@@ -18,9 +18,7 @@ module.exports = () => {
     passport.deserializeUser(async(userId, done) => { //3번 id를 가져와서 다시 유저 정보 가져오기 (그냥 3번이란는 id만으론 아무것도 못하니까)
         try {
             console.log('deserialize');
-            const user = await User.findOne({
-                where : {userId},
-            });
+            const user = await User.findByUserId(userId);
             return done(null,user); //req.user에 저장
         }catch(e){
             console.error(e);
