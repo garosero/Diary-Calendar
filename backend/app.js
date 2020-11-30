@@ -21,7 +21,7 @@ app.get('/',(req,res)=>{
 
 
 // Middleware setup
-app.use('/',express.static(path.join(__dirname,'uploads')));
+app.use('/',express.static(path.join(__dirname,'uploads'))); //'/' : front에서 접근하는 주소 //static : 해당 경로의 파일들을 다른 서버에서 가져갈 수 있게 해주는 역할
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(logger('dev'));
 app.use('/api',express.json());

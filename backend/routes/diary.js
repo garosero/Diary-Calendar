@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const Diary = require('../models/diary');
 const { User } = require('../models/user');
 const fs = require('fs');
+const path = require('path');
 
 
 
@@ -59,6 +60,31 @@ router.get('/', async(req,res,next) => {
     }
  });
 
+ /**
+  *  POST api/diary/image
+  *  
+  */
+ 
+  const upload = multer({
+      storage:multer.diskStorage({
+        destination(req,file,cb){
+            cb(null,'uploads') //uploads 폴더에 저장하겠다
+        },
+        filename(req,file,cb){
+            const ext = path.extname(file.originalname); //파일의 오리지널 네임에서 확장자만 추출
+            const basename = path.basename(file.originalname, ext); //abc.png ext===png, basename===abc
+            cb(null,basename+ new Date().valueOf()+ext); //이름 중복 안되도록 시간도 추가(덮어씌워지지않도록) 
+        }
+      }), //서버쪽 하드에 저장하겠다 (S3나 구글 클라우드 스토리지로 바꿀 수 있음)
+      limits:{ fileSize: 20 * 1024 * 1024 }, //20mb 제한 (kb단위) 
+    })
+
+    //image를 한 장만 올리고 싶다면 single, none : 이미지나 파일을 하나도 안올림
+  router.post('/image',upload.array('images'),(req,res)=>{
+    console.log(req.files);
+    res.json(req.files.map(v => v.filename));
+
+  })
 
 
 

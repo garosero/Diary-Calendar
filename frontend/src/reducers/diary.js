@@ -4,14 +4,15 @@ import { handleActions, createAction } from "redux-actions";
 export const initialState = {
   diaries: 
     {
-      User: null,
       title: "",
       text : "",
       img: ""
     }, //화면에 보일 포스트들
+  imagePath : [],  
   addDiaryErrorReason : false, // 포스트 업로드 실패 사유 
   isAddingDiary : false, //포스트 업로드중
-
+  diaryAdded : false, 
+ 
 };
 
 /**
@@ -41,7 +42,6 @@ const reducer = (state = initialState, action) => {
   switch(action.type) {
     case 'ADD_DIARY_REQUEST' : 
       return produce(state, draft => {
-        draft.diaries[User] = action.user;
         draft.isAddingDiary = true;
         draft.diaries[title] = action.title;
         draft.diaries[text] = action.text;
@@ -56,6 +56,33 @@ const reducer = (state = initialState, action) => {
         ...state,
 
       }
+
+    case 'UPLOAD_IMAGES_REQUEST' :
+      // return {
+      //   ...state,
+
+      // }
+      return produce(state, (draft) => {
+        draft.imagePath = [...state.imagePath, ...action.data];
+      });
+    case 'UPLOAD_IMAGES_SUCCESS' :
+      return {
+        ...state,
+        imagePath : [...state.imagePath, ...action.data],
+        //기존의 미리보기 경로(imagePath), 새로운 액션 데이터 합치기 --> 한두개 이미지 더 올리기 가능
+        //여러 개의 이미지를 따로 돌리기 
+      }
+
+    case 'UPLOAD_IMAGES_FAILURE' :
+      return {
+        ...state,
+      }
+
+    default : {
+      return {
+        ...state,
+      }
+    }
   }
 }
 
@@ -79,4 +106,4 @@ const reducer = (state = initialState, action) => {
 // }
 
 
-//export default reducer;
+export default reducer;

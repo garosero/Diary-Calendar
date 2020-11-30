@@ -8,7 +8,11 @@ import useModal from './useModal';
 import './Calendar.scss'
 
 const CalendarContent = () => {
-  const {isShowing, setIsShowing} = useModal();
+  // const {isShowing, setisShowing,toggle} = useModal();
+  const [showModal, setShowModal] = useState(false);
+  const openModal = () =>{
+    setShowModal(prev => !prev);
+  }
 
   const {currentMonth, setCurrentMonth} = useContext(DateContext);
 
@@ -45,9 +49,9 @@ const CalendarContent = () => {
   return (
     <div className="calendar_layout">
       <CalendarList />
-      <div className="calendar_content" onClick={()=>setIsShowing(true)}>
+      <div className="calendar_content">
       {/* isShowing 효과를 넣으니까 속도가 빨라짐 */}
-        <Modal isShowing={isShowing} onClose={()=>{setIsShowing(false)}}/>
+      <Modal  showModal={showModal} setShowModal={setShowModal}/> 
         <div className="day_title">
           {weekDay.map((day, idx) => {
             return (
@@ -60,11 +64,11 @@ const CalendarContent = () => {
         <>
           {[...Array(weekLen)].map((val, idx) => {
             return (
-              <div key={idx} className="calendar_row">
+              <div key={idx} className="calendar_row" onClick={openModal}>
                 {Array(7)
                   .fill(-1)
                   .map((v, i) => {
-                    return <CalendarItem key={i} day={result[idx * 7 + i]}/>;
+                    return <CalendarItem key={i} day={result[idx * 7 + i]} />; //왜 여기에 onClick을 넣으면 안될까 
                   })}
               </div>
             );
