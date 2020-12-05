@@ -32,7 +32,7 @@ const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...mi
 
 function loadUser(){
   try{
-    const user = localStorage.getItem('me');
+    const user = sessionStorage.getItem('me');
     if(!user) return; //로그인 상태가 아니라면 그대로
     store.dispatch(tempSetUser(user));
     store.dispatch({

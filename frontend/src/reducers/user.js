@@ -136,6 +136,22 @@ const reducer = (state = initialState, action) => {
             }
         }
 
+        case LOG_OUT_SUCCESS : {
+            return {
+                ...state,
+                isLoggedIn : false,
+                isLoading : false,
+                me : null,
+            }
+        }
+
+        case LOG_OUT_FAILURE : {
+            return {
+                ...state,
+                isLoading : false,
+            }
+        }
+
         case SIGN_UP_REQUEST : {
             return {
                 ...state,

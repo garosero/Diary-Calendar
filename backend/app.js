@@ -29,12 +29,15 @@ app.use('/api',express.urlencoded({ extended: false }));
 
 
 app.use(session({
-    resave : true,
+    resave : false,
     saveUninitialized : false,
+    name : 'SID',
+    unset:'destroy',
     secret : process.env.COOKIE_SECRET,
     cookie : {
         httpOnly : true,
         secure : false,
+        maxAge : 1000*60*60*1,
     }
 }));
 

@@ -22,16 +22,16 @@ const CalendarItem = (props) => {
   // const toggle = (e) => {
   //   e.preventDefault();
   //   setIsShowing(!isShowing)
-  
  
-  const data = "";
+ 
+  const day = props.day > 0 ? props.day : "";
 
   return (
     <> 
     <div className="item">
-      {props.day > 0 ? props.day : ""}
-      <br />
-      {data}
+ 
+      {day}
+     
     </div>
     </>
   );

@@ -3,7 +3,8 @@ const multer = require('multer');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Diary = require('../models/diary');
-const { User } = require('../models/user');
+const { User, db } = require('../models/user');
+const Image = require('../models/image');
 const fs = require('fs');
 const path = require('path');
 
@@ -62,6 +63,7 @@ router.get('/', async(req,res,next) => {
 
  /**
   *  POST api/diary/image
+  *  이미지 업로드
   *  
   */
  
@@ -73,6 +75,7 @@ router.get('/', async(req,res,next) => {
         filename(req,file,cb){
             const ext = path.extname(file.originalname); //파일의 오리지널 네임에서 확장자만 추출
             const basename = path.basename(file.originalname, ext); //abc.png ext===png, basename===abc
+            console.log(basename + new Date().valueOf() + ext);
             cb(null,basename+ new Date().valueOf()+ext); //이름 중복 안되도록 시간도 추가(덮어씌워지지않도록) 
         }
       }), //서버쪽 하드에 저장하겠다 (S3나 구글 클라우드 스토리지로 바꿀 수 있음)
@@ -85,6 +88,32 @@ router.get('/', async(req,res,next) => {
     res.json(req.files.map(v => v.filename));
 
   })
+
+  /**
+   *  POST /api/diary/post
+   *  이미지가 없으므로 none()을 사용 
+   *  폼데이터 파일->req.file(s)
+   *  폼데이터 일반 값->req.body
+   */
+  router.post('/post',upload.none(),async(req,res)=>{
+    try {
+        console.log()
+        //const fileNameArr = req.files.map(v=>v.filename);
+
+        const newDiary = await Diary.create({
+            content : req.body.content,
+            // userId : req.user.userId,
+            img : req.body.image,
+        });
+       
+        await newDiary.save();
+        res.json({success : 'OK'});
+    } catch (error) {
+        console.log(error);
+    }
+  })
+
+ 
 
 
 

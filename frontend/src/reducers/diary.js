@@ -2,16 +2,17 @@ import { produce } from 'immer';
 import { handleActions, createAction } from "redux-actions";
 
 export const initialState = {
-  diaries: 
-    {
-      title: "",
-      text : "",
-      img: ""
-    }, //화면에 보일 포스트들
+  // diaries: 
+  //   {
+  //     content : ''
+  //   }, //화면에 보일 포스트들
+  content : '',
+  date : '',
   imagePath : [],  
   addDiaryErrorReason : false, // 포스트 업로드 실패 사유 
   isAddingDiary : false, //포스트 업로드중
   diaryAdded : false, 
+  
  
 };
 
@@ -43,12 +44,13 @@ const reducer = (state = initialState, action) => {
     case 'ADD_DIARY_REQUEST' : 
       return produce(state, draft => {
         draft.isAddingDiary = true;
-        draft.diaries[title] = action.title;
-        draft.diaries[text] = action.text;
+        // draft.diaries[title] = action.title;
+        // draft.content= action.data;
       });
     case 'ADD_DIARY_SUCCESS ' :
       return {
         ...state,
+        content : action.data,
         isAddingDiary : false,
       }
     case 'ADD_DIARY_FAILURE' :
@@ -62,9 +64,9 @@ const reducer = (state = initialState, action) => {
       //   ...state,
 
       // }
-      return produce(state, (draft) => {
-        draft.imagePath = [...state.imagePath, ...action.data];
-      });
+      return {
+        ...state,
+      }
     case 'UPLOAD_IMAGES_SUCCESS' :
       return {
         ...state,

@@ -108,6 +108,7 @@
 /** Modal **/
 
 
+
 .modal-overlay {
   display : none;
   position: fixed;
@@ -138,7 +139,7 @@
   position: relative;
 //   margin: 1.75rem auto;
   border-radius: 3px;
-  width: 500px;
+  width: 70%;
   height: 500px;
   padding: 2rem;
   top : 50%;
@@ -150,6 +151,12 @@
 .modal-header {
   display: flex;
   justify-content: flex-end;
+}
+
+.modal-image-wrapper {
+  display : flex;
+  justify-content: space-between;
+
 }
 
 .modal-close-button {

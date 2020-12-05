@@ -9,19 +9,25 @@ const Schema = mongoose.Schema;
  */
 
 const DiarySchema = new Schema({
-    title : String,
-    body : String,
-    tags : [String],
+    content : String,
     publishedDate : {
         type : Date,
         default : Date.now
     },
-    user : {
-        _id : mongoose.Types.ObjectId,
-        userId : String,
+    userId : {
+        type : String,
+        required : true,
     },
+    img : [{
+        type : String,
+    }],
+    calendarDate : {
+        type : String,
+        required: true,
+    }
    
 })
+
 
 module.exports = mongoose.model('Diary',DiarySchema);
 

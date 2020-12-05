@@ -77,8 +77,8 @@ router.post('/login',isNotLoggedIn, (req,res,next) => { // /api/user/login
 router.post('/logout',isLoggedIn,(req,res)=>{
   req.logout();
   req.session.destroy();
-  console.log('로그아웃 후  :'+req.user);
-  res.send('logout');
+  res.clearCookie('connect.sid',{path : '/'}).status(200).send('OK');
+  console.log("로그아웃 후  :" + req.user);
 });
 
 

@@ -72,7 +72,7 @@ const LoginForm = () => {
     useEffect(()=>{
       if(isLoggedIn) history.push('/');
       try{
-        localStorage.setItem('me',JSON.stringify(me));
+        sessionStorage.setItem('me',JSON.stringify(me));
       }catch(e){
         console.log('localStorage is not working');
       }

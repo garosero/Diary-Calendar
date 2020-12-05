@@ -10,11 +10,23 @@ import './Calendar.scss'
 const CalendarContent = () => {
   // const {isShowing, setisShowing,toggle} = useModal();
   const [showModal, setShowModal] = useState(false);
+  const { currentMonth, currentYear } = useContext(DateContext);
+  const [showDate, setShowDate] = useState(''); //modal에 전달할 클릭한 캘린더의 날짜 
+ 
   const openModal = () =>{
     setShowModal(prev => !prev);
   }
 
-  const {currentMonth, setCurrentMonth} = useContext(DateContext);
+  const setDate = (e) => {
+    const str = String(currentYear)+String(currentMonth)+e.target.textContent;
+    setShowDate(str);
+    
+  }
+
+  useEffect(()=>{
+    console.log(showDate);
+  },[showDate])
+
 
   const myMoment = moment().month(currentMonth-1);
 
@@ -40,9 +52,6 @@ const CalendarContent = () => {
   });
 
 
-  useEffect(()=>{
-    console.log('reload');
-  },[]);
   
   const weekDay = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
 
@@ -51,7 +60,7 @@ const CalendarContent = () => {
       <CalendarList />
       <div className="calendar_content">
       {/* isShowing 효과를 넣으니까 속도가 빨라짐 */}
-      <Modal  showModal={showModal} setShowModal={setShowModal}/> 
+      <Modal  showModal={showModal} setShowModal={setShowModal} date={showDate}/> 
         <div className="day_title">
           {weekDay.map((day, idx) => {
             return (
@@ -64,11 +73,11 @@ const CalendarContent = () => {
         <>
           {[...Array(weekLen)].map((val, idx) => {
             return (
-              <div key={idx} className="calendar_row" onClick={openModal}>
+              <div key={idx} className="calendar_row" onClick={(e)=>{setDate(e); openModal();}}>
                 {Array(7)
                   .fill(-1)
                   .map((v, i) => {
-                    return <CalendarItem key={i} day={result[idx * 7 + i]} />; //왜 여기에 onClick을 넣으면 안될까 
+                    return <CalendarItem key={i} day={result[idx * 7 + i]}/>; //왜 여기에 onClick을 넣으면 안될까 
                   })}
               </div>
             );

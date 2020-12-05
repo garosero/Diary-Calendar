@@ -10,3 +10,9 @@ import axios from "axios";
          withCredentials : true,
      });
  } 
+
+ export const addDiaryAPI = (formData) => {
+     return axios.post('/api/diary/post',formData,{
+         withCredentials : true,
+     })
+ }

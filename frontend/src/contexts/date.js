@@ -6,9 +6,11 @@ const DateContext = createContext({});
 const DateProvider = ({children}) => {
 
     const [currentMonth, setCurrentMonth] = useState(moment().month()+1);
+    const [currentYear, setCurrentYear] = useState(moment().year());
 
     const value = {
-        currentMonth, setCurrentMonth
+        currentMonth, setCurrentMonth,
+        currentYear, setCurrentYear,
     }
     
 

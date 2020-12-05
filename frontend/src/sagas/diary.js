@@ -1,8 +1,9 @@
 import { all, call, fork, put, takeEvery,takeLatest } from "redux-saga/effects";
 import {
-  UPLOAD_IMAGES_REQUEST, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_SUCCESS
+  UPLOAD_IMAGES_REQUEST, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_SUCCESS,
+  ADD_DIARY_REQUEST,ADD_DIARY_SUCCESS,ADD_DIARY_FAILURE, addDiaryRequest
 } from '../reducers/diary';
-import {uploadImageAPI} from '../lib/api/diary';
+import {uploadImageAPI, addDiaryAPI} from '../lib/api/diary';
 
 function* uploadImage(action){
   console.log(action.data);
@@ -20,12 +21,32 @@ function* uploadImage(action){
   }
 }
 
+function* addDiary(action){
+  try {
+    const result = yield call(addDiaryAPI,action.data);
+    yield put({
+      type:ADD_DIARY_SUCCESS,
+      data : result.data,
+    });
+  } catch (error) {
+      yield put({
+        type : ADD_DIARY_FAILURE,
+        error : e,
+      })
+  }
+}
+
 function* watchUploadImages(){
   yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImage);
+}
+
+function* watchAddDiary(){
+  yield takeEvery(ADD_DIARY_REQUEST,addDiary);
 }
 
 export default function* diarySaga() {
   yield all([
       fork(watchUploadImages),
+      fork(watchAddDiary),
   ]);
 }

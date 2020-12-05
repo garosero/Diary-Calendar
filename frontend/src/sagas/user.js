@@ -52,8 +52,6 @@ function* login(action) {
 function* load(action){
   try{
     const loadData = yield call(loadAPI);
-    console.log('check');
-    console.log(loadData);
     yield put({
       type : LOAD_MY_INFO_SUCCESS,
     })
@@ -72,7 +70,7 @@ function* logOut(action){
     yield put({
       type : LOG_OUT_SUCCESS,
     });
-    localStorage.removeItem('me');
+    sessionStorage.removeItem('me'); //sessionStorage.clear()
   } catch(e){
     yield put({
       type : LOG_OUT_FAILURE,
