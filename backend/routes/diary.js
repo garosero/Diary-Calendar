@@ -26,14 +26,14 @@ const path = require('path');
     
 */
 
-router.get('/', async(req,res,next) => {
-    try {
-        res.send("haha");
+// router.get('/', async(req,res,next) => {
+//     try {
+//         res.send("haha");
 
-    } catch(error){
-        next(error);
-    }
-})
+//     } catch(error){
+//         next(error);
+//     }
+// })
 
 
  router.post('/', async(req,res,next) => {
@@ -97,12 +97,13 @@ router.get('/', async(req,res,next) => {
    */
   router.post('/post',upload.none(),async(req,res)=>{
     try {
-        console.log()
+        console.log("user : "+req.user);
         //const fileNameArr = req.files.map(v=>v.filename);
 
         const newDiary = await Diary.create({
             content : req.body.content,
-            // userId : req.user.userId,
+            calendarDate : req.body.calendarDate,
+            userId : req.user.userId,
             img : req.body.image,
         });
        
@@ -112,6 +113,27 @@ router.get('/', async(req,res,next) => {
         console.log(error);
     }
   })
+
+
+  /**
+   *  GET  /api/diary/:diaryId
+   */
+
+   router.get('/:calendarDate', async(req,res,next) => {
+       try{
+         const diary = await Diary.findOne({
+             //userId : req.user.userId,
+             calendarDate : req.params.calendarDate
+         });
+         if(!diary){
+             return res.status(404).send('해당 날짜의 다이어리가 존재하지 않습니다.')
+         }
+         res.status(200).json(diary);
+       }catch(e){
+        console.log(error);
+        next(error);
+       }
+   })
 
  
 

@@ -1,9 +1,11 @@
 import { all, call, fork, put, takeEvery,takeLatest } from "redux-saga/effects";
 import {
   UPLOAD_IMAGES_REQUEST, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_SUCCESS,
-  ADD_DIARY_REQUEST,ADD_DIARY_SUCCESS,ADD_DIARY_FAILURE, addDiaryRequest
+  ADD_DIARY_REQUEST,ADD_DIARY_SUCCESS,ADD_DIARY_FAILURE, 
+  LOAD_DIARY_REQUSET, LOAD_DIARY_FAILURE, LOAD_DIARY_SUCCESS
 } from '../reducers/diary';
-import {uploadImageAPI, addDiaryAPI} from '../lib/api/diary';
+import {uploadImageAPI, addDiaryAPI, loadDiaryAPI} from '../lib/api/diary';
+import { LOAD_MY_INFO_FAILURE } from "../reducers/user";
 
 function* uploadImage(action){
   console.log(action.data);
@@ -31,8 +33,26 @@ function* addDiary(action){
   } catch (error) {
       yield put({
         type : ADD_DIARY_FAILURE,
-        error : e,
+        error : error,
       })
+  }
+}
+
+function* loadDiary(action){
+  try{
+    const result = yield call(loadDiaryAPI, action.data);
+    console.log('action.data : '+action.data);
+    console.log('loadDiary');
+    console.log(result);
+    yield put({
+      type : LOAD_DIARY_SUCCESS,
+      data : result.data
+    })
+  }catch(e){
+    yield put({
+      type : LOAD_DIARY_FAILURE,
+      error :e, 
+    })
   }
 }
 
@@ -41,12 +61,17 @@ function* watchUploadImages(){
 }
 
 function* watchAddDiary(){
-  yield takeEvery(ADD_DIARY_REQUEST,addDiary);
+  yield takeLatest(ADD_DIARY_REQUEST,addDiary);
+}
+
+function* watchloadDiary(){
+  yield takeLatest(LOAD_DIARY_REQUSET,loadDiary);
 }
 
 export default function* diarySaga() {
   yield all([
       fork(watchUploadImages),
       fork(watchAddDiary),
+      fork(watchloadDiary)
   ]);
 }

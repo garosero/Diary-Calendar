@@ -3,9 +3,11 @@ import moment from 'moment';
 import CalendarItem from './CalendarItem';
 import DateContext from '../contexts/date'
 import CalendarList from './CalendarList';
-import Modal from './Modal'
+import ModalPost from './ModalPost'
 import useModal from './useModal';  
 import './Calendar.scss'
+
+
 
 const CalendarContent = () => {
   // const {isShowing, setisShowing,toggle} = useModal();
@@ -60,7 +62,7 @@ const CalendarContent = () => {
       <CalendarList />
       <div className="calendar_content">
       {/* isShowing 효과를 넣으니까 속도가 빨라짐 */}
-      <Modal  showModal={showModal} setShowModal={setShowModal} date={showDate}/> 
+      <ModalPost showModal={showModal} setShowModal={setShowModal} date={showDate}/> 
         <div className="day_title">
           {weekDay.map((day, idx) => {
             return (

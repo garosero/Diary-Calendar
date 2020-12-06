@@ -5,19 +5,38 @@ import { VscChevronLeft, VscChevronRight } from "react-icons/vsc";
 import styled from "styled-components";
 import ModalPortal from "./ModalPortal";
 import { useSelector, useDispatch } from "react-redux";
-import { ADD_DIARY_REQUEST, UPLOAD_IMAGES_REQUEST } from "../reducers/diary";
+import { ADD_DIARY_REQUEST, LOAD_DIARY_REQUSET, UPLOAD_IMAGES_REQUEST } from "../reducers/diary";
+
+const StyleButton = styled.button`
+  background-color: #dee2e6;
+  margin: 2em;
+  height: 3rem;
+`;
 
 const ModalPost = ({showModal, setShowModal, date}) => {
 
   const dispatch = useDispatch();
   const [text, setText] = useState("");
-  const { imagePath, isAddingDiary, diaryAdded } = useSelector(
+  const { imagePath, isAddingDiary, diaryAdded, content } = useSelector(
     (state) => state.diary
   );
   const imageInput = useRef();
-  const [imageNumber, setImageNumber] = useState(0); //여러 이미지 파일들의 index (click button으로 넘기기위해)
+  const [pageNumber, setPageNumber] = useState(0); //여러 이미지 파일들의 index (click button으로 넘기기위해)
   const [filteredImagePath, setFilteredImagePath] = useState([]);
   //const imageFormData = new FormData(); //formData 객체 안에 이미지 파일 하나씩 넣기
+
+  const onLoad = () => {
+    console.log('date : '+date);
+    dispatch({
+      type : LOAD_DIARY_REQUSET,
+      data : date
+    });
+  }
+
+  useEffect(()=>{
+    console.log('load');
+    onLoad();
+  },[date]);
 
   const onSubmitForm = (e) => {
     e.preventDefault();
@@ -26,7 +45,9 @@ const ModalPost = ({showModal, setShowModal, date}) => {
     imagePath.forEach((i) => {
       formData.append("image", i);
     });
+
     formData.append("content", text);
+    formData.append("calendarDate",date);
     dispatch({
       type: ADD_DIARY_REQUEST,
       data: formData,
@@ -36,6 +57,10 @@ const ModalPost = ({showModal, setShowModal, date}) => {
   const onChangeText = useCallback((e) => {
     setText(e.target.value);
   }, []);
+
+  useEffect(()=>{
+    setPageNumber(0);   //모달이 새로 열릴 때 페이지 0이 되도록
+  },[showModal]);
 
   /**
    *  버튼을 눌렀을 때
@@ -55,6 +80,7 @@ const ModalPost = ({showModal, setShowModal, date}) => {
    *
    */
   const onChangeImages = (e) => {
+    e.preventDefault();
     const imageFormData = new FormData(); //formData 객체 안에 이미지 파일 하나씩 넣기
     [].forEach.call(e.target.files, (f) => {
       const filename = `${date}_`;
@@ -77,16 +103,7 @@ const ModalPost = ({showModal, setShowModal, date}) => {
   }, [imagePath, date]);
 
   return (
-    <div>
-      {/* <CloseButton onClick={onClose} value="X" /> */}
-      <button
-        onClick={() => {
-          setShowModal((prev) => !prev);
-          setImageNumber(0);
-        }}
-      >
-        X
-      </button>
+    <Modal showModal={showModal} setShowModal={setShowModal}>
       <form
         style={{ margin: "10px 0 20px" }}
         encType="multipart/form-data"
@@ -105,7 +122,7 @@ const ModalPost = ({showModal, setShowModal, date}) => {
         <div className="modal-image-wrapper">
           <StyleButton
             onClick={() => {
-              imageNumber > 0 ? setImageNumber(imageNumber - 1) : null;
+              pageNumber > 0 ? setPageNumber(pageNumber - 1) : null;
             }}
           >
             <VscChevronLeft />
@@ -113,20 +130,20 @@ const ModalPost = ({showModal, setShowModal, date}) => {
           <div>
             {filteredImagePath.length > 0 ? (
               <img
-                src={`http://localhost:3000/${filteredImagePath[imageNumber]}`}
-                style={{ width: "200px" }}
+                src={`http://localhost:3000/${filteredImagePath[pageNumber]}`}
+                style={{ width: "40%" }}
               />
             ) : null}
           </div>
-          <input
+          <textarea
             type="text"
-            style={{ border: "#862e9c 1px solid" }}
+            style={({ border: "none", borderBottom : '1px'})}
             onChange={onChangeText}
-          ></input>
+          ></textarea>
           <StyleButton
             onClick={() => {
-              imageNumber < filteredImagePath.length - 1
-                ? setImageNumber(imageNumber + 1)
+              pageNumber < filteredImagePath.length - 1
+                ? setPageNumber(pageNumber + 1)
                 : null;
             }}
           >
@@ -135,7 +152,7 @@ const ModalPost = ({showModal, setShowModal, date}) => {
         </div>
         <input type="submit" value="submit"></input>
       </form>
-    </div>
+    </Modal>
   );
 };
 
