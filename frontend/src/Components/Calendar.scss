@@ -6,6 +6,7 @@
 
 #root {
     height : 100vh;
+  
 }
 
 .calendar_wrap {
@@ -136,24 +137,29 @@
 .modal {
   z-index: 100;
   background: white;
-  position: relative;
+  position: absolute;
 //   margin: 1.75rem auto;
-  border-radius: 3px;
+  border-radius: 30px;
+  border: 10px solid #e5ebee;
   width: 70%;
-  height: 500px;
-  padding: 2rem;
+  height: 60%;
+  transform : translate(-50%,-50%);
   top : 50%;
   left : 50%;
-  transform: translate(-50%,-50%);
-  
+  padding : 2rem;
+  padding-right : 3rem;
 }
 
 .modal-header {
   display: flex;
   justify-content: flex-end;
+  background-color: #ffa8a8;
 }
 
 .modal-image-wrapper {
+  position: relative;
+  width : 100%;
+  height : 100%;
   display : flex;
   justify-content: space-between;
 

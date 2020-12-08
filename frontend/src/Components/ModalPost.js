@@ -8,9 +8,27 @@ import { useSelector, useDispatch } from "react-redux";
 import { ADD_DIARY_REQUEST, LOAD_DIARY_REQUSET, UPLOAD_IMAGES_REQUEST } from "../reducers/diary";
 
 const StyleButton = styled.button`
-  background-color: #dee2e6;
-  margin: 2em;
+  position : absolute;
+  top : 40%;
   height: 3rem;
+  font-size : 30px;
+  background-color: transparent;
+  z-index : 1000;
+`;
+
+const ModalForm = styled.form`
+  display : grid;
+  grid-template-columns : 1fr 1fr;
+  width : 100%;
+  height : 100%;
+`;
+
+const ModalImage = styled.img`
+  position : absolute;
+  height : 100%;
+  width : 100%;
+  object-fit : cover;  //가로세로 비율 유지하며 사이즈 조절. none 하면 이미지 가운데가 보여짐
+  border-radius : 20px;
 `;
 
 const ModalPost = ({showModal, setShowModal, date}) => {
@@ -35,7 +53,7 @@ const ModalPost = ({showModal, setShowModal, date}) => {
 
   useEffect(()=>{
     console.log('load');
-    onLoad();
+    if(date.length > 4) onLoad(); //문자 판별이 안돼서 length로 함 
   },[date]);
 
   const onSubmitForm = (e) => {
@@ -104,54 +122,61 @@ const ModalPost = ({showModal, setShowModal, date}) => {
 
   return (
     <Modal showModal={showModal} setShowModal={setShowModal}>
-      <form
-        style={{ margin: "10px 0 20px" }}
-        encType="multipart/form-data"
-        onSubmit={onSubmitForm}
-      >
-        <div className="modal-header"></div>
-        <input
-          type="file"
-          multiple
-          hidden
-          ref={imageInput} //직접적으로 돔에 접근해서 클릭해야되기 때문
-          onChange={onChangeImages}
-        ></input>
-        <button onClick={onClickImageUpload}>image</button>
-
+      <div className="modal-header"></div>
+      <ModalForm encType="multipart/form-data" onSubmit={onSubmitForm}>
         <div className="modal-image-wrapper">
           <StyleButton
+            type="button"
             onClick={() => {
               pageNumber > 0 ? setPageNumber(pageNumber - 1) : null;
             }}
+            style={{ left: "0" }}
           >
             <VscChevronLeft />
           </StyleButton>
-          <div>
-            {filteredImagePath.length > 0 ? (
-              <img
-                src={`http://localhost:3000/${filteredImagePath[pageNumber]}`}
-                style={{ width: "40%" }}
-              />
-            ) : null}
-          </div>
-          <textarea
-            type="text"
-            style={({ border: "none", borderBottom : '1px'})}
-            onChange={onChangeText}
-          ></textarea>
+          {filteredImagePath.length > 0 ? (
+            <ModalImage
+              src={`http://localhost:3000/${filteredImagePath[pageNumber]}`}
+            />
+          ) : null}
           <StyleButton
+            type="button"
             onClick={() => {
               pageNumber < filteredImagePath.length - 1
                 ? setPageNumber(pageNumber + 1)
                 : null;
             }}
+            style={{ right: "0" }}
           >
             <VscChevronRight />
           </StyleButton>
+          <button
+            onClick={onClickImageUpload}
+            style={{ position: "relative", top: '100%', left: "35%", height : '1.5rem' }}
+          >
+            image
+          </button>
         </div>
-        <input type="submit" value="submit"></input>
-      </form>
+        <div>
+          <textarea
+            type="text"
+            style={{ width: "100%", height: "100%", borderRadius: "20px", marginLeft:'1rem' }}
+            onChange={onChangeText}
+          ></textarea>
+          <input
+            type="file"
+            multiple
+            hidden
+            ref={imageInput} //직접적으로 돔에 접근해서 클릭해야되기 때문
+            onChange={onChangeImages}
+          ></input>
+          <input
+            type="submit"
+            value="submit"
+            style={{ position: "absolute", bottom: "0", right: "1rem" }}
+          ></input>
+        </div>
+      </ModalForm>
     </Modal>
   );
 };

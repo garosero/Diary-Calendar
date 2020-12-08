@@ -53,7 +53,7 @@ const Modal = ({ showModal, setShowModal, children }) => {
         role="dialog"
       >
         <div className="modal" showModal={showModal}>
-          <button onClick={()=>{setShowModal((prev)=>!prev);}}>X</button>
+          <button style={{position : 'absolute', right : '1rem', top : 0}} onClick={()=>{setShowModal((prev)=>!prev);}}>X</button>
           {children}
         </div>
       </ModalWrapper>
