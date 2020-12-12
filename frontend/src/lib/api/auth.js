@@ -10,9 +10,14 @@ export const loginAPI = ({userId, password}) => {
     return axios.post('/api/user/login',{userId,password});
 }
 
+export const GoogleLoginAPI = () => {
+    console.log("get");
+    return axios.get('/api/user/google');
+}
+
 //새로고침 후 다시 로그인 정보 불러오기
-export const loadAPI = () => {
-    return axios.get('/api/user/check');
+export const loadUserAPI = () => {
+    return axios.get('/api/user/check', {withCredentials : true});
 }
 
 //회원 가입

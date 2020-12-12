@@ -1,4 +1,5 @@
 const local = require('./local');
+const google = require('./google');
 const passport = require('passport');
 const User= require('../models/user');
 
@@ -27,6 +28,7 @@ module.exports = () => {
     });
 
     local();
+    google();
 }
 
 

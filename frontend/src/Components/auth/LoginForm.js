@@ -5,9 +5,9 @@ import {loginAction} from '../../reducers/user';
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import palette from "../../lib/styles/palette";
-
+import {FcGoogle} from 'react-icons/fc'
 import useInput from '../../hooks/useInput';
-import { loginRequestAction, isLoggedIn } from '../../reducers/user';
+import { loginRequestAction, isLoggedIn, GOOGLE_LOG_IN_REQUEST } from '../../reducers/user';
 
 /** 로그인 폼 **/
 
@@ -67,15 +67,15 @@ const LoginForm = () => {
         dispatch(loginRequestAction({id,password}));
     },[id,password]);
 
+    const googleLoginClick = () => {
+      console.log('google');
+      dispatch({
+        type : GOOGLE_LOG_IN_REQUEST});
+    }
 
 
     useEffect(()=>{
       if(isLoggedIn) history.push('/');
-      try{
-        sessionStorage.setItem('me',JSON.stringify(me));
-      }catch(e){
-        console.log('localStorage is not working');
-      }
     },[isLoggedIn])
 
 
@@ -96,6 +96,10 @@ const LoginForm = () => {
           onChange={onChangePassword}
         />
         <button type="primary">로그인 </button>
+        <button type="button">
+          <FcGoogle />
+          <a href="http://localhost:4000/api/user/google">Sign In with Google</a>
+        </button>
       </form>
       <Footer>
         <Link to="/register">회원가입</Link>

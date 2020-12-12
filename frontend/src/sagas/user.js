@@ -12,8 +12,9 @@ import {
   LOG_OUT_REQUEST,
   LOG_OUT_FAILURE,
   LOG_OUT_SUCCESS,
+  GOOGLE_LOG_IN_REQUEST,
 } from "../reducers/user";
-import { loginAPI, signUpAPI, logOutAPI, loadAPI } from '../lib/api/auth';
+import { loginAPI, signUpAPI, logOutAPI, loadUserAPI, GoogleLoginAPI} from '../lib/api/auth';
 import axios from 'axios';
  
 function* signUp(action){
@@ -49,11 +50,30 @@ function* login(action) {
   }
 }
 
+function* GoogleLogin(action){
+  try {
+    yield call(GoogleLoginAPI);
+    yield put({ //put은 dispatch와 동일. 로그인 요청 보내고 성공하면 이 줄 실행됨. 
+      type: GOOGLE_LOG_IN_SUCCESS,
+    });
+    
+  } catch (e) {
+    console.error(e);
+    yield put({
+        type:GOOGLE_LOG_IN_FAILURE,
+        error : err.response.data,
+    })
+  }
+}
+
 function* load(action){
+  
   try{
-    const loadData = yield call(loadAPI);
+    const result = yield call(loadUserAPI, action.data);
+    console.log(result);
     yield put({
       type : LOAD_MY_INFO_SUCCESS,
+      data : result.data
     })
   } catch(e){
     console.error(e);
@@ -93,6 +113,10 @@ function* watchLogin() {
  //}
 }
 
+function* watchGoogleLogin(){
+  yield takeLatest(GOOGLE_LOG_IN_REQUEST, GoogleLogin);
+}
+
 function* watchLogout(){
   yield takeLatest(LOG_OUT_REQUEST, logOut)
 }
@@ -111,6 +135,7 @@ export default function* userSaga() {
    fork(watchSignUp),
    fork(watchLogout),
    fork(watchLoad),
+   fork(watchGoogleLogin)
   ])
   //yield helloSaga()
 }

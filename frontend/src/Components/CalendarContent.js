@@ -25,12 +25,15 @@ const CalendarContent = () => {
     
   }
 
-  useEffect(()=>{
+
+  // const myMomentYear = myMoment.year() - currentYear;
+  const myMoment = moment().month(currentMonth-1).year(currentYear); //moment는 0 to 11이므로 -1해야 moment.js에 맞춰짐 
+
+  
+  useEffect(() => {
     console.log(showDate);
-  },[showDate])
-
-
-  const myMoment = moment().month(currentMonth-1);
+  
+  }, [showDate]);
 
  // const month = moment().month()+1 //jan=1, dec=12
   const startWeek = myMoment.startOf('month').week();

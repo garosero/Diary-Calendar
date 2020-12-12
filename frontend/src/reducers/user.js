@@ -10,10 +10,7 @@ export const initialState = {
     isSignedUp : false, //회원가입 성공
     isSigningUp : false, //회원가입 시도중
     signUpErrorReason : '', //회원가입 실패 사유
-    me : {
-        userId : "",
-        password : "",
-    }, //내 정보
+    me : "", //내 정보
     diaries : null, //일기장 정보 
     userData : null,
 };
@@ -28,6 +25,11 @@ export const LOG_IN_FAILURE = 'LOG_IN_FAILURE'
 export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
 export const LOG_OUT_SUCCESS = "LOG_OUT_SUCCESS";  //리덕스 사가가 필요한 것들
 export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
+
+export const GOOGLE_LOG_IN_REQUEST = 'GOOGLE_LOG_IN_REQUEST';
+export const GOOGLE_LOG_IN_SUCCESS = "GOOGLE_LOG_IN_SUCCESS";
+export const GOOGLE_LOG_IN_FAILURE = "GOOGLE_LOG_IN_FAILURE";
+
 
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
 export const LOAD_MY_INFO_SUCCESS = "LOAD_MY_INFO_SUCCESS";
@@ -61,9 +63,8 @@ export const logoutRequestAction = {
 };
 
 //export const tempSetUser = createAction(TEMP_SET_USER, user=>user);
-export const tempSetUser = (user) => ({
-    type : TEMP_SET_USER,
-    user : user, 
+export const tempSetUser = () => ({
+    type : TEMP_SET_USER, 
 })
 
 
@@ -94,13 +95,6 @@ const dummyUser = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type){
-        case TEMP_SET_USER : {
-            return {
-                ...state,
-                me : action.user,
-                isLoggedIn : true,
-            }
-        }
 
         case LOG_IN_REQUEST : {
             return {
@@ -190,10 +184,12 @@ const reducer = (state = initialState, action) => {
 
         case LOAD_MY_INFO_SUCCESS : {
             return {
-                ...state,
-                loadMyInfoLoading : false,
-                loadMyInfoDone : true,
-            }
+              ...state,
+              me: action.data.userId,
+              isLoggedIn: true,
+              loadMyInfoLoading: false,
+              loadMyInfoDone: true,
+            };
         }
 
         case LOAD_MY_INFO_FAILURE : {

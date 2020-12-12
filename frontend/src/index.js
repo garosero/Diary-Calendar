@@ -9,6 +9,7 @@ import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers';
 import rootSaga from './sagas/index';
 import { tempSetUser, LOAD_MY_INFO_REQUEST } from './reducers/user';
+import { loadUserAPI } from './lib/api/auth';
 
 
 const sagaMiddleware = createSagaMiddleware(); //사가 미들웨어 만들기 
@@ -32,9 +33,7 @@ const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...mi
 
 function loadUser(){
   try{
-    const user = sessionStorage.getItem('me');
-    if(!user) return; //로그인 상태가 아니라면 그대로
-    store.dispatch(tempSetUser(user));
+    //store.dispatch(tempSetUser(user));
     store.dispatch({
       type : LOAD_MY_INFO_REQUEST,
     });
@@ -44,7 +43,7 @@ function loadUser(){
 }
 
 sagaMiddleware.run(rootSaga);
-//loadUser();
+loadUser();
 
 ReactDOM.render(
   <Provider store={store}>

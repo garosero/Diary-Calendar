@@ -49,7 +49,7 @@ router.post('/login',isNotLoggedIn, (req,res,next) => { // /api/user/login
       }
       console.log('세션 확인 : '+req.session.passport.user);   //일단 로그인에선 저장됐음!! 여기에 
       console.log("req.user 저장 확인 : "+req.user); //req.user에 저장됨 !!
-      const filteredUser = Object.assign({},user);
+      const filteredUser = Object.assign({},req.user._doc);
       delete filteredUser.password; //password를 보내는 건 위험하니까 삭제
       console.log(filteredUser);
       return res.json(filteredUser); //프론트에 사용자 정보를 보내주기
@@ -83,21 +83,36 @@ router.post('/logout',isLoggedIn,(req,res)=>{
 
 
 /**
+ *  google oauth 로그인
+ *  GET /api/user/google
+ */
+
+ router.get('/google', passport.authenticate('google', { scope : ['profile']}));
+ router.get('/google/callback', passport.authenticate('google', {
+      failureRedirect : '/',
+      failureFlash :'Invalid Google credentials.'
+    }), (req,res)=>{
+   // res.send(JSON.stringify(req.user));
+    res.redirect('http://localhost:3000/');
+ })
+
+
+/**
  *  /api/user/check
  *   유저가 로그인 되어있는지 체크
  */
 
-router.get('/check',isLoggedIn, async(req,res,next)=>{   //req.user가 없음 !!! ㅠㅠㅠ 
- 
+router.get('/check', async(req,res,next)=>{   //req.user가 없음 !!! ㅠㅠㅠ 
+  console.log(req.session);
   try{
-    console.log('req : '+req.user);
     if(req.user){
       console.log('있다');
-      const fullUserWithoutPassword = await User.findOne(
-        { userId: req.user.userId },
-        { password: 0 }
-      );
-      res.status(200).json(fullUserWithoutPassword);
+      // const findUser = await User.findOne(
+      //   { userId: req.user.userId }
+      // );
+      const logedUser = Object.assign({}, req.user._doc);
+      delete logedUser.password;
+      res.status(200).json(logedUser);
     }else{
       console.log('없다');
       res.status(200).json(null);

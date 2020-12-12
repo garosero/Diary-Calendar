@@ -6,7 +6,11 @@ const jwt = require('jsonwebtoken');
 
 const UserSchema = new Schema({
     userId : String,
-    password : String
+    password : String,
+    provider : {
+        type : String,
+        default : 'local',
+    }
 });
 
 //비밀번호를 파라미터로 받아 계정의 password 값을 설정
