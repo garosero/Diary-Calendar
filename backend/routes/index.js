@@ -14,4 +14,7 @@ module.exports = (app) => {
 
   var diaryAPI = require("./diary");
   app.use("/api/diary", diaryAPI);
+
+  var googleCalendarAPI = require('./calendar');
+  app.use("/api/calendar",googleCalendarAPI);
 }

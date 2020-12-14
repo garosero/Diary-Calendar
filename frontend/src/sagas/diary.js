@@ -6,6 +6,7 @@ import {
 } from '../reducers/diary';
 import {uploadImageAPI, addDiaryAPI, loadDiaryAPI} from '../lib/api/diary';
 import { LOAD_MY_INFO_FAILURE } from "../reducers/user";
+import { calendarAPI } from "../lib/api/auth";
 
 function* uploadImage(action){
   console.log(action.data);
@@ -40,7 +41,9 @@ function* addDiary(action){
 
 function* loadDiary(action){
   try{
-    const result = yield call(loadDiaryAPI, action.data);
+    //coc ddzzanst result = yield call(loadDiaryAPI, action.data);
+    const result = yield call(calendarAPI,action.data);
+    console.log('diary : '+diary);
     console.log('action.data : '+action.data);
     console.log('loadDiary');
     console.log(result);

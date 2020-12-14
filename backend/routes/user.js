@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-
+const { google } = require("googleapis");
 const User = require('../models/user');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+// const google = require('../passport/google');
 
 
 /**  회원가입
@@ -87,11 +88,18 @@ router.post('/logout',isLoggedIn,(req,res)=>{
  *  GET /api/user/google
  */
 
- router.get('/google', passport.authenticate('google', { scope : ['profile']}));
+ 
+
+ router.get('/google', passport.authenticate('google', { scope : [
+            "profile",
+          
+          ], accessType : 'offline'}));
+
  router.get('/google/callback', passport.authenticate('google', {
       failureRedirect : '/',
-      failureFlash :'Invalid Google credentials.'
+
     }), (req,res)=>{
+        console.log("AR");
    // res.send(JSON.stringify(req.user));
     res.redirect('http://localhost:3000/');
  })

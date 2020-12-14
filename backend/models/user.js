@@ -3,14 +3,30 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+/**
+ *  userId(String)          : 유저의 가입한 id 
+ *  username(String)        : 유저의 이름(google -> displayName)
+ *  password(String)        : 유저의 가입한 password ( social 로그인일 경우 password X)
+ *  provider(String)        : sns 가입 회원인지 local인지 구분해주는 식별자
+ *  accessToken             : OAuth로 발급받은 accessToken 
+ *  refreshToken            : OAuth로 발급받은 refreshToekn
+ */
+
 
 const UserSchema = new Schema({
-    userId : String,
+    userId : {
+        type : String,
+        required : true,
+        unique : true,
+    },
+    username : String,
     password : String,
     provider : {
         type : String,
         default : 'local',
-    }
+    },
+    accessToken : String,
+    refreshToken : String,
 });
 
 //비밀번호를 파라미터로 받아 계정의 password 값을 설정

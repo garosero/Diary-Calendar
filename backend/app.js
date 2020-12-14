@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+const cors = require('cors')
 var path = require('path');
 const morgan = require('morgan');
 const session = require('express-session');
@@ -27,6 +28,11 @@ app.use(logger('dev'));
 app.use('/api',express.json());
 app.use('/api',express.urlencoded({ extended: false }));
 
+// let corsOptions = {
+//     origin : 'http://localhost:3000',
+//     credentials : true
+// }
+app.use(cors())
 
 app.use(session({
     resave : false,
