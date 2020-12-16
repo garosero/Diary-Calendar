@@ -24,9 +24,7 @@ const reducer = (state = initialState, action) => {
       case "LOAD_CALENDAR_LIST_SUCCESS":
         return {
           ...state,
-          calendarList_id: action.data.map((v, i) => {
-            return v._id;
-          }),
+          calendarList_id: action.data
         };
       case "LOAD_CALENDAR_LIST_FAILURE":
         return {
@@ -41,7 +39,16 @@ const reducer = (state = initialState, action) => {
       case "LOAD_CALENDAR_EVENTS_SUCCESS":
         return {
           ...state,
+          calendarEvent : action.data
 
         };
+
+       default: {
+        return {
+          ...state,
+        };
+      }
     }
 }
+
+export default reducer;

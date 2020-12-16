@@ -98,7 +98,7 @@ const LoginForm = () => {
         <button type="primary">로그인 </button>
         <button type="button">
           <FcGoogle />
-          <a href="http://localhost:4000/api/user/google">Sign In with Google</a>
+          <a href="http://localhost:4000/api/user/google">Google Login</a>
         </button>
       </form>
       <Footer>

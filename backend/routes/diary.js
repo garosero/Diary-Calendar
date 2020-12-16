@@ -123,7 +123,7 @@ const path = require('path');
        console.log("현재 유저 : "+req.user);
        try{
          const diary = await Diary.findOne({
-             //userId : req.user.userId,
+             userId : req.user.userId,
              calendarDate : req.params.calendarDate
          });
          if(!diary){

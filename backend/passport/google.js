@@ -12,11 +12,13 @@ module.exports = () => {
           clientID: process.env.GOOGLE_CLIENT_ID,
           clientSecret: process.env.GOOGLE_CLIENT_SECRET,
           callbackURL: "http://localhost:4000/api/user/google/callback",
-          scope: [
-            "profile",
-            "https://www.googleapis.com/auth/calendar.events",
-            "https://www.googleapis.com/auth/calendar.readonly",
-          ],
+          // scope: [
+          //   "profile",
+          //   "https://www.googleapis.com/auth/calendar.events",
+          //   "https://www.googleapis.com/auth/calendar.readonly",
+          // ],
+          // accessType : 'offline',
+          // prompt : 'consent'
         },
         function (accessToken, refreshToken, profile, done) {
           console.log("refresh : " + refreshToken);

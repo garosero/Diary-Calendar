@@ -18,5 +18,6 @@ import axios from "axios";
  }
 
  export const loadDiaryAPI = (calendarDate) => {
+     console.log('load Diary call');
      return axios.get(`/api/diary/${calendarDate}`);
  } 

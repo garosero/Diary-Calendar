@@ -117,7 +117,8 @@ const ModalPost = ({showModal, setShowModal, date}) => {
   }; //useCallback을 사용하면 date가 적용이 안됨...
 
   useEffect(() => {
-    setFilteredImagePath(imagePath.filter((v) => v.includes(date)));
+    console.log('imagePath : '+typeof(imagePath));
+    if(imagePath.length >=1 )setFilteredImagePath(imagePath.filter((v) => v.includes(date)));
   }, [imagePath, date]);
 
   return (

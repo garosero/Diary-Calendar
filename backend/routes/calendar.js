@@ -4,6 +4,7 @@ const { google } = require("googleapis");
 const passport = require("passport");
 const User = require('../models/user');
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
+const moment = require('moment');
 
 /**
  *  POST /api/calendar/
@@ -19,7 +20,7 @@ const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
  * }
  */
 
-router.post("/", isLoggedIn, function (req, res) {
+router.post("/:year/:month", isLoggedIn, function (req, res) {
    var oauth2Client = new google.auth.OAuth2(
      process.env.CLIENT_ID,
      process.env.CLIENT_SECRET,
@@ -32,11 +33,20 @@ router.post("/", isLoggedIn, function (req, res) {
    });
 
    var calendar = google.calendar({ version: "v3", auth: oauth2Client });
-   var resObj = [];
+  //  const nowYear = moment().get('year');
+  //  const nowMonth = moment().get('month');
+  //  console.log('nowMonth : '+moment().startOf('month'));
+  //  const endDay = moment().endOf('month');
+
+  const year = req.params.year;
+  const month = req.params.month;
+
    calendar.events.list(
      {
        calendarId: "primary",
-       timeMin: new Date().toISOString(),
+      //  timeMin: new Date().toISOString(),
+       timeMin : new Date(year,month,1).toISOString(),
+       timeMax : new Date(year,month,31).toISOString(), // 30일까지일 때 request error 나지 않는지 확인 
        maxResults: 10,
        singleEvents: true,
        orderBy: "startTime",

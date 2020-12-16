@@ -82,7 +82,7 @@ const CalendarContent = () => {
                 {Array(7)
                   .fill(-1)
                   .map((v, i) => {
-                    return <CalendarItem key={i} day={result[idx * 7 + i]}/>; //왜 여기에 onClick을 넣으면 안될까 
+                    return <CalendarItem key={i} day={result[idx * 7 + i]} month={currentMonth} year={currentYear}/>; //왜 여기에 onClick을 넣으면 안될까 
                   })}
               </div>
             );
