@@ -87,6 +87,9 @@ const AuthForm = ({type, form, onChange, onSubmit}) => {
                         type="password"
                     />
                 )}
+                <StyledInput
+                
+                />
 
                 <button>{text}</button>
             </form>

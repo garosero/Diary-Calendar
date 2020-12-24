@@ -8,6 +8,7 @@ const moment = require('moment');
 
 /**
  *  POST /api/calendar/
+ *  primary calendar의 현재 달의 이벤트를 가져오는 라우터. 
  * 
  *  response : {
  *    id : event.id,
@@ -20,7 +21,8 @@ const moment = require('moment');
  * }
  */
 
-router.post("/:year/:month", isLoggedIn, function (req, res) {
+router.post("/:calendarId/:year/:month", isLoggedIn, function (req, res, next) {
+  try{
    var oauth2Client = new google.auth.OAuth2(
      process.env.CLIENT_ID,
      process.env.CLIENT_SECRET,
@@ -40,10 +42,11 @@ router.post("/:year/:month", isLoggedIn, function (req, res) {
 
   const year = req.params.year;
   const month = req.params.month;
+  // if(req.params.calendaId)
 
    calendar.events.list(
      {
-       calendarId: "primary",
+       calendarId: req.params.calendarId,
       //  timeMin: new Date().toISOString(),
        timeMin : new Date(year,month,1).toISOString(),
        timeMax : new Date(year,month,31).toISOString(), // 30일까지일 때 request error 나지 않는지 확인 
@@ -58,8 +61,61 @@ router.post("/:year/:month", isLoggedIn, function (req, res) {
        res.send(eventsToCustomObj(events))
      }
    );
-   //뭐지 안되다가 갑자기 됐는데 invalid request ... db 저장된 토큰이 만료됐던건가?
+
+    }catch(e){
+     next(e)
+   }
  });
+
+/**
+ * POST api/calendar/:calendarId/:year/:month
+ * 계정의 선택한 캘린더 종류의 한달간 이벤트를 불러오는 라우터
+ * 
+ */
+ 
+router.post("/:calendarId/:year/:month", isLoggedIn, function (req, res, next) {
+  try {
+    var oauth2Client = new google.auth.OAuth2(
+      process.env.CLIENT_ID,
+      process.env.CLIENT_SECRET,
+      "http://localhost:4000/google/callback"
+    );
+
+    oauth2Client.setCredentials({
+      access_token: req.user.accessToken,
+      refresh_token: req.user.refreshToken,
+    });
+
+    var calendar = google.calendar({ version: "v3", auth: oauth2Client });
+    //  const nowYear = moment().get('year');
+    //  const nowMonth = moment().get('month');
+    //  console.log('nowMonth : '+moment().startOf('month'));
+    //  const endDay = moment().endOf('month');
+
+    const year = req.params.year;
+    const month = req.params.month;
+
+    calendar.events.list(
+      {
+        calendarId: req.params.calendarId,
+        //  timeMin: new Date().toISOString(),
+        timeMin: new Date(year, month, 1).toISOString(),
+        timeMax: new Date(year, month, 31).toISOString(), // 30일까지일 때 request error 나지 않는지 확인
+        maxResults: 10,
+        singleEvents: true,
+        orderBy: "startTime",
+      },
+      function (err, response) {
+        // process result
+        console.log("err : " + err);
+        const events = response.data.items;
+        res.send(eventsToCustomObj(events));
+      }
+    );
+  } catch (e) {
+    next(e);
+  }
+});
 
 
  /**
@@ -67,7 +123,9 @@ router.post("/:year/:month", isLoggedIn, function (req, res) {
   * 
   */
 
- router.post('/calendarList', isLoggedIn, async(req,res) => {
+ router.post('/calendarList', isLoggedIn, async(req,res,next) => {
+
+   try{
     var oauth2Client = new google.auth.OAuth2(
       process.env.CLIENT_ID,
       process.env.CLIENT_SECRET,
@@ -97,6 +155,9 @@ router.post("/:year/:month", isLoggedIn, function (req, res) {
     }
 
     res.send(retObjArray);
+  }catch(e){
+    next(e);
+  }
   
   })
 

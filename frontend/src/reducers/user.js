@@ -74,6 +74,7 @@ export const signUpRequestAction = (data) => ({
         data : {
             userId : data.userId,
             password : data.password,
+            username : data.userName,
         }
     
 });

@@ -2,18 +2,22 @@ import { produce } from 'immer';
 import { handleActions, createAction } from "redux-actions";
 
 export const initialState = {
-  // diaries: 
+  // diaries:
   //   {
   //     content : ''
   //   }, //화면에 보일 포스트들
-  content : '',
-  date : '',
-  imagePath : [],  
-  addDiaryErrorReason : false, // 포스트 업로드 실패 사유 
-  isAddingDiary : false, //포스트 업로드중
-  diaryAdded : false, 
-  error : '',
- 
+  diaries: [
+    {
+      content: "",
+      calendarDate: "",
+      img: [],
+    },
+  ],
+   imagePath : [],
+    addDiaryErrorReason: false, // 포스트 업로드 실패 사유
+      isAddingDiary: false, //포스트 업로드중
+      diaryAdded: false,
+      error: "",
 };
 
 /**
@@ -46,17 +50,27 @@ export const uploadImagesRequest = createAction(UPLOAD_IMAGES_REQUEST); //img ur
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "ADD_DIARY_REQUEST":
-      return produce(state, (draft) => {
-        draft.isAddingDiary = true;
-        // draft.diaries[title] = action.title;
-        // draft.content= action.data;
-      });
+    // return produce(state, (draft) => {
+    //   draft.isAddingDiary = true;
+    //   draft.diaries[title] = action.title;
+    //   draft.content= action.data;
+    //});
+
     case "ADD_DIARY_SUCCESS ":
-      return {
-        ...state,
-        content: action.data.get("content"),
-        isAddingDiary: false,
-      };
+      // return {
+      //   ...state,
+      //   content: action.data.get("content"),
+      //   isAddingDiary: false,
+      // };
+      // return produce(state,(draft) => {
+      //   // draft.diaries[content] = action.content;
+      //   // raft.diariesd
+      // })
+
+      return produce(state, (draft) => {
+        draft.diaries.push(action.data);
+      });
+
     case "ADD_DIARY_FAILURE":
       return {
         ...state,
@@ -70,12 +84,15 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
       };
+
+    /**
+     *  action.data : imageFormData(Array)
+     *  FIX : concat 말고 다른 방법 생각해보기 
+     */
     case "UPLOAD_IMAGES_SUCCESS":
       return {
         ...state,
-        imagePath: [...state.imagePath, ...action.data],
-        //기존의 미리보기 경로(imagePath), 새로운 액션 데이터 합치기 --> 한두개 이미지 더 올리기 가능
-        //여러 개의 이미지를 따로 돌리기
+        imagePath: [...state.imagePath].concat(action.data),
       };
 
     case "UPLOAD_IMAGES_FAILURE":
@@ -89,16 +106,19 @@ const reducer = (state = initialState, action) => {
       };
     }
     case "LOAD_DIARY_SUCCESS": {
-      return {
-        ...state,
-        imagePath : action.data.img,
-        content : action.data.content,
-      };
+      // return {
+      //   ...state,
+      //   imagePath : action.data.img,
+      //   content : action.data.content,
+      // };
+      return produce(state, (draft) => {
+        draft.diaries.push(action.data);
+      });
     }
     case "LOAD_DIARY_FAILURE": {
       return {
         ...state,
-        error : action.error,
+        error: action.error,
       };
     }
 
@@ -108,7 +128,7 @@ const reducer = (state = initialState, action) => {
       };
     }
   }
-}
+};
 
 
 

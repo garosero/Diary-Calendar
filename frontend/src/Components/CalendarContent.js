@@ -3,7 +3,7 @@ import moment from 'moment';
 import CalendarItem from './CalendarItem';
 import DateContext from '../contexts/date'
 import CalendarList from './CalendarList';
-import ModalPost from './ModalPost'
+import ModalInner from './ModalInner'
 import useModal from './useModal';  
 import './Calendar.scss'
 
@@ -29,11 +29,6 @@ const CalendarContent = () => {
   // const myMomentYear = myMoment.year() - currentYear;
   const myMoment = moment().month(currentMonth-1).year(currentYear); //moment는 0 to 11이므로 -1해야 moment.js에 맞춰짐 
 
-  
-  useEffect(() => {
-    console.log(showDate);
-  
-  }, [showDate]);
 
  // const month = moment().month()+1 //jan=1, dec=12
   const startWeek = myMoment.startOf('month').week();
@@ -65,7 +60,7 @@ const CalendarContent = () => {
       <CalendarList />
       <div className="calendar_content">
       {/* isShowing 효과를 넣으니까 속도가 빨라짐 */}
-      <ModalPost showModal={showModal} setShowModal={setShowModal} date={showDate}/> 
+      <ModalInner showModal={showModal} setShowModal={setShowModal} date={showDate}/> 
         <div className="day_title">
           {weekDay.map((day, idx) => {
             return (

@@ -99,12 +99,12 @@ router.post('/logout',isLoggedIn,(req,res)=>{
        "https://www.googleapis.com/auth/calendar.events",
      ],
      accessType: "offline",
-     prompt: "consent",
+    //  prompt: "consent",
    })
  );
 
  router.get('/google/callback', passport.authenticate('google', {
-      failureRedirect : '/',
+      failureRedirect : 'http://localhost:3000/',
 
     }), (req,res)=>{
         console.log("AR");

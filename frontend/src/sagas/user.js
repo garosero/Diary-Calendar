@@ -24,6 +24,7 @@ function* signUp(action){
     yield put({
       type : SIGN_UP_SUCCESS,
     });
+     alert("회원가입이 성공했습니다. ");
   }catch(e){
     console.error(e);
     yield put({
@@ -40,6 +41,7 @@ function* login(action) {
     yield put({ //put은 dispatch와 동일. 로그인 요청 보내고 성공하면 이 줄 실행됨. 
       type: LOG_IN_SUCCESS,
     });
+   
     
   } catch (e) {
     console.error(e);
@@ -67,7 +69,7 @@ function* GoogleLogin(action){
 }
 
 function* load(action){
-  
+  console.log('load my Info');
   try{
     const result = yield call(loadUserAPI, action.data);
     console.log(result);

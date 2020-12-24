@@ -4,6 +4,7 @@ import './Calendar.scss';
 import pantone from '../lib/styles/pantone'
 import styled from 'styled-components';
 import DateContext from "../contexts/date";
+import {CHANGE_CALENDAR_ID_REQUEST} from '../reducers/calendar';
 
 
 const YearButton = styled.button`
@@ -16,6 +17,7 @@ const YearButton = styled.button`
 
 
 const CalendarList = () => {
+    const dispatch = useDispatch();
     const { currentYear, setCurrentYear } = useContext(DateContext);
     const { calendarList_id } = useSelector(state => state.calendar);
     const [calendarList, setCalendarList] = useState([]);
@@ -31,11 +33,17 @@ const CalendarList = () => {
       // console.log(calendarList_id);
     },[calendarList_id]);
 
-    
-
 
     //const {diaries} = useSelector(state=>state.diary);
     const {user, isLoggedIn} = useSelector(state=>state.user);
+
+    const onChangeCalendarId = (calendarId) => {
+      dispatch({
+        type : CHANGE_CALENDAR_ID_REQUEST,
+        data : calendarId
+      })
+    }
+
     return (
       <div className="calendar_list">
         {/* {isLoggedIn ? (
@@ -74,7 +82,7 @@ const CalendarList = () => {
         >
           {calendarList && calendarList.length > 0
             ? calendarList.map((v, idx) => {
-                return <YearButton key={idx}>{v.summary}</YearButton>;
+                return <YearButton onClick={()=>{onChangeCalendarId(v._id)}} key={idx}>{v.summary}</YearButton>;
               })
             : null}
         </div>

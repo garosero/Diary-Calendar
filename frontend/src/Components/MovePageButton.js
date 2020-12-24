@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { VscChevronLeft, VscChevronRight } from "react-icons/vsc";
 import DateContext from "../contexts/date";
 import styled from 'styled-components';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { LOAD_CALENDAR_EVENTS_REQUEST } from "../reducers/calendar";
 
 const StyleButton = styled.button` 
@@ -16,6 +16,7 @@ const MonthBlock = styled.div`
 
 const MovePageButton = () => {
   const dispatch = useDispatch();
+  const {currentCalendarList_id} = useSelector(state => state.calendar);
   const { currentYear,currentMonth, setCurrentMonth } = useContext(DateContext);
 
   useEffect(() => {
@@ -23,11 +24,12 @@ const MovePageButton = () => {
     dispatch({
       type: LOAD_CALENDAR_EVENTS_REQUEST,
       data: {
+        calendarId : currentCalendarList_id,
         year: currentYear,
         month: currentMonth-1,
       },
     });
-  }, [currentMonth,currentYear]);
+  }, [currentMonth,currentYear,currentCalendarList_id]);
 
   const minusMonth = () => {
     if (currentMonth > 1) {

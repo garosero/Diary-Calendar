@@ -55,6 +55,7 @@ const Footer = styled.div`
 const SignupForm = () => {
     const [userId, onChangeUserId] = useInput('');
     const [password, onChangePassword] = useInput('');
+    const [userName, onChangeUserName] = useInput('');
     const [confirmPassword, onChangeConfirmPassword] = useInput('');
     const dispatch = useDispatch();
 
@@ -70,7 +71,7 @@ const SignupForm = () => {
           password,
           }
         ));
-    },[userId,password,confirmPassword]);
+    },[userId,password,confirmPassword,userName]);
 
   return (
     <AuthFormBlock>
@@ -81,7 +82,12 @@ const SignupForm = () => {
           placeholder="아이디"
           value={userId}
           onChange={onChangeUserId}
-          
+        />
+        <StyledInput
+          name="userName"
+          placeholder="이름"
+          value={userName}
+          onChange={onChangeUserName}
         />
         <StyledInput
           autoComplete="new-password"
@@ -91,22 +97,19 @@ const SignupForm = () => {
           value={password}
           onChange={onChangePassword}
         />
-        
-          <StyledInput
-            autoComplete="new-password"
-            name="passwordConfirm"
-            placehoder="비밀번호 확인"
-            type="password"
-            value={confirmPassword}
-            onChange={onChangeConfirmPassword}
-          />
-        
+        <StyledInput
+          autoComplete="new-password"
+          name="passwordConfirm"
+          placehoder="비밀번호 확인"
+          type="password"
+          value={confirmPassword}
+          onChange={onChangeConfirmPassword}
+        />
 
         <button>회원가입</button>
       </form>
       <Footer>
-          <Link to="login">로그인</Link>
-        
+        <Link to="login">로그인</Link>
       </Footer>
     </AuthFormBlock>
   );
