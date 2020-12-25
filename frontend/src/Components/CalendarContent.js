@@ -70,7 +70,7 @@ const CalendarContent = () => {
             );
           })}
         </div>
-        <>
+        <div className="calendar_content_week_wrap">
           {[...Array(weekLen)].map((val, idx) => {
             return (
               <div key={idx} className="calendar_row" onClick={(e)=>{setDate(e); openModal();}}>
@@ -82,7 +82,7 @@ const CalendarContent = () => {
               </div>
             );
           })}
-        </>
+        </div>
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
-// const Grid = styled.div`
-//     display : flex;
-//     flex-direction : column;
-//     height : 100%;
-// `;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&family=Noto+Sans+JP:wght@700&display=swap');
+*{
+  font-family: 'Noto Sans JP', sans-serif;
+}
 
 #root {
     height : 100vh;
@@ -52,9 +52,20 @@
 
 .calendar_content {
     display : flex;
-    flex : 1;
+    flex : 1 0 auto;
     flex-direction: column;
-    overflow : auto;
+}
+
+.calendar_content_week_wrap {
+   position : relative;
+   display : flex;
+    flex : 1 0 0;
+    flex-direction: column;
+
+  .calendar_row{
+    height : 10%;
+  }    //100%로 하면 calendar_content 넘어버려서 10%로 했더니 이제 이벤트가 있는 row만 크기가 늘어나진 않음
+      //근데 왜그러는지 모르겠다....
 }
 
 .day_title {
@@ -98,13 +109,18 @@
   }
 }
 
-.calendar_list {
+.sidebar {
     display : flex;
     flex-direction: column;
     flex : none;
     width :300px;
     background-color: #f1f3f5; 
     opacity: 0.6;
+
+    color : #364fc7;
+    
+    text-transform: uppercase;
+    text-align : center;
 }
 
 /** Modal **/
@@ -188,4 +204,65 @@ button {
 .button-default {
   background: #247BA0;
   color: #fff;
+}
+
+
+.submenu-wrapper {
+  //  background-color: #d0ebff;
+   transition : all 0.5s;
+   cursor : pointer;
+  
+}
+
+.submenu-wrapper:hover span{
+  padding-right : 25px;
+}
+
+.submenu-wrapper:hover span:after {
+  opacity : 1;
+  right:0;
+}
+
+
+// 재사용 컴포넌트
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  margin-top : 0.5rem;
+  display: none;
+  position: absolute;
+  background-color: #bac8ff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+#calendarList-name {
+  position : relative;
+  display : inline-block;
+  cursor:pointer;
+  transition : 0.5s;
+}
+
+#calendarList-name:after {
+  position:absolute;
+  opacity : 0;
+  top : 0;
+  right : -20px;
+}
+
+
+/* footer */
+
+footer {
+  height : 50px;
+  text-align: center;
 }

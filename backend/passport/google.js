@@ -17,12 +17,10 @@ module.exports = () => {
           //   "https://www.googleapis.com/auth/calendar.events",
           //   "https://www.googleapis.com/auth/calendar.readonly",
           // ],
-          // accessType : 'offline',
-          // prompt : 'consent'
+           accessType : 'offline',
+           prompt : 'consent'
         },
-        function (accessToken, refreshToken, profile, done) {
-          console.log("refresh : " + refreshToken);
-          console.log("profile : " + profile.id);
+        async function (accessToken, refreshToken, profile, done) {
           // User.findOneAndUpdate(
           //     { userId: profile.id },
           //     { $set: {
@@ -34,25 +32,48 @@ module.exports = () => {
           //     console.log('user : '+user);
           //     return done(err,user);
           // });
-          User.findOne({ userId: profile.id }).then((user) => {
-            console.log("name : " + profile.displayName);
-            if (user) {
-              console.log("user is : " + user);
-            } else {
-              new User({
-                userId: profile.id,
-                userName: profile.displayName,
-                provider: "google",
-                accessToken: accessToken,
-                refreshToken: refreshToken,
-              })
-                .save()
-                .then((newUser) => {
-                  console.log("new user created : " + newUser);
-                });
+          let resultOne = await User.findOne({userId : profile.id});
+          if(resultOne){
+            console.log('update');
+            resultOne.update({userId : profile.id},{
+              accessToken : accessToken,
             }
-            done(null, user);
-          });
+            );
+        
+          }else{
+            console.log('new User');
+            resultOne = new User({
+              userId: profile.id,
+              userName: profile.displayName,
+              provider: "google",
+              accessToken: accessToken,
+              refreshToken: refreshToken,
+            });
+          };
+          await resultOne.save();
+          done(null,resultOne);
+
+          // User.findOne({ userId: profile.id }).then((user) => {
+          //   console.log("name : " + profile.displayName);
+          //   if (user) {
+              
+          //   } else {
+          //     new User({
+          //       userId: profile.id,
+          //       userName: profile.displayName,
+          //       provider: "google",
+          //       accessToken: accessToken,
+          //       refreshToken: refreshToken,
+          //     })
+          //       .save()
+          //       .then((newUser) => {
+          //         console.log("new user created : " + newUser);
+          //       });
+          //   }
+          //   done(null, user);
+          //});
+
+          //refresh Token이 저장이 안됐는데도 이제 된다? 
         }
       )
     );

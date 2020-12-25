@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import './Calendar.scss';
+import { VscChevronDown } from "react-icons/vsc";
 import pantone from '../lib/styles/pantone'
 import styled from 'styled-components';
 import DateContext from "../contexts/date";
@@ -8,12 +9,25 @@ import {CHANGE_CALENDAR_ID_REQUEST} from '../reducers/calendar';
 
 
 const YearButton = styled.button`
+  cursor : pointer;
   position: inline-block;
   background-color: transparent;
-  margin-bottom : 1rem;
-  color : 'black';
+  margin-top: 0.3rem;
+  color: "black";
+
+  &:focus {
+    background-color: #74c0fc;
+  }
+  &:hover &:active{
+    background-color: #a5d8ff;
+  }
 `;
 
+const SubMenu = styled.div`
+  display : ${(props)=> props.open ? 'block' : 'none'};
+  z-index : 10;
+
+`;
 
 
 const CalendarList = () => {
@@ -21,6 +35,7 @@ const CalendarList = () => {
     const { currentYear, setCurrentYear } = useContext(DateContext);
     const { calendarList_id } = useSelector(state => state.calendar);
     const [calendarList, setCalendarList] = useState([]);
+    const [openSubMenu, setOpenSubMenu] = useState(false);
     var years = [2018,2019,2020,2021];
 
     const setYearClick = (e) => {
@@ -44,8 +59,9 @@ const CalendarList = () => {
       })
     }
 
+
     return (
-      <div className="calendar_list">
+      <div className="sidebar">
         {/* {isLoggedIn ? (
             <div className="calendar_list">
                 {diaries.map((c) => {
@@ -54,16 +70,14 @@ const CalendarList = () => {
                 }
             </div>
         ) : ( */}
-        <div>
+        <div style={{ marginBottom: "1rem" }}>
           {years.map((c, idx) => {
             return (
               <YearButton
                 key={idx}
                 style={{
                   color: pantone[c],
-                  margin: "0.5rem",
                   height: "2rem",
-                  backgroundColor: "transparent",
                 }}
                 onClick={(e) => setYearClick(e)}
               >
@@ -72,19 +86,37 @@ const CalendarList = () => {
             );
           })}
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            marginBottom: "1rem",
 
+        {/* calendarList 목록 */}
+        <div
+          className="submenu-wrapper"
+          onClick={() => {
+            setOpenSubMenu((prev) => !prev);
           }}
         >
-          {calendarList && calendarList.length > 0
-            ? calendarList.map((v, idx) => {
-                return <YearButton onClick={()=>{onChangeCalendarId(v._id)}} key={idx}>{v.summary}</YearButton>;
-              })
-            : null}
+          <span id="calendarList-name">
+            CALENDAR list
+            <i>
+              <VscChevronDown />
+            </i>
+          </span>
+
+          <SubMenu open={openSubMenu}>
+            {calendarList && calendarList.length > 0
+              ? calendarList.map((v, idx) => {
+                  return (
+                    <YearButton
+                      onClick={() => {
+                        onChangeCalendarId(v._id);
+                      }}
+                      key={idx}
+                    >
+                      {v.summary}
+                    </YearButton>
+                  );
+                })
+              : null}
+          </SubMenu>
         </div>
       </div>
     );

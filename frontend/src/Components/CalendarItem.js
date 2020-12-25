@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CloseButton from './CloseButton';
 import { useSelector } from 'react-redux';
 import Modal from './Modal';
+import './Calendar.scss';
 
 
 
@@ -10,8 +11,10 @@ const ItemDiv = styled.div`
   position: relative;
   display: inline-block;
   margin-bottom: 3px;
-  background-color: #d0bfff;
+  background-color: #1c7ed6;
+  color: #fff;
   font-size: 14px;
+  font-family: "Nanum Gothic", sans-serif;
   line-height: 30px;
   width: 100%;
   /* border-right: #dadce0 1px solid; */
