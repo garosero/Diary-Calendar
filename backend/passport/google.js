@@ -32,8 +32,6 @@ module.exports = () => {
           //     console.log('user : '+user);
           //     return done(err,user);
           // });
-          console.log('accessToken : '+accessToken);
-          console.log('refreshToken : '+refreshToken);
           let resultOne = await User.findOne({userId : profile.id});
           if(resultOne){
             console.log('update');
