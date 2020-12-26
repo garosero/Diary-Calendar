@@ -46,6 +46,8 @@ const ModalInner = ({showModal, setShowModal, date}) => {
      const previewImg = imagePath.filter(v=>v.includes(date));
      if(filtered) {
         setFilteredImagePath([filtered.img].concat(previewImg));
+        console.log(filtered.content);
+        setText(filtered.content);
      }else setFilteredImagePath(previewImg);
     },[date,diaries, imagePath]);
 
@@ -65,13 +67,13 @@ const ModalInner = ({showModal, setShowModal, date}) => {
     formData.append("calendarDate", date);
     dispatch({
       type: ADD_DIARY_REQUEST,
-      date: formData,
+      data: formData,
     });
   };
 
   const onChangeText = useCallback((e) => {
     setText(e.target.value);
-  }, []);
+  }, [text]);
 
   /*
    * 버튼을 눌렀을 때 이미지 업로드하는 인풋창이 열리도록
@@ -122,17 +124,18 @@ const ModalInner = ({showModal, setShowModal, date}) => {
             <VscChevronLeft />
           </StyleButton>
           {filteredImagePath && filteredImagePath.length > 0 ? (
-              <ModalImage
-                src={`http://localhost:3000/${filteredImagePath[pageNumber]}`}
-              />
-            ) : null}
+            <ModalImage
+              src={`http://localhost:3000/${filteredImagePath[pageNumber]}`}
+            />
+          ) : null 
+          }
           <StyleButton
             type="button"
-              onClick={() => {
-                pageNumber < filteredImagePath.length - 1
-                  ? setPageNumber(pageNumber + 1)
-                  : null;
-              }}
+            onClick={() => {
+              pageNumber < filteredImagePath.length - 1
+                ? setPageNumber(pageNumber + 1)
+                : null;
+            }}
             style={{ right: "0" }}
           >
             <VscChevronRight />
@@ -152,11 +155,14 @@ const ModalInner = ({showModal, setShowModal, date}) => {
         <div>
           <textarea
             type="text"
+            value={text} //value설정 안해줘서 content 안나왔었음.
             style={{
+              fontSize: "25px",
               width: "100%",
               height: "100%",
               borderRadius: "20px",
               marginLeft: "1rem",
+              fontFamily: "Nanum Gothic, sans-serif",
             }}
             onChange={onChangeText}
           ></textarea>

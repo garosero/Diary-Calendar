@@ -32,17 +32,19 @@ module.exports = () => {
           //     console.log('user : '+user);
           //     return done(err,user);
           // });
+          console.log('accessToken : '+accessToken);
+          console.log('refreshToken : '+refreshToken);
           let resultOne = await User.findOne({userId : profile.id});
           if(resultOne){
             console.log('update');
-            resultOne.update({userId : profile.id},{
+            await User.updateOne({userId : profile.id},{
               accessToken : accessToken,
             }
             );
         
           }else{
             console.log('new User');
-            resultOne = new User({
+            resultOne = await new User({
               userId: profile.id,
               userName: profile.displayName,
               provider: "google",
@@ -51,6 +53,8 @@ module.exports = () => {
             });
           };
           await resultOne.save();
+          let ii = await User.findOne({userId : profile.id});
+          console.log(ii.accessToken);
           done(null,resultOne);
 
           // User.findOne({ userId: profile.id }).then((user) => {

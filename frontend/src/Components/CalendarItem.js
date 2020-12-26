@@ -20,7 +20,6 @@ const ItemDiv = styled.div`
   /* border-right: #dadce0 1px solid; */
   flex: 1 1 0%;
   text-align: center;
-  font-family: Roboto, Arial, sans-serif;
   text-transform: uppercase;
 
   &:hover {

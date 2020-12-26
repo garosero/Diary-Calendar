@@ -1,4 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react'
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import {useSelector} from 'react-redux';
 import moment from 'moment';
 import CalendarItem from './CalendarItem';
 import DateContext from '../contexts/date'
@@ -13,6 +16,7 @@ const CalendarContent = () => {
   // const {isShowing, setisShowing,toggle} = useModal();
   const [showModal, setShowModal] = useState(false);
   const { currentMonth, currentYear } = useContext(DateContext);
+  const {isAddingEvent} = useSelector(state=>state.calendar);
   const [showDate, setShowDate] = useState(''); //modal에 전달할 클릭한 캘린더의 날짜 
  
   const openModal = () =>{
@@ -54,35 +58,70 @@ const CalendarContent = () => {
 
   
   const weekDay = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+  const antIcon = (
+    <LoadingOutlined
+      style={{
+        fontSize: 24,
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform : 'translate(-50%,-50%)'
+      }}
+      spin
+    />
+  );
 
   return (
     <div className="calendar_layout">
       <CalendarList />
       <div className="calendar_content">
-      {/* isShowing 효과를 넣으니까 속도가 빨라짐 */}
-      <ModalInner showModal={showModal} setShowModal={setShowModal} date={showDate}/> 
-        <div className="day_title">
-          {weekDay.map((day, idx) => {
-            return (
-              <div className="item" key={idx}>
-                {day}
-              </div>
-            );
-          })}
-        </div>
-        <div className="calendar_content_week_wrap">
-          {[...Array(weekLen)].map((val, idx) => {
-            return (
-              <div key={idx} className="calendar_row" onClick={(e)=>{setDate(e); openModal();}}>
-                {Array(7)
-                  .fill(-1)
-                  .map((v, i) => {
-                    return <CalendarItem key={i} day={result[idx * 7 + i]} month={currentMonth} year={currentYear}/>; //왜 여기에 onClick을 넣으면 안될까 
-                  })}
-              </div>
-            );
-          })}
-        </div>
+        {isAddingEvent ? (
+          <Spin indicator={antIcon}/>
+        ) : (
+          <>
+            <ModalInner
+              showModal={showModal}
+              setShowModal={setShowModal}
+              date={showDate}
+            />
+            <div className="day_title">
+              {weekDay.map((day, idx) => {
+                return (
+                  <div className="item" key={idx}>
+                    {day}
+                  </div>
+                );
+              })}
+            </div>
+            <div className="calendar_content_week_wrap">
+              {[...Array(weekLen)].map((val, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className="calendar_row"
+                    onClick={(e) => {
+                      setDate(e);
+                      openModal();
+                    }}
+                  >
+                    {Array(7)
+                      .fill(-1)
+                      .map((v, i) => {
+                        return (
+                          <CalendarItem
+                            key={i}
+                            day={result[idx * 7 + i]}
+                            month={currentMonth}
+                            year={currentYear}
+                          />
+                        ); //왜 여기에 onClick을 넣으면 안될까
+                      })}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
