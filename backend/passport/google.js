@@ -17,6 +17,7 @@ module.exports = () => {
           //   "https://www.googleapis.com/auth/calendar.events",
           //   "https://www.googleapis.com/auth/calendar.readonly",
           // ],
+          proxy : true,
            accessType : 'offline',
            prompt : 'consent'
         },
