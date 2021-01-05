@@ -50,7 +50,7 @@
   },
   "proxy": {
     "/api/": {
-      "target": "https://diarycalendar.herokuapp.com"
+      "target": "http://diarycalendar.herokuapp.com"
     }
   }
 }

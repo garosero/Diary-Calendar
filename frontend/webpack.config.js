@@ -84,7 +84,7 @@ module.exports = {
       //   changeOrigin: true,
       //   secure : false,
       // },
-      "**": "https://diarycalendar.herokuapp.com",
+      "**": "http://diarycalendar.herokuapp.com",
     },
   },
 };
