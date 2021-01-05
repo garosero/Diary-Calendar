@@ -2,7 +2,7 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;  //oauth20 사용하면 internal error
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
-const config = require("../../config.json");
+const config = require("../config.json");
 
 
 module.exports = () => {
