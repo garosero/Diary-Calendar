@@ -21,30 +21,18 @@ module.exports = () => {
            prompt : 'consent'
         },
         async function (accessToken, refreshToken, profile, done) {
-          // User.findOneAndUpdate(
-          //     { userId: profile.id },
-          //     { $set: {
-          //         userId: profile.id,
-          //         provider : 'google',
-          //     } }
-          // , function(err,user){
-          //     console.log('err : '+err);
-          //     console.log('user : '+user);
-          //     return done(err,user);
-          // });
+        
           let resultOne = await User.findOne({userId : profile.id});
           if(resultOne){
-            console.log('update');
             await User.updateOne({userId : profile.id},{
               accessToken : accessToken,
             }
             );
         
           }else{
-            console.log('new User');
             resultOne = await new User({
               userId: profile.id,
-              userName: profile.displayName,
+              username: profile.displayName,
               provider: "google",
               accessToken: accessToken,
               refreshToken: refreshToken,
@@ -52,7 +40,6 @@ module.exports = () => {
           };
           await resultOne.save();
           let ii = await User.findOne({userId : profile.id});
-          console.log(ii.accessToken);
           done(null,resultOne);
 
           // User.findOne({ userId: profile.id }).then((user) => {

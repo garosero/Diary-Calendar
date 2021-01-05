@@ -21,8 +21,8 @@ export const loadUserAPI = () => {
 }
 
 //회원 가입
-export const signUpAPI = ({userId, password}) => {
-    return axios.post('/api/user/signup', {userId,password});
+export const signUpAPI = ({userId, password,username}) => {
+    return axios.post('/api/user/signup', {userId,password,username});
 }
 
 export const logOutAPI = () => {

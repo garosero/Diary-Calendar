@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, {useEffect, useContext } from "react";
 import { VscChevronLeft, VscChevronRight } from "react-icons/vsc";
 import DateContext from "../contexts/date";
 import styled from 'styled-components';
@@ -14,21 +14,23 @@ const MonthBlock = styled.div`
   flex-direction : row;
 `;
 
-const MovePageButton = () => {
+const MonthChangeButton = () => {
   const dispatch = useDispatch();
   const {currentCalendarList_id} = useSelector(state => state.calendar);
+  const {isLoggedIn} = useSelector(state => state.user);
   const { currentYear,currentMonth, setCurrentMonth } = useContext(DateContext);
 
   useEffect(() => {
-
-    dispatch({
-      type: LOAD_CALENDAR_EVENTS_REQUEST,
-      data: {
-        calendarId : currentCalendarList_id,
-        year: currentYear,
-        month: currentMonth-1,
-      },
-    });
+    if(isLoggedIn){
+      dispatch({
+        type: LOAD_CALENDAR_EVENTS_REQUEST,
+        data: {
+          calendarId : currentCalendarList_id,
+          year: currentYear,
+          month: currentMonth-1,
+        },
+      });
+   }
   }, [currentMonth,currentYear,currentCalendarList_id]);
 
   const minusMonth = () => {
@@ -56,4 +58,4 @@ const MovePageButton = () => {
   );
 };
 
-export default MovePageButton;
+export default MonthChangeButton;

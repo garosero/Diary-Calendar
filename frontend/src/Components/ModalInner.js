@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useState, useEffect } from "react";
 import { VscChevronLeft, VscChevronRight } from "react-icons/vsc";
 import styled from "styled-components";
 import Modal from "./Modal";
-
+import config from '../config';
 import ModalPortal from "./ModalPortal";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -125,7 +125,7 @@ const ModalInner = ({showModal, setShowModal, date}) => {
           </StyleButton>
           {filteredImagePath && filteredImagePath.length > 0 ? (
             <ModalImage
-              src={`http://localhost:3000/${filteredImagePath[pageNumber]}`}
+              src={`${config.base_URI}/${filteredImagePath[pageNumber]}`}
             />
           ) : null 
           }

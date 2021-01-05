@@ -84,15 +84,6 @@ export const loadMyInfo = {
     type : LOAD_MY_INFO_REQUEST,
 }
 
-const dummyUser = {
-    username : 'subin',
-    birth : '19961023',
-    diaries : [],
-    signUpData : {
-        id : '',
-        password : '',
-    }
-}
 
 const reducer = (state = initialState, action) => {
     switch (action.type){
@@ -101,15 +92,19 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoggingIn : true,
-                me :action.data.userId,
+              
             }
         }
 
         case LOG_IN_SUCCESS : {
             return {
               ...state,
-              isLoggingIn : false, 
-              isLoggedIn : true,
+              isLoggingIn: false,
+              isLoggedIn: true,
+              me: {
+                provider: action.data.provider,
+                username: action.data.username,
+              },
             };
         }
 
@@ -186,7 +181,10 @@ const reducer = (state = initialState, action) => {
         case LOAD_MY_INFO_SUCCESS : {
             return {
               ...state,
-              me: action.data.userId,
+              me: {
+                provider : action.data.provider,
+                username : action.data.username,  
+              },
               isLoggedIn: true,
               loadMyInfoLoading: false,
               loadMyInfoDone: true,

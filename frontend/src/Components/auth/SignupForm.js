@@ -53,12 +53,13 @@ const Footer = styled.div`
 
 //useCallback -> 처음 렌더링될 때만 컴포넌트 생성되도록 
 const SignupForm = () => {
+
     const [userId, onChangeUserId] = useInput('');
     const [password, onChangePassword] = useInput('');
     const [userName, onChangeUserName] = useInput('');
     const [confirmPassword, onChangeConfirmPassword] = useInput('');
     const dispatch = useDispatch();
-
+    const {user} = useSelector(state=>state.user);
 
 
     const onSubmit = useCallback((e)=>{
@@ -66,9 +67,11 @@ const SignupForm = () => {
         if(password !== confirmPassword){
             alert("비밀번호가 다릅니다.")
         }
+        console.log('username : '+userName);
         dispatch(signUpRequestAction({
           userId,
           password,
+          userName
           }
         ));
     },[userId,password,confirmPassword,userName]);

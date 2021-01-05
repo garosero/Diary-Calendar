@@ -120,7 +120,6 @@ const path = require('path');
    */
 
    router.get('/:calendarDate', async(req,res,next) => {
-       console.log("현재 유저 : "+req.user);
        try{
          const diary = await Diary.findOne({
              userId : req.user.userId,

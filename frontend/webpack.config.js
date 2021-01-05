@@ -1,13 +1,15 @@
 const path = require("path");
 const HtmlWebpackPlugIn = require('html-webpack-plugin');
 const { HotModuleReplacementPlugin } = require('webpack');
+const webpack = require("webpack");
 const port = process.env.PORT || 3000;
+const mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
-  mode: "development",
+  mode: mode,
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "./dist"),
     filename: "bundle.[hash].js",
   },
   module: {
@@ -22,12 +24,14 @@ module.exports = {
           options: {
             presets: [
               "@babel/react",
-            ["@babel/preset-env",
-              {
-                targets: {
-                  esmodules: true,
-                }
-              }],
+              [
+                "@babel/preset-env",
+                {
+                  targets: {
+                    esmodules: true,
+                  },
+                },
+              ],
             ],
             plugins: [
               "@babel/plugin-proposal-class-properties",
@@ -35,6 +39,7 @@ module.exports = {
               "babel-plugin-styled-components",
               // option - styled-components를 사용할 경우에만 추가
               // class명에 컴포넌트 이름을 prefix 해줌, 디버그할 때 좋음
+              
             ],
           },
         },
@@ -80,7 +85,7 @@ module.exports = {
       //   changeOrigin: true,
       //   secure : false,
       // },
-      '**' : 'http://localhost:4000',
+      "**": "http://localhost:4000",
     },
   },
 };

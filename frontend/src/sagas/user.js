@@ -18,7 +18,7 @@ import { loginAPI, signUpAPI, logOutAPI, loadUserAPI, GoogleLoginAPI} from '../l
 import axios from 'axios';
  
 function* signUp(action){
-  console.log(`signup : ${action.data.userId} ${action.data.password}`)
+  console.log(`signup : ${action.data.userId} ${action.data.password} ${action.data.username}`)
   try{
     yield call(signUpAPI,action.data);
     yield put({
@@ -35,11 +35,12 @@ function* signUp(action){
 
 
 function* login(action) {
-  console.log('saga : '+action.data);
+
   try {
-    yield call(loginAPI,action.data);
+    const result = yield call(loginAPI,action.data);
     yield put({ //put은 dispatch와 동일. 로그인 요청 보내고 성공하면 이 줄 실행됨. 
       type: LOG_IN_SUCCESS,
+      data : result.data,
     });
    
     
@@ -47,7 +48,7 @@ function* login(action) {
     console.error(e);
     yield put({
         type:LOG_IN_FAILURE,
-        error : err.response.data,
+        error : e.response,
     })
   }
 }
@@ -63,7 +64,7 @@ function* GoogleLogin(action){
     console.error(e);
     yield put({
         type:GOOGLE_LOG_IN_FAILURE,
-        error : err.response.data,
+        error : e,
     })
   }
 }
@@ -72,13 +73,13 @@ function* load(action){
   console.log('load my Info');
   try{
     const result = yield call(loadUserAPI, action.data);
-    console.log(result);
-    yield put({
-      type : LOAD_MY_INFO_SUCCESS,
-      data : result.data
-    })
+    if(result.data.username){
+      yield put({
+        type : LOAD_MY_INFO_SUCCESS,
+        data : result.data
+      }) 
+    }else throw(e);
   } catch(e){
-    console.error(e);
     yield put({
       type : LOAD_MY_INFO_FAILURE,
     })

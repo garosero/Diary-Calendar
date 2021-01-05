@@ -1,8 +1,8 @@
 
 export const initialState = {
-    calendarList_id : [],
-    currentCalendarList_id : 'primary',
-    calendarEvent : [],
+    calendarList_id : [],               //google calendar 계정이 갖고있는 캘린더 id들 
+    currentCalendarList_id : 'primary', //현재 선택되어있는 캘린더 id 
+    calendarEvent : [],                 //현재 월에 해당하는 캘린더 이벤트 
     isAddingEvent : false,
 
 }
@@ -59,6 +59,7 @@ const reducer = (state = initialState, action) => {
         return {
           ...state,
           isAddingEvent : false,
+          calendarEvent : [],
         }
 
       case "CHANGE_CALENDAR_ID_REQUEST":

@@ -65,11 +65,13 @@ app.use(passport.session()); //req.session 객체에 passport 정보 저장
 */
 
 const dbConnect = require('./connect/dbConnect');
-dbConnect('diary_calendar');
+dbConnect();
 
 
 
 /* routing */
+
+
 
 const expressRouting = require('./routes/index');
 expressRouting(app);

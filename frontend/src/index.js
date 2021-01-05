@@ -11,7 +11,6 @@ import rootSaga from './sagas/index';
 import { tempSetUser, LOAD_MY_INFO_REQUEST } from './reducers/user';
 import { loadUserAPI } from './lib/api/auth';
 
-
 const sagaMiddleware = createSagaMiddleware(); //사가 미들웨어 만들기 
 const middlewares = [sagaMiddleware];
 //compose - middleware 여러개 합성
