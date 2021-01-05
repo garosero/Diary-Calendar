@@ -15,10 +15,6 @@ const passportConfig = require("./passport");
 passportConfig();
 
 
-app.get('/',(req,res)=>{
-    res.send('hello');
-})
-
 
 // Middleware setup
 app.use('/',express.static(path.join(__dirname,'uploads'))); //'/' : front에서 접근하는 주소 //static : 해당 경로의 파일들을 다른 서버에서 가져갈 수 있게 해주는 역할
@@ -54,7 +50,17 @@ app.use(passport.session()); //req.session 객체에 passport 정보 저장
 // app.use(passport.initialize());
 // app.use(passport.session());
 
+// Serve static assets if in production
+if (process.env.NODE_ENV === "production") {
 
+  // Set static folder
+  app.use(express.static("frontend/dist"));
+
+  // index.html for all page routes
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
+  });
+}
 
 
 
