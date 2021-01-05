@@ -39,7 +39,6 @@ module.exports = {
               "babel-plugin-styled-components",
               // option - styled-components를 사용할 경우에만 추가
               // class명에 컴포넌트 이름을 prefix 해줌, 디버그할 때 좋음
-              
             ],
           },
         },
@@ -85,7 +84,7 @@ module.exports = {
       //   changeOrigin: true,
       //   secure : false,
       // },
-      "**": "http://localhost:4000",
+      "**": "https://diarycalendar.herokuapp.com",
     },
   },
 };
