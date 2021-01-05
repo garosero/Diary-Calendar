@@ -15,7 +15,7 @@ module.exports = () => {
         console.log("Connected to MongoDB server  " );
     });
     mongoose.connect(process.env.MONGO_URI, { useNewUrlParser : true, useUnifiedTopology : true });
-    // mongoose.connect('mongodb://169.56.98.117/' + dbName, {useFindAndModify: false});
+  
 
     mongoose.set("useFindAndModify", false);
 }

@@ -96,7 +96,7 @@ router.post('/logout',isLoggedIn,(req,res)=>{
        "https://www.googleapis.com/auth/calendar.events",
      ],
      accessType: "offline",
-    //  prompt: "consent",
+     prompt: "consent",
    })
  );
 

@@ -11,26 +11,27 @@ module.exports = () => {
         {
           clientID: config.GOOGLE_CLIENT_ID,
           clientSecret: config.GOOGLE_CLIENT_SECRET,
-          callbackURL: "/api/user/google/callback",
+          callbackURL:
+            "http://diarycalendar.herokuapp.com/api/user/google/callback",
           // scope: [
           //   "profile",
           //   "https://www.googleapis.com/auth/calendar.events",
           //   "https://www.googleapis.com/auth/calendar.readonly",
           // ],
-          proxy : true,
-           accessType : 'offline',
-           prompt : 'consent'
+          proxy: true,
+          accessType: "offline",
+          prompt: "consent",
         },
         async function (accessToken, refreshToken, profile, done) {
-        
-          let resultOne = await User.findOne({userId : profile.id});
-          if(resultOne){
-            await User.updateOne({userId : profile.id},{
-              accessToken : accessToken,
-            }
+          let resultOne = await User.findOne({ userId: profile.id });
+          if (resultOne) {
+            await User.updateOne(
+              { userId: profile.id },
+              {
+                accessToken: accessToken,
+              }
             );
-        
-          }else{
+          } else {
             resultOne = await new User({
               userId: profile.id,
               username: profile.displayName,
@@ -38,15 +39,15 @@ module.exports = () => {
               accessToken: accessToken,
               refreshToken: refreshToken,
             });
-          };
+          }
           await resultOne.save();
-          let ii = await User.findOne({userId : profile.id});
-          done(null,resultOne);
+          let ii = await User.findOne({ userId: profile.id });
+          done(null, resultOne);
 
           // User.findOne({ userId: profile.id }).then((user) => {
           //   console.log("name : " + profile.displayName);
           //   if (user) {
-              
+
           //   } else {
           //     new User({
           //       userId: profile.id,
@@ -63,7 +64,7 @@ module.exports = () => {
           //   done(null, user);
           //});
 
-          //refresh Token이 저장이 안됐는데도 이제 된다? 
+          //refresh Token이 저장이 안됐는데도 이제 된다?
         }
       )
     );
