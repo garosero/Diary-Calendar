@@ -9,7 +9,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config(); //dotenv 패키지가 env 파일을 읽어줌
 const mongoose = require('mongoose');
-const { PORT, MONGO_URI } = process.env;
 const passport = require("passport");
 
 const passportConfig = require("./passport");

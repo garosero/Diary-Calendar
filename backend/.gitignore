@@ -114,5 +114,5 @@ dist
 
 node_modules
 
-*.json
+credentials.json
 
