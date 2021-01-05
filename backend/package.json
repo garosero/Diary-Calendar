@@ -8,8 +8,8 @@
   },
   "scripts": {
     "start": "node ./bin/www",
-    "frontend": "cd ./../frontend && npm start",
-    "heroku-postbuild": "NODE_ENV=production npm install --prefix ./../frontend && npm run build --prefix ./../frontend"
+    "frontend": "cd ../frontend && npm start",
+    "heroku-postbuild": "npm install --prefix ../frontend && npm run build --prefix ../frontend"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
