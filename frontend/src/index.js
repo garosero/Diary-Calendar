@@ -37,7 +37,7 @@ function loadUser(){
       type : LOAD_MY_INFO_REQUEST,
     });
   }catch(e){
-    console.log('localStorage is not working');
+    console.log(e);
   }
 }
 
