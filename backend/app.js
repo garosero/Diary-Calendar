@@ -17,6 +17,7 @@ passportConfig();
 
 
 // Middleware setup
+app.use(cors());
 app.use('/',express.static(path.join(__dirname,'uploads'))); //'/' : front에서 접근하는 주소 //static : 해당 경로의 파일들을 다른 서버에서 가져갈 수 있게 해주는 역할
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(logger('dev'));
@@ -27,18 +28,6 @@ app.use('/api',express.urlencoded({ extended: false }));
 //     origin : 'http://localhost:3000',
 //     credentials : true
 // }
-app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "POST, GET, PATCH, DELETE, OPTIONS"
-  );
-  next();
-});
 
 
 app.use(session({
