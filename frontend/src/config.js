@@ -1,5 +1,5 @@
 
 
 export default {
-  base_URI: "https://diarycalendar.herokuapp.com",
+  base_URI: "http://diarycalendar.herokuapp.com",
 };
