@@ -34,7 +34,7 @@ app.use(session({
     saveUninitialized : false,
     name : 'SID',
     unset:'destroy',
-    secret : config["COOKIE_SECRET"],
+    secret : process.env.COOKIE_SECRET,
     cookie : {
         httpOnly : true,
         secure : false,
