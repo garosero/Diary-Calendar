@@ -31,7 +31,8 @@ const ItemDiv = styled.div`
 const CalendarItem = (props) => {
 
   const { calendarEvent } = useSelector(state=>state.calendar);
-  const [dayEvent, setDayEvent] = useState([]);
+  const diaries = useSelector(state=>state.diary.diaries);
+  const [dayEvent,setDayEvent] = useState([]);
   //calendarEvent  : array 
   // _id, day, title, memo, startTime, endTime, location, people
  

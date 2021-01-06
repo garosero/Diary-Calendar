@@ -11,12 +11,15 @@ const Home = () => {
 
 
   const dispatch = useDispatch();
+  const {me, isLoggedIn} = useSelector(state=> state.user);
 
 
   useEffect(() => {    
-    dispatch({
-      type: LOAD_CALENDAR_LIST_REQUEST,
-    });
+    if(isLoggedIn && me.provider === 'google'){
+      dispatch({
+        type: LOAD_CALENDAR_LIST_REQUEST,
+      });
+    }
   },[]);
 
 

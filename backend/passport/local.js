@@ -3,6 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
+
 /**
  * 로그인 전략 
  */
@@ -13,7 +14,6 @@ const User = require('../models/user');
          usernameField : 'userId',
          passwordField : 'password',
      }, async( userId, password, done) => {
-         console.log("userId "+userId);
          try {
             const user = await User.findByUserId(userId);
             if(!user){

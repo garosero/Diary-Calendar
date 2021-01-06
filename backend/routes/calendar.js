@@ -22,6 +22,9 @@ const moment = require('moment');
  */
 
 router.post("/:calendarId/:year/:month", isLoggedIn, function (req, res, next) {
+  if(req.user.provider !== 'google'){
+    res.status(404).send();
+  }
   try{
    var oauth2Client = new google.auth.OAuth2(
      process.env.CLIENT_ID,

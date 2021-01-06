@@ -7,6 +7,7 @@ import { Link, withRouter } from "react-router-dom";
 import palette from "../../lib/styles/palette";
 import {FcGoogle} from 'react-icons/fc'
 import useInput from '../../hooks/useInput';
+import config from "../../config";
 import { loginRequestAction, isLoggedIn, GOOGLE_LOG_IN_REQUEST } from '../../reducers/user';
 
 /** 로그인 폼 **/
@@ -98,7 +99,7 @@ const LoginForm = () => {
         <button type="primary">로그인 </button>
         <button type="button">
           <FcGoogle />
-          <a href="http://localhost:4000/api/user/google">Google Login</a>
+          <a href={`${config.base_URI}/api/user/google`}>Google Login</a>
         </button>
       </form>
       <Footer>

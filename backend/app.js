@@ -4,27 +4,30 @@ const cors = require('cors')
 var path = require('path');
 const morgan = require('morgan');
 const session = require('express-session');
-
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config(); //dotenv 패키지가 env 파일을 읽어줌
 const mongoose = require('mongoose');
-const { PORT, MONGO_URI } = process.env;
 const passport = require("passport");
 
 const passportConfig = require("./passport");
 passportConfig();
 
 
-app.get('/',(req,res)=>{
-    res.send('hello');
-})
-
 
 // Middleware setup
+app.use(cors());
 app.use('/',express.static(path.join(__dirname,'uploads'))); //'/' : front에서 접근하는 주소 //static : 해당 경로의 파일들을 다른 서버에서 가져갈 수 있게 해주는 역할
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(logger('dev'));
+ app.use(function (req, res, next) {
+   if (req.headers["x-forwarded-proto"] === "https") {
+     res.redirect("http://" + req.hostname + req.url);
+   } else {
+     next();
+   }
+ });
+
 app.use('/api',express.json());
 app.use('/api',express.urlencoded({ extended: false }));
 
@@ -32,7 +35,7 @@ app.use('/api',express.urlencoded({ extended: false }));
 //     origin : 'http://localhost:3000',
 //     credentials : true
 // }
-app.use(cors())
+
 
 app.use(session({
     resave : false,
@@ -55,7 +58,19 @@ app.use(passport.session()); //req.session 객체에 passport 정보 저장
 // app.use(passport.initialize());
 // app.use(passport.session());
 
+// Serve static assets if in production
+// if (process.env.NODE_ENV === "production") {
 
+//   // Set static folder
+//   app.use(express.static("frontend/dist"));
+
+//   // index.html for all page routes
+//   app.get("*", (req, res, next) => {
+//     res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
+//     next();
+//   });
+
+// }
 
 
 
@@ -65,11 +80,12 @@ app.use(passport.session()); //req.session 객체에 passport 정보 저장
 */
 
 const dbConnect = require('./connect/dbConnect');
-dbConnect('diary_calendar');
+dbConnect();
 
 
 
 /* routing */
+
 
 const expressRouting = require('./routes/index');
 expressRouting(app);

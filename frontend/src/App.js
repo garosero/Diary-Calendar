@@ -6,6 +6,8 @@ import RegisterPage from './pages/RegisterPage';
 
 
 const App = () => {
+
+  console.log(process.env.NODE_ENV);
     return (
       <>
         <Route path="/" component={Home} exact={true}/>

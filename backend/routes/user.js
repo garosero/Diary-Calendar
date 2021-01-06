@@ -22,6 +22,7 @@ router.post('/signup', async(req,res,next) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     await User.create({
       userId : req.body.userId,
+      username : req.body.username,
       password : hashedPassword,
     })
     res.status(201).send('회원가입 성공');
@@ -44,15 +45,11 @@ router.post('/login',isNotLoggedIn, (req,res,next) => { // /api/user/login
       return res.status(401).send(info.reason);
     };
     return req.login(user, (loginErr) => {
-      console.log("login 됐나");
       if(loginErr){
         return next(loginErr);
       }
-      console.log('세션 확인 : '+req.session.passport.user);   //일단 로그인에선 저장됐음!! 여기에 
-      console.log("req.user 저장 확인 : "+req.user); //req.user에 저장됨 !!
       const filteredUser = Object.assign({},req.user._doc);
       delete filteredUser.password; //password를 보내는 건 위험하니까 삭제
-      console.log(filteredUser);
       return res.json(filteredUser); //프론트에 사용자 정보를 보내주기
       //
     })
@@ -99,18 +96,20 @@ router.post('/logout',isLoggedIn,(req,res)=>{
        "https://www.googleapis.com/auth/calendar.events",
      ],
      accessType: "offline",
-    //  prompt: "consent",
+     prompt: "consent",
    })
  );
 
- router.get('/google/callback', passport.authenticate('google', {
-      failureRedirect : 'http://localhost:3000/',
-
-    }), (req,res)=>{
-        console.log("AR");
-   // res.send(JSON.stringify(req.user));
-    res.redirect('http://localhost:3000/');
- })
+ router.get(
+   "/google/callback",
+   passport.authenticate("google", {
+     failureRedirect: "http://localhost:3000/",
+   }),
+   (req, res) => {
+     // res.send(JSON.stringify(req.user));
+     res.redirect("http://localhost:3000/");
+   }
+ );
 
 
 /**
@@ -122,20 +121,18 @@ router.get('/check', async(req,res,next)=>{   //req.user가 없음 !!! ㅠㅠㅠ
   console.log(req.session);
   try{
     if(req.user){
-      console.log('있다');
-      // const findUser = await User.findOne(
-      //   { userId: req.user.userId }
-      // );
+  
+    
       const logedUser = Object.assign({}, req.user._doc);
       delete logedUser.password;
       res.status(200).json(logedUser);
     }else{
-      console.log('없다');
+    
       res.status(200).json(null);
     }
 
   }catch(e){
-    console.log("에러");
+
     console.error(e);
     next(e);
   }
