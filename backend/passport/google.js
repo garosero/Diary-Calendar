@@ -2,15 +2,15 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;  //oauth20 
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
-const config = require("../config.json");
+
 
 
 module.exports = () => {
     passport.use(
       new GoogleStrategy(
         {
-          clientID: config.GOOGLE_CLIENT_ID,
-          clientSecret: config.GOOGLE_CLIENT_SECRET,
+          clientID: process.env.GOOGLE_CLIENT_ID,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET,
           callbackURL:
             "https://diarycalendar.herokuapp.com/api/user/google/callback",
           scope: [
