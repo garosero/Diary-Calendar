@@ -4,7 +4,6 @@ const cors = require('cors')
 var path = require('path');
 const morgan = require('morgan');
 const session = require('express-session');
-const config = require('./config.json')
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config(); //dotenv 패키지가 env 파일을 읽어줌
