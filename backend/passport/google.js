@@ -13,11 +13,11 @@ module.exports = () => {
           clientSecret: config.GOOGLE_CLIENT_SECRET,
           callbackURL:
             "http://diarycalendar.herokuapp.com/api/user/google/callback",
-          // scope: [
-          //   "profile",
-          //   "https://www.googleapis.com/auth/calendar.events",
-          //   "https://www.googleapis.com/auth/calendar.readonly",
-          // ],
+          scope: [
+            "profile",
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar.readonly",
+          ],
           proxy: true,
           accessType: "offline",
           prompt: "consent",
