@@ -104,11 +104,11 @@ router.post('/logout',isLoggedIn,(req,res)=>{
    passport.authenticate("google", {
      failureRedirect: process.env.absoluteURI,
    }),
-   (req, res,next) => {
+   (req, res) => {
      // res.send(JSON.stringify(req.user));
      console.log("success");
-    //return res.redirect(process.env.absoluteURI);
-    return windows.location.assign('/');
+    return res.redirect(process.env.absoluteURI);
+    
    }
  );
 
