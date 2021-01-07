@@ -107,6 +107,8 @@ router.post('/logout',isLoggedIn,(req,res)=>{
    }),
    (req, res) => {
      // res.send(JSON.stringify(req.user));
+     console.log(success);
+     console.log(process.env.absoluteURI);
      return res.redirect(process.env.absoluteURI);
 
    }
