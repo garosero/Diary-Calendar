@@ -17,14 +17,11 @@ module.exports = () => {
     });
 
     passport.deserializeUser(async(userId, done) => { //3번 id를 가져와서 다시 유저 정보 가져오기 (그냥 3번이란는 id만으론 아무것도 못하니까)
-        try {
+    
             console.log('deserialize');
             const user = await User.findByUserId(userId);
             return done(null,user); //req.user에 저장
-        }catch(e){
-            console.error(e);
-            return done(e);
-        }    
+        
     });
 
     local();
