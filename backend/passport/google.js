@@ -13,14 +13,14 @@ module.exports = () => {
           clientSecret: process.env.GOOGLE_CLIENT_SECRET,
           callbackURL:
             "http://diarycalendar.herokuapp.com/api/user/google/callback",
-          scope: [
-            "profile",
-            "https://www.googleapis.com/auth/calendar.events",
-            "https://www.googleapis.com/auth/calendar.readonly",
-          ],
-          proxy: true,
-          accessType: "offline",
-          prompt: "consent",
+          // scope: [
+          //   "profile",
+          //   "https://www.googleapis.com/auth/calendar.events",
+          //   "https://www.googleapis.com/auth/calendar.readonly",
+          // ],
+          // proxy: true,
+          // accessType: "offline",
+          // prompt: "consent",
         },
         async function (accessToken, refreshToken, profile, done) {
           let resultOne = await User.findOne({ userId: profile.id });
