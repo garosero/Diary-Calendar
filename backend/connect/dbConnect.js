@@ -14,6 +14,7 @@ module.exports = () => {
         /* MongoDB 와 연결됨. */
         console.log("Connected to MongoDB server  " );
     });
+
     if(process.env.NODE_ENV === 'production'){
         mongoose.connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
@@ -25,7 +26,7 @@ module.exports = () => {
            useUnifiedTopology: true,
          });
     }
-  
+
 
     mongoose.set("useFindAndModify", false);
 }

@@ -54,24 +54,20 @@ app.use(passport.initialize()); //req 객체에 passport 설정 심기
 app.use(passport.session()); //req.session 객체에 passport 정보 저장
 //expressSession 아래에 써야함. passport.session이 expressSession을 사용하므로 
 
-// app.use(session({ secret: "anything" }));
-// app.use(passport.initialize());
-// app.use(passport.session());
-
 // Serve static assets if in production
-// if (process.env.NODE_ENV === "production") {
 
-//   // Set static folder
-//   app.use(express.static("frontend/dist"));
+if (process.env.NODE_ENV === "production") {
 
-//   // index.html for all page routes
-//   app.get("*", (req, res, next) => {
-//     res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
-//     next();
-//   });
+  // Set static folder
+  app.use(express.static("frontend/dist"));
 
-// }
+  // index.html for all page routes
+  app.get("*", (req, res, next) => {
+    res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
+    next();
+  });
 
+}
 
 
 
@@ -85,6 +81,14 @@ dbConnect();
 
 
 /* routing */
+ app.use(function (req, res, next) {
+   if (req.headers["x-forwarded-proto"] === "https") {
+     res.redirect("http://" + req.hostname + req.url);
+   } else {
+     next();
+   }
+ });
+
 
 
 const expressRouting = require('./routes/index');

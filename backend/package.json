@@ -9,6 +9,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "frontend": "cd ../frontend && npm start"
+
   },
   "dependencies": {
     "bcrypt": "^5.0.0",

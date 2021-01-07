@@ -74,13 +74,13 @@ module.exports = {
   ],
 
   devServer: {
-    host: "localhost", //개발 서버 url
+    host: "http://diarycalendar.herokuapp.com", //개발 서버 url
     port: port,
     open: true, //서버가 실행될 때 브라우저를 자동으로 열어줄 지 결정
     historyApiFallback: true,
     proxy: {
       "**": {
-        target: "http://localhost:4000",
+        target: "http://diarycalendar.herokuapp.com",
         changeOrigin: true,
         secure : false,
       },
