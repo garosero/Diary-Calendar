@@ -103,12 +103,13 @@ router.post('/logout',isLoggedIn,(req,res)=>{
  router.get(
    "/google/callback",
    passport.authenticate("google", {
-     successRedirect: "http://diarycalendar.herokuapp.com",
-     failureRedirect: "/",
+     successRedirect : process.env.absoluteURI,
+     failureRedirect: process.env.absoluteURI,
    }),
    (req, res) => {
      // res.send(JSON.stringify(req.user));
      res.redirect("/");
+
    }
  );
 
