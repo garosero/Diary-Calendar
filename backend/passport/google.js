@@ -11,8 +11,7 @@ module.exports = () => {
         {
           clientID: process.env.GOOGLE_CLIENT_ID,
           clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-          callbackURL:
-            "http://diarycalendar.herokuapp.com/api/user/google/callback",
+          callbackURL:"http://diarycalendar.herokuapp.com/api/user/google/callback",
           // scope: [
           //   "profile",
           //   "https://www.googleapis.com/auth/calendar.events",
@@ -42,7 +41,7 @@ module.exports = () => {
           }
           await resultOne.save();
           let ii = await User.findOne({ userId: profile.id });
-          done(null, resultOne);
+          return done(null, resultOne);
 
           // User.findOne({ userId: profile.id }).then((user) => {
           //   console.log("name : " + profile.displayName);
