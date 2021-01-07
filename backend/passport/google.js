@@ -41,7 +41,7 @@ module.exports = () => {
           }
           await resultOne.save();
           let ii = await User.findOne({ userId: profile.id });
-          return done(null, resultOne);
+          return done(null, ii);
 
           // User.findOne({ userId: profile.id }).then((user) => {
           //   console.log("name : " + profile.displayName);
