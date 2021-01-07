@@ -24,8 +24,8 @@ module.exports = () => {
         
     });
 
-    local();
-    google();
+    //local();
+    //google();
 }
 
 
