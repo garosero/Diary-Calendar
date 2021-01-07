@@ -10,6 +10,8 @@ require('dotenv').config(); //dotenv 패키지가 env 파일을 읽어줌
 const mongoose = require('mongoose');
 const passport = require("passport");
 
+
+
 const passportConfig = require("./passport");
 passportConfig();
 
@@ -20,13 +22,6 @@ app.use(cors());
 app.use('/',express.static(path.join(__dirname,'uploads'))); //'/' : front에서 접근하는 주소 //static : 해당 경로의 파일들을 다른 서버에서 가져갈 수 있게 해주는 역할
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(logger('dev'));
- app.use(function (req, res, next) {
-   if (req.headers["x-forwarded-proto"] === "https") {
-     res.redirect("http://" + req.hostname + req.url);
-   } else {
-     next();
-   }
- });
 
 app.use('/api',express.json());
 app.use('/api',express.urlencoded({ extended: false }));
