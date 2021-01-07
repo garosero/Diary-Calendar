@@ -101,13 +101,11 @@ router.post('/logout',isLoggedIn,(req,res)=>{
 
  router.get(
    "/google/callback",
-   passport.authenticate("google", {
-     failureRedirect: process.env.absoluteURI,
-   }),
+   passport.authenticate("google"),
    (req, res) => {
      // res.send(JSON.stringify(req.user));
      console.log("success");
-    return res.redirect(process.env.absoluteURI);
+    return res.redirect("/");
     
    }
  );

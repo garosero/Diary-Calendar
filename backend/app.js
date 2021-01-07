@@ -58,10 +58,9 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("frontend/dist"));
 
   // index.html for all page routes
-  app.get("*", (req, res, next) => {
+  app.get("*", (req, res) => {
       console.log('send');
       res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
-      next();
      //next()없으면 아예 google account 창으로 안넘어가짐 
   });
 
