@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
+var path = require("path");
 const passport = require('passport');
 const { google } = require("googleapis");
 const User = require('../models/user');
