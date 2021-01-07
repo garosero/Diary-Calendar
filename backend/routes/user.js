@@ -131,6 +131,7 @@ router.get('/check', async(req,res,next)=>{   //req.user가 없음 !!! ㅠㅠㅠ
     
       res.status(200).json(null);
     }
+    return;
 
   }catch(e){
 
