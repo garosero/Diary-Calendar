@@ -108,7 +108,7 @@ router.post('/logout',isLoggedIn,(req,res)=>{
    (req, res,next) => {
      // res.send(JSON.stringify(req.user));
      console.log("success");
-     return res.redirect('/');
+    return res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
    }
  );
 
