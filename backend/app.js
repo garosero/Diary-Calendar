@@ -60,7 +60,7 @@ if (process.env.NODE_ENV === "production") {
   // index.html for all page routes
   app.get("*", (req, res, next) => {
     res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
-   
+    next();
   });
 
 }
