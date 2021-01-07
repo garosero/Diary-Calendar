@@ -52,20 +52,6 @@ app.use(passport.session()); //req.session 객체에 passport 정보 저장
 
 // Serve static assets if in production
 
-if (process.env.NODE_ENV === "production") {
-
-  // Set static folder
-  app.use(express.static("frontend/dist"));
-
-  // index.html for all page routes
-  app.get("*", (req, res) => {
-      console.log('send');
-      res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
-     //next()없으면 아예 google account 창으로 안넘어가짐 
-  });
-
-}
-
 
 
 /*
@@ -83,6 +69,19 @@ dbConnect();
 
 const expressRouting = require('./routes/index');
 expressRouting(app);
+
+if (process.env.NODE_ENV === "production") {
+  // Set static folder
+  app.use(express.static("frontend/dist"));
+
+  // index.html for all page routes
+  app.get("*", (req, res) => {
+    console.log("send");
+    res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
+    //next()없으면 아예 google account 창으로 안넘어가짐
+  });
+}
+
 
 
 
