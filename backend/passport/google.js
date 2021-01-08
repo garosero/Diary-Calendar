@@ -18,8 +18,8 @@ module.exports = () => {
           //   "https://www.googleapis.com/auth/calendar.readonly",
           // ],
           proxy: true,
-          // accessType: "offline",
-          // prompt: "consent",
+          accessType: "offline",
+          prompt: "consent",
         },
         async function (accessToken, refreshToken, profile, done) {
           let resultOne = await User.findOne({ userId: profile.id });
