@@ -20,7 +20,7 @@ const Home = () => {
         type: LOAD_CALENDAR_LIST_REQUEST,
       });
     }
-  },[]);
+  },[me]);
 
 
 
