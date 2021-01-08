@@ -147,25 +147,18 @@ const ModalInner = ({showModal, setShowModal, date}) => {
               top: "100%",
               left: "35%",
               height: "1.5rem",
+              marginTop :"0.3rem"
             }}
           >
             image
           </button>
         </div>
         <div>
-          <textarea
+          <StyleText
             type="text"
             value={text} //value설정 안해줘서 content 안나왔었음.
-            style={{
-              fontSize: "25px",
-              width: "100%",
-              height: "100%",
-              borderRadius: "20px",
-              marginLeft: "1rem",
-              fontFamily: "Nanum Gothic, sans-serif",
-            }}
             onChange={onChangeText}
-          ></textarea>
+          ></StyleText>
           <input
             type="file"
             multiple
@@ -184,6 +177,18 @@ const ModalInner = ({showModal, setShowModal, date}) => {
   );
 };
 
+const StyleText = styled.textarea`
+  font-size: 25px;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  font-family: Nanum Gothic, sans-serif;
+
+  @media only screen and (max-width: 800px){
+    margin-top :2rem;
+  }
+
+`;
 
 const StyleButton = styled.button`
   position: absolute;
@@ -199,6 +204,14 @@ const ModalForm = styled.form`
   grid-template-columns: 1fr 1fr;
   width: 100%;
   height: 100%;
+
+  @media only screen and (max-width: 800px) {
+    width : 90%;
+    height : 90%;
+    grid-template-columns:none;
+    grid-template-rows : repeat(auto-fill, minmax(50%, auto));
+    margin : auto;
+  }
 `;
 
 const ModalImage = styled.img`

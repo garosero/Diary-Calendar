@@ -131,8 +131,8 @@ const path = require('path');
          }
          res.status(200).json(diary);
        }catch(e){
-        console.log(error);
-        next(error);
+        console.log(e);
+        next(e);
        }
    })
 

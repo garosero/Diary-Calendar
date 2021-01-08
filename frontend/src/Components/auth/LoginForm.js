@@ -13,6 +13,7 @@ import { loginRequestAction, isLoggedIn, GOOGLE_LOG_IN_REQUEST } from '../../red
 /** 로그인 폼 **/
 
 const AuthFormBlock = styled.div`
+  font-family : "Nanum Gothic", sans-serif;
   h3 {
     margin: 0;
     color: ${palette.gray[8]};
@@ -97,10 +98,13 @@ const LoginForm = () => {
           onChange={onChangePassword}
         />
         <button type="primary">로그인 </button>
-        <button type="button">
-          <FcGoogle />
-          <a href={`${config.base_URI}/api/user/google`}>Google Login</a>
-        </button>
+        <div style={{display :'flex', marginTop : "0.2rem"}}>
+          <p>간편 로그인</p>
+          <button type="button" style={{ position: "relative",fontSize: "1.2rem", borderRadius: "50%"}}>
+            <FcGoogle />
+            <a href={`${config.base_URI}/api/user/google`}></a>
+          </button>
+        </div>
       </form>
       <Footer>
         <Link to="/register">회원가입</Link>
