@@ -29,7 +29,7 @@ router.post("/:calendarId/:year/:month", isLoggedIn, function (req, res, next) {
    var oauth2Client = new google.auth.OAuth2(
      process.env.CLIENT_ID,
      process.env.CLIENT_SECRET,
-     "http://localhost:4000/google/callback"
+     process.env.absoluteURI+"/google/callback"
    );
 
    oauth2Client.setCredentials({
@@ -81,7 +81,7 @@ router.post("/:calendarId/:year/:month", isLoggedIn, function (req, res, next) {
     var oauth2Client = new google.auth.OAuth2(
       process.env.CLIENT_ID,
       process.env.CLIENT_SECRET,
-      "http://localhost:4000/google/callback"
+      process.env.absoluteURI + "/google/callback"
     );
 
     oauth2Client.setCredentials({
@@ -132,7 +132,7 @@ router.post("/:calendarId/:year/:month", isLoggedIn, function (req, res, next) {
     var oauth2Client = new google.auth.OAuth2(
       process.env.CLIENT_ID,
       process.env.CLIENT_SECRET,
-      "http://localhost:4000/google/callback"
+      process.env.absoluteURI + "/google/callback"
     );
 
     oauth2Client.setCredentials({

@@ -121,6 +121,9 @@
     
     text-transform: uppercase;
     text-align : center;
+
+    //phone일경우 sidebar에 calendarList가 넘침 
+
 }
 
 /** Modal **/
@@ -265,4 +268,14 @@ button {
 footer {
   height : 50px;
   text-align: center;
+}
+
+
+
+// Mobile size
+
+ @media only screen and (max-width: 800px){
+    .sidebar {
+      width : 30%;
+    }
 }

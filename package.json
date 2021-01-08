@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./backend/bin/www",
     "backend": "cd backend && npm start",
-    "frontend": "cd frontend && node server.js",
+    "frontend": "cd frontend && npm start",
     "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend && npm install --prefix backend"
   },

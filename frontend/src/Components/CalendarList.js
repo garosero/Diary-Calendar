@@ -26,6 +26,8 @@ const YearButton = styled.button`
 const SubMenu = styled.div`
   display : ${(props)=> props.open ? 'block' : 'none'};
   z-index : 10;
+  overflow : auto;
+
 
 `;
 
@@ -62,14 +64,6 @@ const CalendarList = () => {
 
     return (
       <div className="sidebar">
-        {/* {isLoggedIn ? (
-            <div className="calendar_list">
-                {diaries.map((c) => {
-                    return <div key={c}>{c.title}</div>;
-                 })
-                }
-            </div>
-        ) : ( */}
         <div style={{ marginBottom: "1rem" }}>
           {years.map((c, idx) => {
             return (

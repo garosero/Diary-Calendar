@@ -70,9 +70,10 @@ const path = require('path');
   const upload = multer({
       storage:multer.diskStorage({
         destination(req,file,cb){
-            cb(null,'uploads') //uploads 폴더에 저장하겠다
+            cb(null,path.join(__dirname,'../uploads')) //uploads 폴더에 저장하겠다
         },
         filename(req,file,cb){
+
             const ext = path.extname(file.originalname); //파일의 오리지널 네임에서 확장자만 추출
             const basename = path.basename(file.originalname, ext); //abc.png ext===png, basename===abc
             console.log(basename + new Date().valueOf() + ext);
