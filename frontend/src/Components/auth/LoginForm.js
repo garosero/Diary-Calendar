@@ -98,11 +98,19 @@ const LoginForm = () => {
           onChange={onChangePassword}
         />
         <button type="primary">로그인 </button>
-        <div style={{display :'flex', marginTop : "0.2rem"}}>
+        <div style={{ display: "flex", marginTop: "0.2rem" }}>
           <p>간편 로그인</p>
-          <button type="button" style={{ position: "relative",fontSize: "1.2rem", borderRadius: "50%"}}>
-            <FcGoogle />
-            <a href={`${config.base_URI}/api/user/google`}></a>
+          <button
+            type="button"
+            style={{
+              position: "relative",
+              fontSize: "1.2rem",
+              borderRadius: "50%",
+            }}
+          >
+            <a href={`${config.base_URI}/api/user/google`}>
+              <FcGoogle />
+            </a>
           </button>
         </div>
       </form>
