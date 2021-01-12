@@ -24,7 +24,6 @@ const ModalInner = ({showModal, setShowModal, date}) => {
   const [loading, setLoading] = useState(false);
 
   const onLoad = () => {
-    console.log("load");
     dispatch({
       type: LOAD_DIARY_REQUSET,
       data: date,
@@ -32,7 +31,6 @@ const ModalInner = ({showModal, setShowModal, date}) => {
   };
 
   useEffect(() => {
-    console.log("load");
     setFilteredImagePath([]);
     if (date.length > 4) onLoad(); //문자 판별이 안돼서 length로 함
   }, [date]);
@@ -46,7 +44,6 @@ const ModalInner = ({showModal, setShowModal, date}) => {
      const previewImg = imagePath.filter(v=>v.includes(date));
      if(filtered) {
         setFilteredImagePath([filtered.img].concat(previewImg));
-        console.log(filtered.content);
         setText(filtered.content);
      }else setFilteredImagePath(previewImg);
     },[date,diaries, imagePath]);

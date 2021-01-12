@@ -9,7 +9,6 @@ import { LOAD_MY_INFO_FAILURE } from "../reducers/user";
 import { calendarListAPI } from "../lib/api/calendar";
 
 function* uploadImage(action){
-  console.log(action.data);
   try{
     const result = yield call(uploadImageAPI, action.data); //서버로부터 받는 응답
     yield put({
@@ -31,6 +30,7 @@ function* addDiary(action){
       type:ADD_DIARY_SUCCESS,
       data : result.data,
     });
+   alert("다이어리가 저장되었습니다.") 
   } catch (error) {
       yield put({
         type : ADD_DIARY_FAILURE,

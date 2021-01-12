@@ -39,7 +39,7 @@ const path = require('path');
  router.post('/', async(req,res,next) => {
 
     try {
-        console.log("AA");
+     
 
         const newDiary = new Diary({
             title : req.body.title,
@@ -98,7 +98,6 @@ const path = require('path');
    */
   router.post('/post',upload.none(),async(req,res)=>{
     try {
-        console.log("user : "+req.user);
         //const fileNameArr = req.files.map(v=>v.filename);
 
         const newDiary = await Diary.create({
