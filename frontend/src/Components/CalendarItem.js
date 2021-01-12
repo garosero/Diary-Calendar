@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
+import moment from "moment";
 import CloseButton from './CloseButton';
 import { useSelector } from 'react-redux';
 import Modal from './Modal';
@@ -37,11 +38,18 @@ const CalendarItem = (props) => {
   // _id, day, title, memo, startTime, endTime, location, people
  
   const day = props.day > 0 ? props.day : "";
-  const currentFullDay = `${props.year}-${props.month}-${props.day}`
+  const currentFullDay = moment(
+    `${props.year}-${props.month}-${props.day}`
+  ).format("YYYY-MM-DD");
+
   useEffect(()=>{
     if(calendarEvent.length>0){
-      var result = calendarEvent.filter(v=>v.startTime === currentFullDay);
+      
+      var result = calendarEvent.filter(v=>{
+        return v.startTime === currentFullDay;
+      });
        setDayEvent(result);
+       console.log(result);
     }else setDayEvent(null);
   },[calendarEvent]);
 
@@ -53,7 +61,7 @@ const CalendarItem = (props) => {
         <div >
           {dayEvent && dayEvent.length > 0
             ? dayEvent.map((item, idx) => {
-                return <ItemDiv key={idx}>{item.title}</ItemDiv>;
+                return <ItemDiv key={item._id}>{item.title}</ItemDiv>;
               })
             : ""}
         </div>

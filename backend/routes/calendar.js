@@ -45,6 +45,7 @@ router.post("/:calendarId/:year/:month", isLoggedIn, function (req, res, next) {
 
   const year = req.params.year;
   const month = req.params.month;
+  
   // if(req.params.calendaId)
 
    calendar.events.list(
@@ -53,7 +54,7 @@ router.post("/:calendarId/:year/:month", isLoggedIn, function (req, res, next) {
       //  timeMin: new Date().toISOString(),
        timeMin : new Date(year,month,1).toISOString(),
        timeMax : new Date(year,month,31).toISOString(), // 30일까지일 때 request error 나지 않는지 확인 
-       maxResults: 10,
+       maxResults: 31,
        singleEvents: true,
        orderBy: "startTime",
      },

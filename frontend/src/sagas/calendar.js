@@ -18,7 +18,7 @@ function* loadCalendar(action){
             type : LOAD_CALENDAR_EVENTS_SUCCESS,
             data : result.data
         })
-
+    console.log(result.data);
     }catch(e){
         console.error(e);
         yield put({
