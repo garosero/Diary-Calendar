@@ -10,7 +10,6 @@ const User= require('../models/user');
  */
 
 module.exports = () => {
-    //서버쪽에 [{id : 3, cookie : 'asdfgh'}]  프론트에서 asdfgh를 보내면 3번 유저구나 알아차림 이게 serialize 작업
     passport.serializeUser((user, done) => {   //req.session 객체에 어떤 데이터를 저장할 지 선택 (req.session.passport.user에)
        console.log('serialize');
        done(null, user.userId);
@@ -30,8 +29,3 @@ module.exports = () => {
     google();
 }
 
-
-//90% 웹사이트는 쿠키 - 세션 이요하는게 맞고
-//jwt 쓸려면 엄청 요청 많이 쓰거나 엄청 대규모 웹사이트여야
-//잘못하면 손해 많이 봄. 
-//쿠키도 사실 토큰 기반임. 

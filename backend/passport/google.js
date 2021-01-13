@@ -43,27 +43,7 @@ module.exports = () => {
           let ii = await User.findOne({ userId: profile.id });
           return done(null, ii);
 
-          // User.findOne({ userId: profile.id }).then((user) => {
-          //   console.log("name : " + profile.displayName);
-          //   if (user) {
-
-          //   } else {
-          //     new User({
-          //       userId: profile.id,
-          //       userName: profile.displayName,
-          //       provider: "google",
-          //       accessToken: accessToken,
-          //       refreshToken: refreshToken,
-          //     })
-          //       .save()
-          //       .then((newUser) => {
-          //         console.log("new user created : " + newUser);
-          //       });
-          //   }
-          //   done(null, user);
-          //});
-
-          //refresh Token이 저장이 안됐는데도 이제 된다?
+    
         }
       )
     );
