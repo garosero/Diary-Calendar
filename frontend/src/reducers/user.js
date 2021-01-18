@@ -44,7 +44,7 @@ export const loginRequestAction = (data) => ({
     data : {
         userId : data.id,
         password : data.password
-    } //data는 되고 userData는 안됨... 인자로 어떻게 돌아가는지 
+    }
 });
 //action creator는 액션을 만든다.
 //액션은 payload of information 오브젝트로써 스토어에 보내진다. 

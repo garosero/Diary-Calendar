@@ -2,10 +2,6 @@ import { produce } from 'immer';
 import { handleActions, createAction } from "redux-actions";
 
 export const initialState = {
-  // diaries:
-  //   {
-  //     content : ''
-  //   }, //화면에 보일 포스트들
   diaries: [
     {
       content: "",
@@ -14,10 +10,12 @@ export const initialState = {
     },
   ],
    imagePath : [],
-    addDiaryErrorReason: false, // 포스트 업로드 실패 사유
-      isAddingDiary: false, //포스트 업로드중
-      diaryAdded: false,
-      error: "",
+   uploadDiaryDate : "", //calendarItem에서 판별할 날짜 
+   addDiaryErrorReason: false, // 포스트 업로드 실패 사유
+    isAddingDiary: false, //포스트 업로드중
+    diaryAdded: false,
+    error: "",
+
 };
 
 /**
@@ -39,48 +37,33 @@ export const LOAD_DIARY_FAILURE = 'LOAD_DIARY_FAILURE';
 
 export const REMOVE_IMAGE = 'REMOVE_IMAGE'; //비동기가 아니라 동기적으로 없애도 됨. 
 
-// export const addDiaryRequestAction = {
-//     type : ADD_DIARY_REQUEST,
-    
-// };
-
 export const addDiaryRequest = createAction(ADD_DIARY_REQUEST); //User, title, text, img
 export const uploadImagesRequest = createAction(UPLOAD_IMAGES_REQUEST); //img url
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "ADD_DIARY_REQUEST":
-    // return produce(state, (draft) => {
-    //   draft.isAddingDiary = true;
-    //   draft.diaries[title] = action.title;
-    //   draft.content= action.data;
-    //});
+    return produce(state,(draft) => {
+      draft.isAddingDiary = true;
+     
+    })
 
     case "ADD_DIARY_SUCCESS ":
-      // return {
-      //   ...state,
-      //   content: action.data.get("content"),
-      //   isAddingDiary: false,
-      // };
-      // return produce(state,(draft) => {
-      //   // draft.diaries[content] = action.content;
-      //   // raft.diariesd
-      // })
 
       return produce(state, (draft) => {
+        draft.diaryAdded = true;
+        draft.isAddingDiary = false;
         draft.diaries.push(action.data);
+        draft.uploadDiaryDate = action.data.calendarDate;
       });
 
     case "ADD_DIARY_FAILURE":
       return {
         ...state,
+        isAddingDiary : false
       };
 
     case "UPLOAD_IMAGES_REQUEST":
-      // return {
-      //   ...state,
-
-      // }
       return {
         ...state,
       };
@@ -106,11 +89,6 @@ const reducer = (state = initialState, action) => {
       };
     }
     case "LOAD_DIARY_SUCCESS": {
-      // return {
-      //   ...state,
-      //   imagePath : action.data.img,
-      //   content : action.data.content,
-      // };
       return produce(state, (draft) => {
         draft.diaries.push(action.data);
       });
@@ -129,25 +107,6 @@ const reducer = (state = initialState, action) => {
     }
   }
 };
-
-
-
-
-// const reducer = (state = initialState, action) => {
-//     switch(action.type){
-//         case ADD_DIARY_REQUEST : {
-//             return {
-//                 ...state,
-//             }
-//         }
-        
-//         default : {
-//             return {
-//                 ...state,
-//             }
-//         }
-//     }
-// }
 
 
 export default reducer;

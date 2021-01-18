@@ -4,7 +4,7 @@ export const initialState = {
     currentCalendarList_id : 'primary', //현재 선택되어있는 캘린더 id 
     calendarEvent : [],                 //현재 월에 해당하는 캘린더 이벤트 
     isAddingEvent : false,
-
+  
 }
 
 export const LOAD_CALENDAR_LIST_REQUEST = 'LOAD_CALENDAR_LIST_REQUEST';

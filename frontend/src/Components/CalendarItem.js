@@ -32,6 +32,7 @@ const ItemDiv = styled.div`
 const CalendarItem = (props) => {
 
   const { calendarEvent } = useSelector(state=>state.calendar);
+  const { uploadDiaryDate } = useSelector(state=>state.diary);
   const diaries = useSelector(state=>state.diary.diaries);
   const [dayEvent,setDayEvent] = useState([]);
   //calendarEvent  : array 
@@ -43,13 +44,12 @@ const CalendarItem = (props) => {
   ).format("YYYY-MM-DD");
 
   useEffect(()=>{
-    if(calendarEvent.length>0){
-      
+    if(calendarEvent.length>0){ 
       var result = calendarEvent.filter(v=>{
         return v.startTime === currentFullDay;
       });
        setDayEvent(result);
-       console.log(result);
+    
     }else setDayEvent(null);
   },[calendarEvent]);
 
