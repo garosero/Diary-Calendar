@@ -12,7 +12,7 @@ const ItemDiv = styled.div`
   position: relative;
   display: inline-block;
   margin-bottom: 3px;
-  background-color: #1c7ed6;
+  background-color: ${(props)=>props.color || '#1c7ed6'};
   color: #fff;
   font-size: 14px;
   font-family: "Nanum Gothic", sans-serif;
@@ -35,8 +35,12 @@ const CalendarItem = (props) => {
   const { uploadDiaryDate } = useSelector(state=>state.diary);
   const diaries = useSelector(state=>state.diary.diaries);
   const [dayEvent,setDayEvent] = useState([]);
+  
+  const backgroundColor = ['#1c7ed6',"#3F51B5", "#E67C73", '#F6BF26'];
   //calendarEvent  : array 
   // _id, day, title, memo, startTime, endTime, location, people
+
+
  
   const day = props.day > 0 ? props.day : "";
   const currentFullDay = moment(
@@ -61,7 +65,7 @@ const CalendarItem = (props) => {
         <div >
           {dayEvent && dayEvent.length > 0
             ? dayEvent.map((item, idx) => {
-                return <ItemDiv key={item._id}>{item.title}</ItemDiv>;
+                return <ItemDiv key={item._id} colo={backgroundColor[idx]}>{item.title}</ItemDiv>;
               })
             : ""}
         </div>
