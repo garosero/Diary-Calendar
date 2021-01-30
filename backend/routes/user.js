@@ -77,7 +77,9 @@ router.post('/logout',isLoggedIn,(req,res)=>{
        "profile",
        "https://www.googleapis.com/auth/calendar",
        "https://www.googleapis.com/auth/calendar.events",
-     ]
+     ],
+     accessType: "offline",
+     prompt : "consent",
    })
  );
 

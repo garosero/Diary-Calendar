@@ -8,18 +8,56 @@ import DateContext from "../contexts/date";
 import {CHANGE_CALENDAR_ID_REQUEST} from '../reducers/calendar';
 
 
-const YearButton = styled.button`
-  cursor : pointer;
-  position: inline-block;
-  background-color: transparent;
-  margin-top: 0.3rem;
-  color: "black";
+//그냥 button으로 해서 true, false값으로 색 checked 정하면 되는거였네... 
+const CheckBox = styled.div`
+  margin: 4px;
+  background-color: #efefef;
+  border-radius: 4px;
+  border: 1px solid #d0d0d0;
+  overflow: auto;
+  float: left;
 
-  &:focus {
-    background-color: #74c0fc;
+  label {
+    float: left;
+    width: 4em;
   }
-  &:hover &:active{
+
+  label span {
+    text-align: center;
+    display: block;
+  }
+
+  label input {
+    position: absolute;
+    top: -20px;
+  }
+
+  input:checked + span {
+    box-shadow: -1px -1px grey;
+    background-color: #dee2e6;
+    color : #efefef;
+  }
+`;
+
+const YearButton = styled.button`
+  cursor: pointer;
+  position: inline-block;
+  background-color: "#f1f3f5";
+  background-color: ${(props) => (props.selected ? "#364fc7" : "#f1f3f5")};
+  margin-top: 0.3rem;
+  color : ${(props)=>(props.selected) ? "white" : "black"};
+
+  /* &:focus {
+    background-color: #74c0fc;
+  } */
+
+  &:hover {
     background-color: #a5d8ff;
+  }
+
+  &:checked {
+    box-shadow: -1px -1px grey;
+    background-color: #dee2e6;
   }
 `;
 
@@ -37,18 +75,25 @@ const CalendarList = () => {
     const { currentYear, setCurrentYear } = useContext(DateContext);
     const { calendarList_id } = useSelector(state => state.calendar);
     const [calendarList, setCalendarList] = useState([]);
-    const [openSubMenu, setOpenSubMenu] = useState(false);
-    var years = [2018,2019,2020,2021];
+    const [openSubMenu, setOpenSubMenu] = useState(false); //calendarList 열기
+    const [buttonSelected, setButtonSelected] = useState([]);
+    const [years, setYears] = useState([2018,2019,2020,2021]);
 
-    const setYearClick = (e) => {
-        console.log('클릭년도 : '+e.target.textContent);
-        setCurrentYear(e.target.textContent);
+    const setYearClick = (e,id) => {
+        //id와 일치하는 idx의 button(array)만 true, 나머진 false로 만들기
+        setCurrentYear(years[id]);
+        let newSelected = Array(years.length).fill(false).map((val, idx) => {
+          return idx === id ? true : false;
+        });
+        setButtonSelected(newSelected);
     }
 
     useEffect(()=>{
       if(calendarList_id.length >0) setCalendarList(calendarList_id)
       // console.log(calendarList_id);
     },[calendarList_id]);
+
+    
 
 
     //const {diaries} = useSelector(state=>state.diary);
@@ -59,25 +104,26 @@ const CalendarList = () => {
         type : CHANGE_CALENDAR_ID_REQUEST,
         data : calendarId
       })
-    }
+    };
 
 
+
+    //누른 YearButton만 background 색 변경.
     return (
       <div className="sidebar">
         <div style={{ marginBottom: "1rem" }}>
-          {years.map((c, idx) => {
-            return (
+          {years.map((year,idx)=>{
+            return(
               <YearButton
                 key={idx}
-                style={{
-                  color: pantone[c],
-                  height: "2rem",
+                selected={buttonSelected[idx]}
+                onClick={(e)=>{
+                  setYearClick(e,idx)
                 }}
-                onClick={(e) => setYearClick(e)}
               >
-                {c}
+                <span>{year}</span>
               </YearButton>
-            );
+            )
           })}
         </div>
 
@@ -100,6 +146,7 @@ const CalendarList = () => {
               ? calendarList.map((v, idx) => {
                   return (
                     <YearButton
+                      type="radio"
                       onClick={() => {
                         onChangeCalendarId(v._id);
                       }}

@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import moment from "moment";
-import CloseButton from './CloseButton';
 import { useSelector } from 'react-redux';
-import Modal from './Modal';
 import './Calendar.scss';
 
-
+const ItemWrapper = styled.div`
+  display : grid;
+  grid-template-rows : repeat(auto-fill,minmax(1rem,1fr));
+`;
 
 const ItemDiv = styled.div`
   position: relative;
@@ -57,18 +58,19 @@ const CalendarItem = (props) => {
     }else setDayEvent(null);
   },[calendarEvent]);
 
+  //ItemDiv 3개까지 일정 불러올 수 있음. 
   return (
     <>
       <div className="item">
         {day}
         <br />
-        <div >
+        <ItemWrapper>
           {dayEvent && dayEvent.length > 0
             ? dayEvent.map((item, idx) => {
-                return <ItemDiv key={item._id} colo={backgroundColor[idx]}>{item.title}</ItemDiv>;
+                return <ItemDiv key={item._id} color={backgroundColor[idx]}>{item.title}</ItemDiv>;
               })
             : ""}
-        </div>
+        </ItemWrapper>
       </div>
     </>
   );
